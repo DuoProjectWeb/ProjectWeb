@@ -9,6 +9,7 @@ var Scene = function(game){
 	this.playerStartOffset_Y = -0;
 	
 	this.player = new Player(this);
+	p = this.player;
 	this.player.setPosition(100, 100);
 	
 	this.player.addMovementListener(function(x, y){
@@ -49,16 +50,25 @@ Scene.prototype.addEntity = function(entity, type){
 };
 
 Scene.prototype.destroyEntity = function(entity, type){
-	//console.log("destroy entity");
+	console.log("destroy entity : " + entity.name);
 	switch(type){
-			case "enemy":
-				this.enemies.splice(this.entities.indexOf(entity), 1);
-			break;	
-			case "bullet":
-				this.bullets.splice(this.entities.indexOf(entity), 1);
-			break;	
-		}
+		case "enemy":
+			this.enemies.splice(this.enemies.indexOf(entity), 1);
+		break;	
+		case "bullet":
+			this.bullets.splice(this.bullets.indexOf(entity), 1);
+		break;	
+	}
+	
 	this.entities.splice(this.entities.indexOf(entity), 1);
+	
+	for(var i = this.delayedDestroy.length -1 ; i >= 0 ; i--){
+		var e = this.delayedDestroy[i];
+		if (e.entity == entity){
+			this.delayedDestroy.splice(i, 1);
+			break;
+		}
+	}
 	delete entity;
 };
 
@@ -97,19 +107,13 @@ Scene.prototype.update = function(tpf){
 	}*/
 	
 	var time = Date.now();
-	var removed = []
-	for(var i = 0; i<this.delayedDestroy.length;i++){
+	for(var i = this.delayedDestroy.length-1; i>=0;i--){
 		var e = this.delayedDestroy[i];
 		//console.log("now = " + time + ", >= registered time = " + e.time + ", + delay = " + e.delay);
 		//console.log("passedTime = " + (time - e.time));
 		if(time >= e.time + e.delay){
 			this.destroyEntity(e.entity, e.type);
-			removed.push(i);
 		}
-	}
-	
-	for(var i = 0; i<removed.length;i++){
-		this.delayedDestroy.splice(removed[i], 1);
 	}
 
 	for(var i = 0; i<this.entities.length;i++){
@@ -122,25 +126,25 @@ Scene.prototype.update = function(tpf){
 };
 
 Scene.prototype.checkCollisions = function(){
-	for(var i = 0;i<this.bullets.length;i++){
+	for(var i = this.bullets.length-1 ; i >= 0 ; i--){
 		var bullet = this.bullets[i];
-		for(var j = 0;j<this.enemies.length;j++){
+		for(var j = this.enemies.length-1 ; j >= 0 ; j--){
 			var e = this.enemies[j];
-			if(this.isColliding(bullet, e)){				
-				//temp
+			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
 				this.destroyEntity(e, "enemy");
+				break;
 			}
 		}
 	}
-	for(var i = 0;i<this.enemies.length;i++){
+	/*for(var i = 0;i<this.enemies.length;i++){
 	var e = this.enemies[i];
 		if(this.isColliding(e, this.player)){				
 			//temp
-			this.destroyEntity(e, "enemy");
-			this.destroyEntity(this.player, "player");
+			this.destroyEntityWithDelay(e, "enemy");
+			this.destroyEntityWithDelay(this.player, "player");
 		}
-	}
+	}*/
 };
 
 /*Scene.prototype.isColliding = function(e1, e2){
@@ -152,7 +156,7 @@ Scene.prototype.checkCollisions = function(){
 	return false;
 };*/
 
-Scene.prototype.isColliding = function(e1, e2){
+Scene.prototype.collide = function(e1, e2){
 	if(e1.boundingVolume && e1.boundingVolume instanceof BoundingVolume
 		&& e2.boundingVolume  && e2.boundingVolume instanceof BoundingVolume){
 		return e1.boundingVolume.intersects(e2.boundingVolume);

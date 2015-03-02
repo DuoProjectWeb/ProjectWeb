@@ -2,7 +2,7 @@ var Player = function(scene){
 	Character.call(this, scene, "Player", {
 		idle : 
 		{
-			img : "img/player.jpg",
+			img : "img/player.png",
 			nbCol : 1,
 			nbRow : 1,
 			loop : false
@@ -34,9 +34,9 @@ var Player = function(scene){
 		//console.log("mouse up");
 	});
 	
-	this.game.canvas.addEventListener("click", function(e){
+	/*this.game.canvas.addEventListener("click", function(e){
 		self.fire();
-	});
+	});*/
 };
 
 Player.prototype = new Character();
@@ -52,7 +52,7 @@ Player.prototype.update = function(tpf){
 	Character.prototype.update.call(this, tpf);
 	//this.y += this.speed * tpf;
 	
-	//this.bulletTimer += tpf;
+	this.bulletTimer += tpf;
 	if(this.bulletTimer >= this.bulletInterval){
 		this.bulletTimer = 0;
 		//fire something
