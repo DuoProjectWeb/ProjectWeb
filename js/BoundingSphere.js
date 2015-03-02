@@ -32,7 +32,25 @@ BoundingSphere.prototype.intersectsWithBoundingSphere = function(boundingSphere)
 };
 
 BoundingSphere.prototype.intersectsWithBoundingBox = function(boundingBox){
-	//return this.x + this.radius > boundingBox.x - boundingBox.width || this.x - this.radius > boundingBox.x + boundingBox.width)
+	var top = boundingBox.y - boundingBox.height * 0.5;
+	var bottom = boundingBox.y + boundingBox.height * 0.5;
+	var left = boundingBox.x - boundingBox.width * 0.5;
+	var right = boundingBox.x + boundingBox.height * 0.5;
+
+	if(this.x <= right
+		&& this.x >= left
+		&& this.y <= bottom
+		&& this.y >= top){
+		return true;
+	}
+	
+	if(Utils.distanceSquared(this.x, this.y, left, top) <= this.radius * this.radius
+		|| Utils.distanceSquared(this.x, this.y, left, bottom) <= this.radius * this.radius
+		|| Utils.distanceSquared(this.x, this.y, right, top) <= this.radius * this.radius
+		|| Utils.distanceSquared(this.x, this.y, right, bottom) <= this.radius * this.radius){
+		return true;
+	}
+	return false;
 };
 
 		

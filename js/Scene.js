@@ -50,7 +50,7 @@ Scene.prototype.addEntity = function(entity, type){
 };
 
 Scene.prototype.destroyEntity = function(entity, type){
-	console.log("destroy entity : " + entity.name);
+	//console.log("destroy entity : " + entity.name);
 	switch(type){
 		case "enemy":
 			this.enemies.splice(this.enemies.indexOf(entity), 1);

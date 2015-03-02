@@ -20,7 +20,7 @@ var Character = function(scene, name, spriteList){
 	this.speed = Character.DEFAULT_SPEED;
 
 	this.collisionRadius = 20;
-	this.boundingVolume = new BoundingSphere(this.x, this.y, 50);
+	this.boundingVolume = new BoundingBox(this.x, this.y, 80, 80);
 	
 	this.movementListeners = [];
 };

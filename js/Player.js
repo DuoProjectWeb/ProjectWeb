@@ -11,7 +11,7 @@ var Player = function(scene){
 	
 	var self = this;
 	this.canMove = false;
-	this.speed = 500/1000;
+	this.speed = 600/1000;
 	this.bulletInterval = 200;
 	this.bulletTimer = 0;
 	
