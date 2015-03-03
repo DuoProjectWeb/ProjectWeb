@@ -25,7 +25,7 @@ var Scene = function(game){
 	this.bullets = [];
 	this.delayedDestroy = [];
 	
-	this.spawner = new Spawner(this, 10000, 0, 600, 0, 100);
+	this.spawner = new Spawner(this, 1000, 0, 600, 0, 100);
 	
 };
 
@@ -137,14 +137,14 @@ Scene.prototype.checkCollisions = function(){
 			}
 		}
 	}
-	/*for(var i = 0;i<this.enemies.length;i++){
+	for(var i = this.enemies.length - 1; i >= 0 ; i--){
 	var e = this.enemies[i];
-		if(this.isColliding(e, this.player)){				
-			//temp
-			this.destroyEntityWithDelay(e, "enemy");
-			this.destroyEntityWithDelay(this.player, "player");
+		if(this.collide(e, this.player)){
+			this.destroyEntity(e, "enemy");
+			/*this.destroyEntity(this.player, "player");
+			break;*/
 		}
-	}*/
+	}
 };
 
 /*Scene.prototype.isColliding = function(e1, e2){

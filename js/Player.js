@@ -12,8 +12,11 @@ var Player = function(scene){
 	var self = this;
 	this.canMove = false;
 	this.speed = 600/1000;
-	this.bulletInterval = 200;
+	this.bulletInterval = 350;
 	this.bulletTimer = 0;
+
+	//temp
+	this.boundingVolume = new BoundingSphere(this.x, this.y, 50);
 	
 	this.game.canvas.addEventListener("mousedown", function(e){
 		self.canMove = true;
