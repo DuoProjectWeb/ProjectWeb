@@ -10,11 +10,15 @@ BoundingVolume.prototype.render = function(g){
 };
 
 BoundingVolume.prototype.intersects = function(boundingVolume){
-	if(boundingVolume instanceof BoundingBox){
-		return this.intersectWithBoundingBox(boundingVolume);
-	}else if(boundingVolume instanceof BoundingSphere){
-		return this.intersectWithBoundingSphere(boundingVolume);
-	}else{
+    if (boundingVolume instanceof BoundingBox) {
+        console.log("box");
+	    return this.intersectWithBoundingBox(boundingVolume);
+
+	} else if (boundingVolume instanceof BoundingSphere) {
+	    console.log("sphere");
+	    return this.intersectWithBoundingSphere(boundingVolume);
+	} else {
+	    console.log("false");
 		return false;
 	}
 };

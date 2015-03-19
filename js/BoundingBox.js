@@ -19,7 +19,7 @@ BoundingBox.prototype.intersectsWithBoundingSphere = function(boundingSphere){
 };
 
 BoundingBox.prototype.intersectsWithBoundingBox = function(boundingBox){//wrong
-	return this.y + this.height > boundingBox.y + boundingBox.height ||
+	return (this.y + this.height > boundingBox.y + boundingBox.height ||
 		   this.y - this.height < boundingBox.y - boundingBox.height ||
 		   this.x - this.width < boundingBox.x + boundingBox.width ||
 		   this.x + this.width > boundingBox.x - boundingBox.width);
