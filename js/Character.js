@@ -23,6 +23,9 @@ var Character = function(scene, name, spriteList){
 	this.boundingVolume = new BoundingBox(this.x, this.y, 80, 80);
 	
 	this.movementListeners = [];
+
+	this.maxHp = 100;
+	this.hp = this.maxHp;
 };
 
 Character.DEFAULT_SPEED = 200 / 1000;
@@ -124,6 +127,6 @@ Character.prototype.moveTo = function(x, y){
 //Health
 var hp = 0;
 
-Character.prototype.takeDamage = function(){
-
+Character.prototype.takeDamage = function(amount){
+	this.hp = Math.clamp(this.hp - amount, 0, this.maxHp);
 };

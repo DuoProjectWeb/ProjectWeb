@@ -34,8 +34,8 @@ var Game = function(){
 
 Game.prototype = new DrawableControl();
 
-Game.WIDTH = 800;
-Game.HEIGHT = 600;
+Game.WIDTH = 400;
+Game.HEIGHT = 800;
 Game.EPSILON = 1;
 
 Game.prototype.mainLoop = function(){
