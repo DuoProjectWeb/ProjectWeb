@@ -25,9 +25,10 @@ var Scene = function(game){
 	this.bullets = [];
 	this.delayedDestroy = [];
 	
-	this.spawner = new Spawner(this, 1000, 0, 600, 0, 100);
-	
+	this.spawner = new Spawner(this, 1, 0, 600, 0, 100);
 };
+
+var ParticleEmitterManager = new ParticleEmitterManager();
 
 Scene.prototype = new DrawableControl();
 
@@ -76,10 +77,10 @@ Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
 	//console.log("requested delay = " + d + " seconds");
 	if(entity instanceof DrawableControl){
 		this.delayedDestroy.push({
-			time : Date.now(),
+			time : this.game.time.localTime,
 			entity : entity,
 			type : type,
-			delay : delay * 1000
+			delay : delay
 		});
 	}
 	//console.log("entity registered to destroy");	
@@ -106,7 +107,7 @@ Scene.prototype.update = function(tpf){
 		}
 	}*/
 	
-	var time = Date.now();
+	var time = this.game.time.localTime;
 	for(var i = this.delayedDestroy.length-1; i>=0;i--){
 		var e = this.delayedDestroy[i];
 		//console.log("now = " + time + ", >= registered time = " + e.time + ", + delay = " + e.delay);
@@ -123,6 +124,8 @@ Scene.prototype.update = function(tpf){
 	
 	this.spawner.update(tpf);
 	this.checkCollisions();
+
+	ParticleEmitterManager.update(tpf);
 };
 
 Scene.prototype.checkCollisions = function(){
@@ -133,6 +136,9 @@ Scene.prototype.checkCollisions = function(){
 			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
 				this.destroyEntity(e, "enemy");
+				var explosionEmitter = new ParticleEmitter(new Vector2(e.x, e.y), 50, 0, 0.8, 0.8);//, img);
+				ParticleEmitterManager.add(explosionEmitter);
+				explosionEmitter.emitAllPArticles();
 				break;
 			}
 		}
@@ -170,7 +176,7 @@ Scene.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
 	g.save();
 		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
-		g.drawImage(this.background, 0, 0);
+		g.drawImage(this.background, 0, 0, g.width, g.height);
 		
 		for(var i = 0; i<this.entities.length;i++){
 			var e = this.entities[i];			
@@ -178,6 +184,8 @@ Scene.prototype.render = function(g){
 		}
 		
 	g.restore();
+
+	ParticleEmitterManager.render(g);
 };
 
 Scene.prototype.onPlayerMove = function(x, y){

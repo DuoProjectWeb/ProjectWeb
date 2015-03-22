@@ -20,15 +20,15 @@ var Character = function(scene, name, spriteList){
 	this.speed = Character.DEFAULT_SPEED;
 
 	this.collisionRadius = 20;
-	this.boundingVolume = new BoundingBox(this.x, this.y, 80, 80);
+	this.boundingVolume = new BoundingBox(this, this.x, this.y, 80, 80);
 	
 	this.movementListeners = [];
 
-	this.maxHp = 100;
-	this.hp = this.maxHp;
+	this.maxHealth = 100;
+	this.health = this.maxHealth;
 };
 
-Character.DEFAULT_SPEED = 200 / 1000;
+Character.DEFAULT_SPEED = 200;
 //Character.MIN_Y = 1550;
 //Character.MAX_Y = 2040;
 //Character.MIN_SCALE = 0.6;
@@ -123,10 +123,6 @@ Character.prototype.moveTo = function(x, y){
 	//this.setCurrentSprite("move");
 };
 
-
-//Health
-var hp = 0;
-
 Character.prototype.takeDamage = function(amount){
-	this.hp = Math.clamp(this.hp - amount, 0, this.maxHp);
+	this.health = Utils.clamp(this.health - amount, 0, this.maxHealth);
 };

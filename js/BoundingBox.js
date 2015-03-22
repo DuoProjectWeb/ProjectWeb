@@ -1,5 +1,5 @@
-var BoundingBox = function(x, y, width, height){
-	BoundingVolume.call(this, x, y);
+var BoundingBox = function(owner, x, y, width, height, callback){
+	BoundingVolume.call(this, owner, x, y, callback);
 	this.width = width;
 	this.height = height;
 	this.progress = -1;

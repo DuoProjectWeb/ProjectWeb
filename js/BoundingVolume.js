@@ -1,6 +1,8 @@
-var BoundingVolume = function(x, y){
+var BoundingVolume = function(owner, x, y, callback){
+	this.owner = owner;
 	this.x = x;
 	this.y = y;
+	this.callback = callback;
 };
 
 BoundingVolume.prototype = new Drawable();
@@ -15,13 +17,27 @@ BoundingVolume.prototype.render = function(g){
 
 BoundingVolume.prototype.intersects = function(boundingVolume){
 	if(boundingVolume instanceof BoundingBox){
-		return this.intersectsWithBoundingBox(boundingVolume);
+		if(this.intersectsWithBoundingBox(boundingVolume)){
+			this.onCollision(boundingVolume.owner);
+			boundingVolume.onCollision(this.owner);
+			return true;
+		}
 	}else if(boundingVolume instanceof BoundingSphere){
-		return this.intersectsWithBoundingSphere(boundingVolume);
+		if(this.intersectsWithBoundingSphere(boundingVolume)){
+			this.onCollision(boundingVolume.owner);
+			boundingVolume.onCollision(this.owner);
+			return true;
+		}
 	}else{
 		return false;
 	}
 };
+
+BoundingVolume.prototype.onCollision = function(collider){
+	if(this.callback){
+		this.callback.call(this.owner, collider);
+	}
+}
 
 BoundingVolume.prototype.intersectsWithBoundingSphere = function(boundingSphere){
 

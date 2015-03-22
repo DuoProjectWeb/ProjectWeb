@@ -17,7 +17,8 @@ var Game = function(){
 		globalDeltaTime : 0,
 		globalTime : Date.now(),
 		localTime : 0,
-		deltaTime : 0
+		deltaTime : 0,
+		timeScale : 1
 	};
 	
 	this.graphics.width = this.canvas.width;
@@ -35,24 +36,25 @@ var Game = function(){
 Game.prototype = new DrawableControl();
 
 Game.WIDTH = 400;
-Game.HEIGHT = 800;
+Game.HEIGHT = 600;
 Game.EPSILON = 1;
 
 Game.prototype.mainLoop = function(){
 	var now = Date.now();
-	this.time.globalDeltaTime = now - this.time.globalTime;
+	this.time.globalDeltaTime = (now - this.time.globalTime) * 0.001;
 	this.time.globalTime = now;
 
-	this.time.deltaTime = Math.min(50, this.time.globalDeltaTime);
+	this.time.deltaTime = Math.min(0.05, this.time.globalDeltaTime) * this.time.timeScale;
 	this.time.localTime += this.time.deltaTime;
 	
+	//console.log("tpf = " + this.time.deltaTime);
 	this.update(this.time.deltaTime);//redo tpf, i need tpf in sec => right now tpf = 1000 equals to 1 sec
 	this.render(this.graphics);
 };
 
 Game.prototype.update = function(tpf){
 	this.fpsTimer += tpf;
-	if(this.fpsTimer >= 1000){
+	if(this.fpsTimer >= 1 * this.time.timeScale){
 		this.fpsTimer = 0.0;
 		this.fps = this.frameCount;
 		this.frameCount = 0;

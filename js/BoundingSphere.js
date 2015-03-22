@@ -1,5 +1,5 @@
-var BoundingSphere = function(x, y, radius){
-	BoundingVolume.call(this, x, y);
+var BoundingSphere = function(owner, x, y, radius, callback){
+	BoundingVolume.call(this, owner, x, y, callback);
 	this.radius = radius;
 	this.currentRadius = -1;
 };
@@ -14,7 +14,7 @@ BoundingSphere.prototype.render = function(g){
 	}
 	g.save();
 		g.translate(this.x, this.y);
-		g.fillStyle = "rgba(0, 254, 220, 0.3";
+		g.fillStyle = "rgba(0, 254, 220, 0.3)";
 		g.strokeStyle = "rgb(0, 254, 220)";
 		g.beginPath();
 		g.arc(0, 0, this.radius, 0, Math.PI * 2);

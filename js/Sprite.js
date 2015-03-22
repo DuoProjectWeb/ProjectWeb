@@ -15,7 +15,7 @@ Sprite.prototype = new Drawable();
 
 Sprite.prototype.setFrameRate = function(fps){
 	this.frameRate = fps;
-	this.frameDuration = 1 / this.frameRate * 1000;
+	this.frameDuration = 1 / this.frameRate;
 };
 
 Sprite.prototype.render = function(g){

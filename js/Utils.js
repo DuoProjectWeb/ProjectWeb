@@ -9,3 +9,7 @@ Utils.distanceSquared = function(x1, y1, x2, y2){
 Utils.distance = function(x1, y1, x2, y2){
 	return Math.sqrt(Utils.distanceSquared(x1, y1, x2, y2));
 };
+
+Utils.clamp = function(value, min, max) {
+	return Math.max(Math.min(value, max), min);
+};
