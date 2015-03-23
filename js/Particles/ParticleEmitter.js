@@ -60,12 +60,12 @@ ParticleEmitter.prototype.update = function(tpf){
 			if(p.currentLife <= 0.0){
 				p.active = false;
 				//console.log("Particle death");
-			}else{
-				p.update(tpf);
+			}else{				
 				for(var j = 0; j <this.influencers.length;j++){
 					var influencer = this.influencers[j];
 					influencer.influence(p, tpf);
 				}
+				p.update(tpf);
 			}
 		}
 	}

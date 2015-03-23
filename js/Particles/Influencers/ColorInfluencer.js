@@ -11,5 +11,4 @@ ColorInfluencer.prototype.initialize = function(p) {
 
 ColorInfluencer.prototype.influence = function(p, tpf) {
 	p.color.interpolateLocal(this.startColor, this.endColor, p.progress);
-	//console.log(p.color.toString());
 };

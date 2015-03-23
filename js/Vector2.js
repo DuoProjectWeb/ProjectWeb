@@ -1,19 +1,18 @@
 var Vector2 = function(x, y){
+	this.set(x, y);
+};
+
+Vector2.prototype.set = function(x, y) {
 	if(typeof(x) == "number"){
 		this.x = x;
 	}else{
-		this.x = 0;
+		this.x = 0.0;
 	}
 	if(typeof(y) == "number"){
 		this.y = y;
 	}else{
-		this.y = 0;
+		this.y = 0.0;
 	}
-};
-
-Vector2.prototype.set = function(x, y) {
-	this.x = x;
-	this.y = y;
 };
 
 Vector2.prototype.copy = function(vec2) {
@@ -22,8 +21,8 @@ Vector2.prototype.copy = function(vec2) {
 };
 
 Vector2.prototype.zero = function() {
-	this.x = 0;
-	this.y = 0;
+	this.x = 0.0;
+	this.y = 0.0;
 };
 
 Vector2.prototype.add = function(x, y){
@@ -31,8 +30,8 @@ Vector2.prototype.add = function(x, y){
 };
 
 Vector2.prototype.addLocal = function(x, y){
-	this.x += x;
-	this.y += y;
+	this.x+=x;
+	this.y+=y;
 	return this;
 };
 
@@ -95,12 +94,12 @@ Vector2.prototype.lengthSquared = function(){
 };
 
 Vector2.prototype.normalize = function() {
-	length = this.length();
+	var length = this.length();
 	return new Vector2(this.x / length, this.y / length);
 };
 
 Vector2.prototype.normalizeLocal = function() {
-	length = this.length();
+	var length = this.length();
 	this.x /= length;
 	this.y /= length;
 	return this;
@@ -113,3 +112,12 @@ Vector2.prototype.distance = function(vec2){
 Vector2.prototype.distanceSquared = function(vec2){
 	return Math.pow(vec2.x - this.x, 2) + Math.pow(vec2.y - this.y, 2);
 };
+
+Vector2.prototype.interpolateLocalBetween = function(startVec2, endVec2, progress) {
+	this.x = (endVec2.x - startVec2.x) * progress + startVec2.x;
+	this.y = (endVec2.y - startVec2.y) * progress + startVec2.y;
+};
+
+/*Vector2.prototype.interpolateLocal = function(endVec2, progress) {
+	this.interpolateLocalBetween(this, endVec2, progress);
+};*/

@@ -13,3 +13,11 @@ Utils.distance = function(x1, y1, x2, y2){
 Utils.clamp = function(value, min, max) {
 	return Math.max(Math.min(value, max), min);
 };
+
+Utils.toDegree = function(inRad){
+	return inRad * 180 / Math.PI; 
+};
+
+Utils.toRad = function(inDeg){
+	return inDeg * Math.PI / 180;
+};

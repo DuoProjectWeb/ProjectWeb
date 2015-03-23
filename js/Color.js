@@ -47,8 +47,4 @@ Color.prototype.interpolateLocal = function(startColor, endColor, progress){
 	this.g = (endColor.g - startColor.g) * progress + startColor.g;
 	this.b = (endColor.b - startColor.b) * progress + startColor.b;
 	this.a = (endColor.a - startColor.a) * progress + startColor.a;
-	/*this.r = (1 - progress) * startColor.r + progress + endColor.r;
-	this.g = (1 - progress) * startColor.g + progress + endColor.g;
-	this.b = (1 - progress) * startColor.b + progress + endColor.b;
-	this.a = (1 - progress) * startColor.a + progress + endColor.a;*/
 };
