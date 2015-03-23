@@ -1,6 +1,6 @@
 var Particle = function(img){
 	this.active = false;
-	this.renderedColor = "rgba(255, 255, 255, 1)";
+	this.color = new Color();
 	this.position = new Vector2();
 	this.velocity = new Vector2();
 	this.rotation = 0;
@@ -23,6 +23,7 @@ Particle.prototype.activate = function(lifeTime){
 	this.lifeTime = lifeTime;
 	this.currentLife = this.lifeTime;
 	this.position.zero();
+	this.color.reset();
 	//temp
 	this.velocity.set(Math.random() * 2 - 1, Math.random() * 2 - 1);
 	this.velocity.normalizeLocal();	
@@ -35,7 +36,7 @@ Particle.prototype.update = function(tpf) {
 
 Particle.prototype.render = function(g) {
 	//console.log("particle render");
-	g.fillStyle = this.renderedColor;
+	g.fillStyle = this.color.toString();
 	if(this.sprite){
 		/*g.drawImage(this.img, this.position.x - this.img.width * this.scale.x * 0.5,
 			this.position.y - this.img.height * this.scale.y * 0.5,

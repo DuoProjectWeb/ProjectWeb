@@ -7,6 +7,7 @@ var ParticleEmitter = function(vec2, nbMaxParticles, nbParticlesPerSec, minLife,
 	this.maxLife = maxLife;
 	this.accumulatedTime = 0;
 	this.emissionInterval = 1.0 / this.nbParticlesPerSec;
+	this.influencers = [];
 
 	for(var i = 0 ;  i < nbMaxParticles;i++){
 		this.particles.push(new Particle(img));
@@ -17,20 +18,24 @@ ParticleEmitter.prototype = new DrawableControl();
 
 ParticleEmitter.prototype.emitAllPArticles = function(){
 	for(var i = 0; i <this.particles.length;i++){
-		this.emitParticle(i);
+		var p = this.particles[i];
+		this.emitParticle(p);
 	}
 };
 
-ParticleEmitter.prototype.emitParticle = function(index){
-	var p = this.particles[index];
+ParticleEmitter.prototype.emitParticle = function(p){
 	p.activate(Math.random() * (this.maxLife - this.minLife) + this.minLife);
+	for(var i = 0; i <this.influencers.length;i++){
+		var influencer = this.influencers[i];
+		influencer.initialize(p);
+	}
 };
 
 ParticleEmitter.prototype.emitNextparticle = function() {
 	for(var i = 0 ;  i < this.particles.length;i++){
 		var p = this.particles[i];
 		if(!p.active){
-			this.emitParticle(i);
+			this.emitParticle(p);
 			return true;
 		}
 	}
@@ -56,6 +61,10 @@ ParticleEmitter.prototype.update = function(tpf){
 				//console.log("Particle death");
 			}else{
 				p.update(tpf);
+				for(var i = 0; i <this.influencers.length;i++){
+					var influencer = this.influencers[i];
+					influencer.influence(p, tpf);
+				}
 			}
 		}
 	}
