@@ -10,5 +10,6 @@ ColorInfluencer.prototype.initialize = function(p) {
 };
 
 ColorInfluencer.prototype.influence = function(p, tpf) {
-	p.color.set(255, 0, 0, 1.0);//p.color.interpolateLocal(this.startColor, this.endColor, p.progress);
+	p.color.interpolateLocal(this.startColor, this.endColor, p.progress);
+	//console.log(p.color.toString());
 };

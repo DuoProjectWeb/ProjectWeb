@@ -47,10 +47,10 @@ var Player = function(scene){
 
 	var img = new Image();
 	img.src = "img/flame.png";
-	this.emitter = new ParticleEmitter(new Vector2(100, 200), 200, 0, 5, 5);//, img);
-	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 255, 255, 1.0), new Color(255, 255, 255, 0.0)));
-	ParticleEmitterManager.add(this.emitter);
-	this.emitter.emitAllPArticles();
+	this.emitter = new ParticleEmitter(new Vector2(100, 200), 50, 10, 5, 5, img);
+	this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.2)));
+	//this.emitter.emitAllPArticles();
+	ParticleEmitterManager.add(this.emitter);	
 };
 
 Player.prototype = new Character();

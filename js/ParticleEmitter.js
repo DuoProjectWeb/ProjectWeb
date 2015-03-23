@@ -18,15 +18,14 @@ ParticleEmitter.prototype = new DrawableControl();
 
 ParticleEmitter.prototype.emitAllPArticles = function(){
 	for(var i = 0; i <this.particles.length;i++){
-		//var p = this.particles[i];
-		this.emitParticle(i);
+		var p = this.particles[i];
+		this.emitParticle(p);
 	}
 };
 
-ParticleEmitter.prototype.emitParticle = function(index){
-	var p = this.particles[index];
+ParticleEmitter.prototype.emitParticle = function(p){
 	p.activate(Math.random() * (this.maxLife - this.minLife) + this.minLife);
-	console.log("emit particle");
+	//console.log("emit particle");
 	for(var i = 0; i <this.influencers.length;i++){
 		var influencer = this.influencers[i];
 		influencer.initialize(p);
@@ -46,7 +45,7 @@ ParticleEmitter.prototype.emitNextparticle = function() {
 
 ParticleEmitter.prototype.update = function(tpf){
 	this.accumulatedTime += tpf;
-	var nbParticlesToSpawn = this.accumulatedTime / this.emissionInterval;
+	var nbParticlesToSpawn = parseInt(this.accumulatedTime / this.emissionInterval);
 	this.accumulatedTime -= this.emissionInterval * nbParticlesToSpawn;
 	while(nbParticlesToSpawn-- > 0){
 		if(!this.emitNextparticle()){
@@ -58,13 +57,13 @@ ParticleEmitter.prototype.update = function(tpf){
 		var p = this.particles[i];
 		if(p.active){
 			p.currentLife -= tpf;
-			if(p.currentLife <= 0){
+			if(p.currentLife <= 0.0){
 				p.active = false;
-				console.log("Particle death");
+				//console.log("Particle death");
 			}else{
 				p.update(tpf);
-				for(var i = 0; i <this.influencers.length;i++){
-					var influencer = this.influencers[i];
+				for(var j = 0; j <this.influencers.length;j++){
+					var influencer = this.influencers[j];
 					influencer.influence(p, tpf);
 				}
 			}
