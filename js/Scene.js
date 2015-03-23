@@ -3,6 +3,8 @@ var Scene = function (game) {
     this.background = new Image();
     this.background.src = "img/sceneBackground.jpg";
 
+    this.yOffset = 0;
+
     this.game = game;
 
     this.playerStartOffset_X = -0;
@@ -88,6 +90,8 @@ Scene.prototype.destroyEntityWithDelay = function (entity, type, delay) {
 Scene.prototype.update = function (tpf) {
     DrawableControl.prototype.update.call(this, tpf);
 
+    this.yOffset -= game.time.deltaTime / 10;
+
     /*if(this.playerStartOffset_X != this.targetX){
 		var inc = (this.targetX - this.playerStartOffset_X) * Scene.CAMERA_SPEED * tpf;
 		//inc = Math.pow(inc, 0.6);
@@ -170,7 +174,7 @@ Scene.prototype.render = function (g) {
     DrawableControl.prototype.render.call(this, g);
     g.save();
     //g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
-    g.drawImage(this.background, 0, 0);
+    g.drawImage(this.background, 0, -this.yOffset);
 
     for (var i = 0; i < this.entities.length; i++) {
         var e = this.entities[i];

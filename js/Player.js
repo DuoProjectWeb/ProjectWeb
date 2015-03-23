@@ -10,15 +10,22 @@ var Player = function (scene) {
     });
 
     var self = this;
+
+    this.x = (scene.game.canvas.width*50) /100;
+    this.y = (scene.game.canvas.width*30)/100;
     this.canMove = false;
     this.speed = 600 / 1000;
     this.bulletInterval = 350;
     this.bulletTimer = 0;
 
+    console.log("x : "+ this.x+" y : "+this.y);
+
     //temp
     this.boundingVolume = new BoundingSphere(this.x, this.y, 50);
 
     this.game.canvas.addEventListener("mousedown", function (e) {
+        var offset = getGlobalOffset(self.game.canvas);
+        self.moveTo(e.clientX - offset.left - scene.playerStartOffset_X, e.clientY - offset.top - scene.playerStartOffset_Y);
         self.canMove = true;
         //console.log("mouse down");
     });
