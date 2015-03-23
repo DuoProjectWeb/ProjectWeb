@@ -136,9 +136,9 @@ Scene.prototype.checkCollisions = function(){
 			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
 				this.destroyEntity(e, "enemy");
-				var explosionEmitter = new ParticleEmitter(new Vector2(e.x, e.y), 50, 0, 0.8, 0.8);//, img);
+				/*var explosionEmitter = new ParticleEmitter(new Vector2(e.x, e.y), 50, 0, 0.8, 0.8);//, img);
 				ParticleEmitterManager.add(explosionEmitter);
-				explosionEmitter.emitAllPArticles();
+				explosionEmitter.emitAllPArticles();*/
 				break;
 			}
 		}

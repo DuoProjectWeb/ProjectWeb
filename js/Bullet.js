@@ -42,7 +42,7 @@ Bullet.prototype.render = function(g){
 
 Bullet.prototype.onCollision = function(collider) {
 	this.collisionCallback.call(this.owner, collider);
-	var explosionEmitter = new ParticleEmitter(new Vector2(this.x, this.y), 50, 0, 0.4, 0.4);//, img);
+	/*var explosionEmitter = new ParticleEmitter(new Vector2(this.x, this.y), 50, 0, 0.4, 0.4);//, img);
 	ParticleEmitterManager.add(explosionEmitter);
-	explosionEmitter.emitAllPArticles();
+	explosionEmitter.emitAllPArticles();*/
 };

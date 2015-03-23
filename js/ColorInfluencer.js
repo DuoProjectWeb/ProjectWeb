@@ -1,13 +1,14 @@
-var ColorInfluencer = function(){
-
+var ColorInfluencer = function(startColor, endColor){
+	this.startColor = startColor;
+	this.endColor = endColor;
 };
 
 ColorInfluencer.prototype = new ParticuleInfluencer();
 
 ColorInfluencer.prototype.initialize = function(p) {
-	p.color.reset();
+	p.color.copy(this.startColor);
 };
 
 ColorInfluencer.prototype.influence = function(p, tpf) {
-	//p.color.a -= tpf * 0.005;
+	p.color.set(255, 0, 0, 1.0);//p.color.interpolateLocal(this.startColor, this.endColor, p.progress);
 };

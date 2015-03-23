@@ -34,6 +34,17 @@ Color.prototype.reset = function() {
 	return this;
 };
 
+Color.prototype.copy = function(c) {
+	this.set(c.r, c.g, c.b, c.a);
+};
+
 Color.prototype.toString = function() {
 	return "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")";
+};
+
+Color.prototype.interpolateLocal = function(startColor, endColor, progress){
+	this.r = (endColor.r - startColor.r) * progress + startColor.r;
+	this.g = (endColor.g - startColor.g) * progress + startColor.g;
+	this.b = (endColor.b - startColor.b) * progress + startColor.b;
+	this.a = (endColor.a - startColor.a) * progress + startColor.a;
 };

@@ -47,8 +47,8 @@ var Player = function(scene){
 
 	var img = new Image();
 	img.src = "img/flame.png";
-	this.emitter = new ParticleEmitter(new Vector2(100, 200), 200, 200, 5, 5);//, img);
-	this.emitter.influencers.push(new ColorInfluencer());
+	this.emitter = new ParticleEmitter(new Vector2(100, 200), 200, 0, 5, 5);//, img);
+	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 255, 255, 1.0), new Color(255, 255, 255, 0.0)));
 	ParticleEmitterManager.add(this.emitter);
 	this.emitter.emitAllPArticles();
 };

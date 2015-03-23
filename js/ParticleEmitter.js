@@ -18,13 +18,15 @@ ParticleEmitter.prototype = new DrawableControl();
 
 ParticleEmitter.prototype.emitAllPArticles = function(){
 	for(var i = 0; i <this.particles.length;i++){
-		var p = this.particles[i];
-		this.emitParticle(p);
+		//var p = this.particles[i];
+		this.emitParticle(i);
 	}
 };
 
-ParticleEmitter.prototype.emitParticle = function(p){
+ParticleEmitter.prototype.emitParticle = function(index){
+	var p = this.particles[index];
 	p.activate(Math.random() * (this.maxLife - this.minLife) + this.minLife);
+	console.log("emit particle");
 	for(var i = 0; i <this.influencers.length;i++){
 		var influencer = this.influencers[i];
 		influencer.initialize(p);
@@ -58,7 +60,7 @@ ParticleEmitter.prototype.update = function(tpf){
 			p.currentLife -= tpf;
 			if(p.currentLife <= 0){
 				p.active = false;
-				//console.log("Particle death");
+				console.log("Particle death");
 			}else{
 				p.update(tpf);
 				for(var i = 0; i <this.influencers.length;i++){

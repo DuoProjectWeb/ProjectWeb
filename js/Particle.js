@@ -26,12 +26,13 @@ Particle.prototype.activate = function(lifeTime){
 	this.color.reset();
 	//temp
 	this.velocity.set(Math.random() * 2 - 1, Math.random() * 2 - 1);
-	this.velocity.normalizeLocal();	
+	this.velocity.normalizeLocal();
 };
 
 Particle.prototype.update = function(tpf) {
-	var progress = this.velocity.multScalar(this.speed * tpf);
-	this.position.addLocal(progress.x, progress.y);
+	this.progress = this.currentLife / this.lifeTime;
+	var inc = this.velocity.multScalar(this.speed * tpf);
+	this.position.addLocal(inc.x, inc.y);
 };
 
 Particle.prototype.render = function(g) {
