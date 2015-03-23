@@ -15,6 +15,8 @@ var Player = function(scene){
 	this.bulletInterval = 0.35;
 	this.bulletTimer = 0;
 
+	this.moveTo(scene.game.canvas.width / 2, scene.game.canvas.height * (70 / 100));
+
 	//temp
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 50, this.onCollision);
 	
