@@ -6,14 +6,19 @@ var Game = function(){
 	this.canvas.height = Game.HEIGHT;
 	
 	var g = this.graphics;
-	g.fillStyle = "red";
-	g.fillRect(0, 0, this.canvas.width, this.canvas.height);
+	/*g.fillStyle = "red";
+	g.fillRect(0, 0, this.canvas.width, this.canvas.height);*/
+
+	this.fps = 0;
+	this.frameCount = 0;
+	this.fpsTimer= 0.0;
 	
 	this.time = {
 		globalDeltaTime : 0,
 		globalTime : Date.now(),
 		localTime : 0,
-		deltaTime : 0
+		deltaTime : 0,
+		timeScale : 1
 	};
 	
 	this.graphics.width = this.canvas.width;
@@ -30,23 +35,30 @@ var Game = function(){
 
 Game.prototype = new DrawableControl();
 
-Game.WIDTH = 800;
+Game.WIDTH = 400;
 Game.HEIGHT = 600;
 Game.EPSILON = 1;
 
 Game.prototype.mainLoop = function(){
 	var now = Date.now();
-	this.time.globalDeltaTime = now - this.time.globalTime;
+	this.time.globalDeltaTime = (now - this.time.globalTime) * 0.001;
 	this.time.globalTime = now;
 
-	this.time.deltaTime = Math.min(50, this.time.globalDeltaTime);
+	this.time.deltaTime = Math.min(0.05, this.time.globalDeltaTime) * this.time.timeScale;
 	this.time.localTime += this.time.deltaTime;
 	
-	this.update(this.time.deltaTime);
+	//console.log("tpf = " + this.time.deltaTime);
+	this.update(this.time.deltaTime);//redo tpf, i need tpf in sec => right now tpf = 1000 equals to 1 sec
 	this.render(this.graphics);
 };
 
 Game.prototype.update = function(tpf){
+	this.fpsTimer += tpf;
+	if(this.fpsTimer >= 1 * this.time.timeScale){
+		this.fpsTimer = 0.0;
+		this.fps = this.frameCount;
+		this.frameCount = 0;
+	}
 	DrawableControl.prototype.update.call(this, tpf);
 	this.scene.update(tpf);
 };
@@ -60,6 +72,12 @@ Game.prototype.render = function(g){
 	//g.fillStyle = "rgb(" + Math.round(Math.random()*255) + ", "+ Math.round(Math.random()*255) + ", "+ Math.round(Math.random()*255) + ")";
 	
 	g.fillRect(0, 0, g.width, g.height);
+
+	g.fillStyle = "rgb(255, 255, 255)";
+	g.font = "30px Arial";
+	g.fillText("FPS : " + this.fps, 0, g.height - 5);
+	//console.log("FPS : " + this.fps);
 	
 	this.scene.render(g);
+	this.frameCount ++;
 };
