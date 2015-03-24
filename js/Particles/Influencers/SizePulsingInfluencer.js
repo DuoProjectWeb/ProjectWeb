@@ -1,6 +1,6 @@
-var SizePulsingInfluencer = function(startSize, endSize, nbCycles){
-	this.startSize = startSize;
-	this.endSize = endSize;
+var SizePulsingInfluencer = function(minSize, maxSize, nbCycles){
+	this.minSize = minSize;
+	this.maxSize = maxSize;
 	this.nbCycles = nbCycles || 0;
 	this.progressMult = Math.PI * this.nbCycles;
 };
@@ -8,10 +8,9 @@ var SizePulsingInfluencer = function(startSize, endSize, nbCycles){
 SizePulsingInfluencer.prototype = new ParticuleInfluencer();
 
 SizePulsingInfluencer.prototype.initialize = function(p) {
-	p.scale.copy(this.startSize);
+	p.scale.copy(this.minSize);
 };
 
 SizePulsingInfluencer.prototype.influence = function(p, tpf) {
-	var temp = this.endSize.multScalar((Math.sin(p.progress * this.progressMult) + 1) * 0.5);
-	p.scale.set(temp.x + this.startSize.x, temp.y + this.startSize.y);
+	p.scale.copy(this.minSize.addVec2(this.maxSize.substractVec2(this.minSize).multScalarLocal((Math.sin(p.progress * this.progressMult) + 1) * 0.5)));
 };

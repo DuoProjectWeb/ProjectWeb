@@ -23,7 +23,6 @@ var Game = function(){
 	
 	this.graphics.width = this.canvas.width;
 	this.graphics.height = this.canvas.height;
-	this.graphics.time = this.time;
 	
 	this.scene = new Scene(this);
 		

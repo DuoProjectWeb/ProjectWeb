@@ -2,37 +2,60 @@ var Sprite = function(img, nbCol, nbRow, loop){
 	this.img = img;
 	this.nbCol = nbCol;
 	this.nbRow = nbRow;
-	this.loop = loop || false;
+	if(loop){
+		this.loop = loop ;
+	}else{
+		this.loop = false;
+	}
 	this.frameCount = this.nbCol * this.nbRow;
 	this.spriteWidth = this.img.width/this.nbCol;
 	this.spriteHeight = this.img.height/this.nbRow;
-	this.setFrameRate(16);
 	this.currentFrame = 0;
-	this.lastFrameUpdate = 0;
+	this.currentCol = 0;
+	this.currentRow = 0;
 };
 
 Sprite.prototype = new Drawable();
 
-Sprite.prototype.setFrameRate = function(fps){
-	this.frameRate = fps;
-	this.frameDuration = 1 / this.frameRate;
+Sprite.prototype.nextFrame = function() {
+	this.currentFrame++;
+	this.clampFrame();
+	this.updateGridPosition();
+};
+
+Sprite.prototype.previousFrame = function() {
+	this.currentFrame--;
+	this.clampFrame();
+	this.updateGridPosition();
+};
+
+Sprite.prototype.clampFrame = function() {
+	if(this.currentFrame >= this.frameCount){
+		this.currentFrame = this.loop ? this.currentFrame % this.frameCount : this.frameCount - 1;
+	}else if(this.currentFrame < 0){
+		this.currentFrame = this.loop ? this.frameCount - 1 : 0;
+	}
+};
+
+Sprite.prototype.reset = function() {
+	this.currentFrame = 0;
+	this.currentRow = 0;
+	this.currentCol = 0;
+};
+
+Sprite.prototype.randomFrame = function() {
+	this.currentFrame = Math.floor(Math.random() * this.frameCount);
+	this.updateGridPosition();
+};
+
+Sprite.prototype.updateGridPosition = function() {
+	this.currentRow = Math.floor(this.currentFrame / this.nbCol);
+	this.currentCol = Math.floor(this.currentFrame - (this.nbCol * this.currentRow));
 };
 
 Sprite.prototype.render = function(g){
-
-	var passedTime = g.time.localTime - this.lastFrameUpdate;
-	if(passedTime >= this.frameDuration){
-		this.lastFrameUpdate = g.time.localTime;
-		var nbPassedFrames = Math.floor(passedTime / this.frameDuration);
-		this.currentFrame = (this.currentFrame + nbPassedFrames) % this.frameCount;
-	}
-	
-	this.row = Math.floor(this.currentFrame / this.nbCol);
-	this.col = Math.floor(this.currentFrame - (this.nbCol * this.row));
-	this.row *= this.spriteHeight;
-	this.col *= this.spriteWidth;
 	g.drawImage(this.img, 
-		this.col, this.row, this.spriteWidth, this.spriteHeight,
+		this.currentCol * this.spriteWidth, this.currentRow * this.spriteHeight, this.spriteWidth, this.spriteHeight,
 		0, 0, this.spriteWidth, this.spriteHeight);
 };
 

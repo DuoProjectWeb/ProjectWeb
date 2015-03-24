@@ -50,7 +50,7 @@ Vector2.prototype.substract = function(x, y){
 };
 
 Vector2.prototype.substractVec2 = function(vec2){
-	return new Vector2(this.x - vec2.x, this.y - vec2.y);
+	return this.substract(vec2.x, vec2.y);
 };
 
 Vector2.prototype.substractLocal = function(x, y){

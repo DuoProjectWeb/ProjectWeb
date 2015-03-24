@@ -1,4 +1,4 @@
-var ParticleEmitter = function(vec2, emitterShape, nbMaxParticles, nbParticlesPerSec, minLife, maxLife, img, nbCol, nbRow, spriteLoop){
+var ParticleEmitter = function(vec2, emitterShape, nbMaxParticles, nbParticlesPerSec, minLife, maxLife, sprite){//todo: list aprams for intial default values
 	this.particles = [];
 	this.position = vec2;
 	this.emitterShape = emitterShape;
@@ -11,7 +11,7 @@ var ParticleEmitter = function(vec2, emitterShape, nbMaxParticles, nbParticlesPe
 	this.influencers = [];
 
 	for(var i = 0 ;  i < nbMaxParticles;i++){
-		this.particles.push(new Particle(img, nbCol, nbRow, spriteLoop));
+		this.particles.push(new Particle(sprite));
 	}
 };
 
