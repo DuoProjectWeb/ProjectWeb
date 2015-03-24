@@ -47,15 +47,15 @@ var Player = function(scene){
 
 	var img = new Image();
 	img.src = "img/flame.png";
-	this.emitter = new ParticleEmitter(new Vector2(100, 200), 100, 5, 5, 5);//, img);
+	this.emitter = new ParticleEmitter(new Vector2(100, 200), EmitterShape.Point(), 300, 1, 5, 5);//, img, 2, 2);
 	this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.2)));	
-	this.emitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
+	//this.emitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
 	//this.emitter.influencers.push(new DestinationInfluencer(new Vector2(30, 60)));
 	//this.emitter.influencers.push(new SizeInfluencer(new Vector2(10, 10), new Vector2(1, 1)));
 	//this.emitter.influencers.push(new SpeedInfluencer(0.1, 50));
-	//this.emitter.influencers.push(new RotationInfluencer(180.0));
+	this.emitter.influencers.push(new RotationInfluencer(180.0));
 
-	this.emitter.influencers.push(new SpriteAnimationInfluencer());
+	//this.emitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Normal));
 
 	//this.emitter.influencers.push(new SizePulsingInfluencer(new Vector2(20, 20), new Vector2(2, 2), 4));//WRONG
 	//this.emitter.emitAllPArticles();

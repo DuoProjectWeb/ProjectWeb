@@ -29,14 +29,28 @@ Vector2.prototype.add = function(x, y){
 	return new Vector2(this.x + x, this.y + y);
 };
 
+Vector2.prototype.addVec2 = function(vec2){
+	return this.add(vec2.x, vec2.y);
+};
+
 Vector2.prototype.addLocal = function(x, y){
 	this.x+=x;
 	this.y+=y;
 	return this;
 };
 
+Vector2.prototype.addVec2Local = function(vec2){
+	this.x += vec2.x;
+	this.y += vec2.y;
+	return this;
+};
+
 Vector2.prototype.substract = function(x, y){
 	return new Vector2(this.x - x, this.y - y);
+};
+
+Vector2.prototype.substractVec2 = function(vec2){
+	return new Vector2(this.x - vec2.x, this.y - vec2.y);
 };
 
 Vector2.prototype.substractLocal = function(x, y){
@@ -45,13 +59,29 @@ Vector2.prototype.substractLocal = function(x, y){
 	return this;
 };
 
+Vector2.prototype.substractVec2Local = function(vec2){
+	this.x -= vec2.x;
+	this.y -= vec2.y;
+	return this;
+};
+
 Vector2.prototype.mult = function(x, y){
 	return new Vector2(this.x * x, this.y * y);
+};
+
+Vector2.prototype.multVec2 = function(vec2){
+	return new Vector2(this.x * vec2.x, this.y * vec2.y);
 };
 
 Vector2.prototype.multLocal = function(x, y){
 	this.x *= x;
 	this.y *= y;
+	return this;
+};
+
+Vector2.prototype.multVec2Local = function(vec2){
+	this.x *= vec2.x;
+	this.y *= vec2.y;
 	return this;
 };
 
@@ -69,9 +99,19 @@ Vector2.prototype.divide = function(x, y){
 	return new Vector2(this.x / x, this.y / y);
 };
 
+Vector2.prototype.divideVec2 = function(vec2){
+	return new Vector2(this.x / vec2.x, this.y / vec2.y);
+};
+
 Vector2.prototype.divideLocal = function(x, y){
 	this.x /= x;
 	this.y /= y;
+	return this;
+};
+
+Vector2.prototype.divideVec2Local = function(vec2){
+	this.x /= vec2.x;
+	this.y /= vec2.y;
 	return this;
 };
 

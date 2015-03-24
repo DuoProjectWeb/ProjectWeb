@@ -1,6 +1,7 @@
-var ParticleEmitter = function(vec2, nbMaxParticles, nbParticlesPerSec, minLife, maxLife, img){
+var ParticleEmitter = function(vec2, emitterShape, nbMaxParticles, nbParticlesPerSec, minLife, maxLife, img, nbCol, nbRow, spriteLoop){
 	this.particles = [];
 	this.position = vec2;
+	this.emitterShape = emitterShape;
 	this.nbMaxParticles = nbMaxParticles;
 	this.nbParticlesPerSec = nbParticlesPerSec;
 	this.minLife = minLife;
@@ -10,7 +11,7 @@ var ParticleEmitter = function(vec2, nbMaxParticles, nbParticlesPerSec, minLife,
 	this.influencers = [];
 
 	for(var i = 0 ;  i < nbMaxParticles;i++){
-		this.particles.push(new Particle(img));
+		this.particles.push(new Particle(img, nbCol, nbRow, spriteLoop));
 	}
 };
 
@@ -25,6 +26,8 @@ ParticleEmitter.prototype.emitAllPArticles = function(){
 
 ParticleEmitter.prototype.emitParticle = function(p){
 	p.activate(Math.random() * (this.maxLife - this.minLife) + this.minLife);
+	p.position.copy(this.emitterShape());
+
 	//console.log("emit particle");
 	for(var i = 0; i <this.influencers.length;i++){
 		var influencer = this.influencers[i];
