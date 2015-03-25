@@ -189,7 +189,7 @@ Scene.prototype.render = function(g){
 		//g.drawImage(this.background, 0, 0, g.width, g.height);
 
 	g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
-	g.drawImage(this.background, 0, -this.yOffset - this.background.height, g.width, g.height);
+	g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
 
 		for(var i = 0; i<this.entities.length;i++){
 			var e = this.entities[i];			
