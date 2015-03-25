@@ -42,7 +42,21 @@ Bullet.prototype.render = function(g){
 
 Bullet.prototype.onCollision = function(collider) {
 	this.collisionCallback.call(this.owner, collider);
-	/*var explosionEmitter = new ParticleEmitter(new Vector2(this.x, this.y), 50, 0, 0.4, 0.4);//, img);
+	var explosionEmitter = new ParticleEmitter(
+		{
+			"position" : new Vector2(this.x, this.y),
+			"emitterShape" : EmitterShape.Circle({"radius" : this.collisionRadius, "emitFrom" : EmitFrom.Shell}),
+			"nbMaxParticles" : 50,
+			"nbParticlesPerSec" : 0,
+			"minLife" : 0.35,
+			"maxLife" : 0.45,
+			"speed" : 5.0,
+			"loop" : false,
+			"size" : new Vector2(3, 3)
+		}
+	);
+	explosionEmitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 0.8), new Color(255, 0, 0, 0.1)));	
+	explosionEmitter.emitAllParticles();
 	ParticleEmitterManager.add(explosionEmitter);
-	explosionEmitter.emitAllPArticles();*/
+	
 };

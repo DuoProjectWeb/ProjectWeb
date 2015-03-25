@@ -7,7 +7,6 @@ var Particle = function(sprite){
 	this.rotationVelocity = 0;
 	this.lifeTime = 0.0;
 	this.currentLife = 0.0;
-	this.speed = 0.0;
 	this.scale = new Vector2(1, 1);
 	this.progress = 0.0;
 	this.sprite = sprite;
@@ -22,12 +21,9 @@ Particle.prototype.activate = function(lifeTime){
 	this.currentLife = this.lifeTime;
 	this.position.zero();
 	this.color.reset();
-	this.speed = 0.0;
 	this.rotation = 0.0;
+	this.rotationVelocity = 0.0;
 	this.scale.set(1, 1);
-	//temp
-	this.velocity.set(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 1.0);
-	this.velocity.normalizeLocal();
 };
 
 Particle.prototype.update = function(tpf) {

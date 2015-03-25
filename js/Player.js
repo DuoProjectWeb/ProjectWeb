@@ -47,16 +47,27 @@ var Player = function(scene){
 
 	var img = new Image();
 	img.src = "img/flame.png";
-	this.emitter = new ParticleEmitter(new Vector2(100, 200), EmitterShape.Point(), 150, 10, 5, 5, new Sprite(img, 2, 2, true));
-	this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.1)));	
-	this.emitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
+	this.emitter = new ParticleEmitter(
+		{
+			"position" : new Vector2(100, 200),
+			"emitterShape" : EmitterShape.Circle({"radius" : 50, "emitFrom" : EmitFrom.Shell}),
+			"nbMaxParticles" : 300,
+			"nbParticlesPerSec" : 0,
+			"minLife" : 2,
+			"maxLife" : 2,
+			"speed" : 20,
+			"color" : new Color(255, 0, 0, 1.0)
+		}
+	);//, new Sprite(img, 2, 2, true));
+	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.1)));	
+	//this.emitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
 	//this.emitter.influencers.push(new DestinationInfluencer(new Vector2(30, 60)));
-	this.emitter.influencers.push(new SizeInfluencer(new Vector2(0.5, 0.5), new Vector2(0.2, 0.2)));
+	//this.emitter.influencers.push(new SizeInfluencer(new Vector2(5, 5), new Vector2(1, 1)));
 	//this.emitter.influencers.push(new SpeedInfluencer(0.1, 50));
-	this.emitter.influencers.push(new RotationInfluencer(180.0));
+	//this.emitter.influencers.push(new RotationInfluencer(180.0));
 	//this.emitter.influencers.push(new SizePulsingInfluencer(new Vector2(2, 2), new Vector2(20, 20), 4));
 	//this.emitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.EachTime(0.1)));
-	//this.emitter.emitAllPArticles();
+	this.emitter.emitAllParticles();
 	ParticleEmitterManager.add(this.emitter);	
 };
 
