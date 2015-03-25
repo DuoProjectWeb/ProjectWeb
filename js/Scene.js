@@ -135,10 +135,29 @@ Scene.prototype.checkCollisions = function(){
 			var e = this.enemies[j];
 			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
-				this.destroyEntity(e, "enemy");
-				/*var explosionEmitter = new ParticleEmitter(new Vector2(e.x, e.y), 50, 0, 0.8, 0.8);//, img);
+				this.destroyEntity(e, "enemy");				
+				var img = new Image();
+				img.src = "img/flame.png";
+				var explosionEmitter = new ParticleEmitter(
+					{
+						"position" : new Vector2(e.x, e.y),
+						"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
+						"nbMaxParticles" : 10,
+						"nbParticlesPerSec" : 0,
+						"minLife" : 0.4,
+						"maxLife" : 0.4,
+						"loop" : false,
+						"size" : new Vector2(0.5, 0.5),
+						"sprite" : new Sprite(img, 2, 2, false),
+						"duration" : 1.0,
+						"speed" : 50
+					}
+				);
+				explosionEmitter.influencers.push(new RotationInfluencer(50.0));
+				explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
+				explosionEmitter.emitAllParticles();
 				ParticleEmitterManager.add(explosionEmitter);
-				explosionEmitter.emitAllPArticles();*/
+				
 				break;
 			}
 		}

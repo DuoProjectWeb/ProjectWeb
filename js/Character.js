@@ -24,7 +24,7 @@ var Character = function(scene, name, spriteList){
 	
 	this.movementListeners = [];
 
-	this.maxHealth = 100;
+	this.maxHealth = 30;
 	this.health = this.maxHealth;
 };
 

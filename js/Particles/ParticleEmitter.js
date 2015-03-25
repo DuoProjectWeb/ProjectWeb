@@ -3,15 +3,14 @@ var ParticleEmitter = function(params){//vec2, emitterShape, nbMaxParticles, nbP
 	this.duration = params["duration"] || 5.0;
 	this.loop = params["loop"];
 	if(typeof(this.loop) == 'undefined'){
-		this.loop = true;
+		this.loop = false;
 	}
-	console.log(this.loop);
 	this.position = params["position"] || new Vector2();
 	this.emitterShape = params["emitterShape"] || EmitterShape.Point();
 	this.nbMaxParticles = params["nbMaxParticles"] || 50;
 	this.nbParticlesPerSec = params["nbParticlesPerSec"] || 0;
-	this.minLife = params["minLife"] || 5;
-	this.maxLife = params["maxLife"] || 5;
+	this.minLife = params["minLife"] || 5.0;
+	this.maxLife = params["maxLife"] || 5.0;
 	this.accumulatedTime = 0;
 	this.emissionInterval = 1.0 / this.nbParticlesPerSec;
 	this.influencers = [];
@@ -64,9 +63,11 @@ ParticleEmitter.prototype.setup = function(p) {
 	if(this.startRotation){
 		p.rotation = this.startRotation;
 	}
-	if(this.startRotationVelocity){
+	//useless right now cause rotation is only recalculated in the rotation influencer 
+	//=> redo rotation influencer with random rotation and flip rotation and handle rotation with rotation velocity in particle update
+	/*if(this.startRotationVelocity){
 		p.rotationVelocity = this.startRotationVelocity;
-	}
+	}*/
 };
 
 ParticleEmitter.prototype.killParticle = function(p) {

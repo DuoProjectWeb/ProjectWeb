@@ -50,20 +50,20 @@ var SpriteMode = {
 
 var SpriteChangeEvent = {
 	AtCreation: function(){
-		function canEmit(){
+		function switchFrame(){
 			return false;
 		}
-		return canEmit;
+		return switchFrame;
 	},
 	EachFrame: function(){
-		function canEmit(){
+		function switchFrame(){
 			return true;
 		}
-		return canEmit;
+		return switchFrame;
 	},
 	EachSeconde: function(){
 		var accumulatedTime = 0.0;
-		function canEmit(tpf){
+		function switchFrame(tpf){
 			accumulatedTime += tpf;
 			if(accumulatedTime >= 1.0){
 				accumulatedTime = 0.0;
@@ -71,12 +71,12 @@ var SpriteChangeEvent = {
 			}
 			return false;
 		}
-		return canEmit;
+		return switchFrame;
 	},
 	EachTime: function(interval){
 		var updateDelay = interval || 1.0;
 		var accumulatedTime = 0.0;
-		function canEmit(tpf){
+		function switchFrame(tpf){
 			accumulatedTime += tpf;
 			if(accumulatedTime >= updateDelay){
 				accumulatedTime = 0.0;
@@ -84,6 +84,6 @@ var SpriteChangeEvent = {
 			}
 			return false;
 		}
-		return canEmit;
+		return switchFrame;
 	}
 };

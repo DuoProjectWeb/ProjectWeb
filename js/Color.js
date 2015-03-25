@@ -31,7 +31,6 @@ Color.prototype.reset = function() {
 	this.g = 255;
 	this.b = 255;
 	this.a = 1.0;
-	return this;
 };
 
 Color.prototype.copy = function(c) {
@@ -39,7 +38,7 @@ Color.prototype.copy = function(c) {
 };
 
 Color.prototype.toString = function() {
-	return "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")";
+	return "rgba(" + Math.floor(this.r) + ", " + Math.floor(this.g) + ", " + Math.floor(this.b) + ", " + this.a + ")";
 };
 
 Color.prototype.interpolateLocal = function(startColor, endColor, progress){

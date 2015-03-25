@@ -45,30 +45,21 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	var img = new Image();
-	img.src = "img/flame.png";
-	this.emitter = new ParticleEmitter(
+	this.propulsionEmitter = new ParticleEmitter(
 		{
-			"position" : new Vector2(100, 200),
-			"emitterShape" : EmitterShape.Circle({"radius" : 50, "emitFrom" : EmitFrom.Shell}),
-			"nbMaxParticles" : 300,
-			"nbParticlesPerSec" : 0,
+			"position" : new Vector2(0, 0),
+			"emitterShape" : EmitterShape.Point(VelocityMode.None),
+			"nbMaxParticles" : 80,
+			"nbParticlesPerSec" : 40,
 			"minLife" : 2,
 			"maxLife" : 2,
-			"speed" : 20,
-			"color" : new Color(255, 0, 0, 1.0)
+			"size" : new Vector2(10, 10)
 		}
-	);//, new Sprite(img, 2, 2, true));
-	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.1)));	
-	//this.emitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
-	//this.emitter.influencers.push(new DestinationInfluencer(new Vector2(30, 60)));
-	//this.emitter.influencers.push(new SizeInfluencer(new Vector2(5, 5), new Vector2(1, 1)));
-	//this.emitter.influencers.push(new SpeedInfluencer(0.1, 50));
-	//this.emitter.influencers.push(new RotationInfluencer(180.0));
-	//this.emitter.influencers.push(new SizePulsingInfluencer(new Vector2(2, 2), new Vector2(20, 20), 4));
-	//this.emitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.EachTime(0.1)));
-	this.emitter.emitAllParticles();
-	ParticleEmitterManager.add(this.emitter);	
+	);
+	this.propulsionEmitter.influencers.push(new ColorInfluencer(new Color(255, 131, 0, 1.0), new Color(255, 255, 0, 0.1)));	
+	this.propulsionEmitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
+	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(5, 5), new Vector2(1, 1)));
+	ParticleEmitterManager.add(this.propulsionEmitter);	
 };
 
 Player.prototype = new Character();
@@ -92,13 +83,12 @@ Player.prototype.render = function(g){
 
 	if(!this.canMove){
 		g.fillStyle = "rgb(0, 200, 255)";
-		g.fillText(this.health / this.maxHealth * 100 + "%", this.x, this.y + 75);
+		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", this.x, this.y + 75);
 	}
 }
 
 Player.prototype.update = function(tpf){
 	Character.prototype.update.call(this, tpf);
-	//this.y += this.speed * tpf;
 	
 	this.bulletTimer += tpf;
 	if(this.bulletTimer >= this.bulletInterval){
@@ -106,18 +96,51 @@ Player.prototype.update = function(tpf){
 		//fire something
 		this.fire();
 	}
-	this.emitter.position.set(this.x, this.y);
+	this.propulsionEmitter.position.set(this.x + 1, this.y + 30);
 };
 
 Player.prototype.takeDamage = function(amount) {
 	Character.prototype.takeDamage.call(this, amount);
 	//shield
+	if(this.health <= 0){
+		this.death();
+	}
 };
 
+Player.prototype.death = function() {
+	console.log("player death");
+	var img = new Image();
+	img.src = "img/Debris.png";
+	deathEmitter = new ParticleEmitter(
+		{
+			"position" : new Vector2(this.x, this.y),
+			"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
+			"nbMaxParticles" : 5,
+			"nbParticlesPerSec" : 0,
+			"minLife" : 3,
+			"maxLife" : 3,
+			"sprite" : new Sprite(img, 3, 3, false)
+		}
+	);
+	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.1)));
+	deathEmitter.influencers.push(new SizeInfluencer(new Vector2(1, 1), new Vector2(0.1, 0.1)));
+	deathEmitter.influencers.push(new SpeedInfluencer(20, 5));
+	deathEmitter.influencers.push(new RotationInfluencer(250.0, true));
+	deathEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
+	deathEmitter.emitAllParticles();
+	ParticleEmitterManager.add(deathEmitter);
+	this.respawn();
+};
+
+Player.prototype.respawn = function() {
+	this.health = this.maxHealth;
+	this.score = 0;
+	console.log("respawn");
+};
 
 Player.prototype.onCollision = function(collider) {
 	if(collider.name == "Enemy"){
-		console.log("collide with enemy");
+		//console.log("collide with enemy");
 		this.takeDamage(10);
 	}
 };

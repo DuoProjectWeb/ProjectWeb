@@ -1,10 +1,17 @@
 var EmitterShape = {
-	Point : function(){
+	Point : function(params){
+		var velocityMode = params["velocityMode"] || VelocityMode.Normal;
 
 		function setup(p){
 			p.position.zero();
-			p.velocity.set(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 1.0);
-			p.velocity.normalizeLocal();
+			switch(velocityMode){
+				case VelocityMode.None:
+					p.velocity.zero();
+					break;
+				default:				
+					p.velocity.set(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 1.0);
+					p.velocity.normalizeLocal();
+			}
 		}
 		return setup;
 	},
@@ -31,6 +38,9 @@ var EmitterShape = {
 					break;
 			}
 			switch(velocityMode){
+				case VelocityMode.None:
+					p.velocity.zero();
+					break;
 				case VelocityMode.Normal:
 					p.velocity.copy(p.position.normalize());
 					break;
@@ -60,6 +70,9 @@ var EmitterShape = {
 					break;
 			}
 			switch(velocityMode){
+				case VelocityMode.None:
+					p.velocity.zero();
+					break;
 				case VelocityMode.Normal:
 					p.velocity.copy(p.position.normalize());
 					break;
@@ -74,6 +87,9 @@ var EmitterShape = {
 };
 
 var VelocityMode = {
+	None : function(){
+
+	},
 	Normal : function(){
 
 	},

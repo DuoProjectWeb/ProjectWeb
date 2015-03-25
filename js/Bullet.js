@@ -42,7 +42,7 @@ Bullet.prototype.render = function(g){
 
 Bullet.prototype.onCollision = function(collider) {
 	this.collisionCallback.call(this.owner, collider);
-	var explosionEmitter = new ParticleEmitter(
+	/*var explosionEmitter = new ParticleEmitter(
 		{
 			"position" : new Vector2(this.x, this.y),
 			"emitterShape" : EmitterShape.Circle({"radius" : this.collisionRadius, "emitFrom" : EmitFrom.Shell}),
@@ -57,6 +57,6 @@ Bullet.prototype.onCollision = function(collider) {
 	);
 	explosionEmitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 0.8), new Color(255, 0, 0, 0.1)));	
 	explosionEmitter.emitAllParticles();
-	ParticleEmitterManager.add(explosionEmitter);
+	ParticleEmitterManager.add(explosionEmitter);*/
 	
 };
