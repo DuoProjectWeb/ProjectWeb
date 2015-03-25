@@ -9,8 +9,8 @@ var Bullet = function(x, y, owner, collisionCallback){
 	});
 	this.x = x;
 	this.y = y;
-	this.scale = 0.5;
-	this.collisionRadius = 13;
+	this.scale = 0.25;
+	this.collisionRadius = 6;
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, this.collisionRadius, this.onCollision);
 	this.name = "Bullet";
 	this.owner = owner;

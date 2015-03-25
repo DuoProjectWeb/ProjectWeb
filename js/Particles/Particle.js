@@ -9,7 +9,9 @@ var Particle = function(sprite){
 	this.currentLife = 0.0;
 	this.scale = new Vector2(1, 1);
 	this.progress = 0.0;
-	this.sprite = sprite;
+	if(sprite){
+		this.sprite = sprite.clone();
+	}	
 };
 
 Particle.prototype = new DrawableControl();

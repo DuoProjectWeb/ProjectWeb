@@ -12,7 +12,7 @@ var Player = function(scene){
 	var self = this;
 	this.canMove = false;
 	this.speed = 600;
-	this.bulletInterval = 0.35;
+	this.bulletInterval = 0.15;
 	this.bulletTimer = 0;
 
 	//temp
@@ -53,7 +53,8 @@ var Player = function(scene){
 			"nbParticlesPerSec" : 40,
 			"minLife" : 2,
 			"maxLife" : 2,
-			"size" : new Vector2(10, 10)
+			"size" : new Vector2(10, 10),
+			"loop" : true
 		}
 	);
 	this.propulsionEmitter.influencers.push(new ColorInfluencer(new Color(255, 131, 0, 1.0), new Color(255, 255, 0, 0.1)));	
@@ -115,7 +116,7 @@ Player.prototype.death = function() {
 		{
 			"position" : new Vector2(this.x, this.y),
 			"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
-			"nbMaxParticles" : 5,
+			"nbMaxParticles" : 10,
 			"nbParticlesPerSec" : 0,
 			"minLife" : 3,
 			"maxLife" : 3,

@@ -15,11 +15,11 @@ var Sprite = function(img, nbCol, nbRow, loop){
 	this.currentRow = 0;
 };
 
+Sprite.prototype = new Drawable();
+
 Sprite.prototype.clone = function() {
 	return new Sprite(this.img, this.nbCol, this.nbRow, this.loop);
 };
-
-Sprite.prototype = new Drawable();
 
 Sprite.prototype.nextFrame = function() {
 	this.currentFrame++;
