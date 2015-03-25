@@ -17,8 +17,8 @@ Spawner.prototype.setInterval = function(interval){
 	this.interval = interval;
 }
 
-Spawner.prototype.spawn = function(){
-	var enemy = new Enemy(this.scene);
+Spawner.prototype.spawn = function () {
+	var enemy = new Enemy(this.scene, MoveBehaviour.Straight);
 	enemy.setPosition(Math.random() *(this.xMax - this.xMin) + this.xMin, Math.random()*(this.yMax - this.yMin) + this.yMin);	
 	enemy.moveTo(Math.random() *(this.xMax - this.xMin) + this.xMin, Math.random()*(this.yMax - this.yMin) + this.yMin);		
 	this.scene.addEntity(enemy, "enemy");

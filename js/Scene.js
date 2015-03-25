@@ -2,7 +2,9 @@ var Scene = function(game){
 	var self = this;
 	this.background = new Image();
 	this.background.src = "img/sceneBackground.jpg";
-	
+
+	this.yOffset = 0;
+
 	this.game = game;	
 	
 	this.playerStartOffset_X = -0;
@@ -25,7 +27,7 @@ var Scene = function(game){
 	this.bullets = [];
 	this.delayedDestroy = [];
 	
-	this.spawner = new Spawner(this, 1, 0, 600, 0, 100);
+	this.spawner = new Spawner(this, 1, 0, 400, 0, 100);
 };
 
 var ParticleEmitterManager = new ParticleEmitterManager();
@@ -33,6 +35,7 @@ var ParticleEmitterManager = new ParticleEmitterManager();
 Scene.prototype = new DrawableControl();
 
 Scene.CAMERA_SPEED = 0.008;
+Scene.BACKGROUND_SPEED = 250;
 
 Scene.prototype.addEntity = function(entity, type){
 	if(entity instanceof DrawableControl){
@@ -89,23 +92,11 @@ Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
 Scene.prototype.update = function(tpf){
 	DrawableControl.prototype.update.call(this, tpf);
 	
-	/*if(this.playerStartOffset_X != this.targetX){
-		var inc = (this.targetX - this.playerStartOffset_X) * Scene.CAMERA_SPEED * tpf;
-		//inc = Math.pow(inc, 0.6);
-		this.playerStartOffset_X += inc;
-		if(Math.abs(this.targetX - this.playerStartOffset_X) <= Game.EPSILON){
-			this.playerStartOffset_X = this.targetX;
-		}
+	this.yOffset -= game.time.deltaTime * Scene.BACKGROUND_SPEED;
+
+	if (this.yOffset <= -this.background.height) {
+	    this.yOffset = 0;
 	}
-	
-	if(this.playerStartOffset_Y != this.targetY){
-		var inc = (this.targetY - this.playerStartOffset_Y) * Scene.CAMERA_SPEED * tpf;
-		//inc = Math.pow(inc, 0.6);
-		this.playerStartOffset_Y += inc;
-		if(Math.abs(this.targetY - this.playerStartOffset_Y) <= Game.EPSILON){
-			this.playerStartOffset_Y = this.targetY;
-		}
-	}*/
 	
 	var time = this.game.time.localTime;
 	for(var i = this.delayedDestroy.length-1; i>=0;i--){
@@ -195,8 +186,11 @@ Scene.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
 	g.save();
 		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
-		g.drawImage(this.background, 0, 0, g.width, g.height);
-		
+		//g.drawImage(this.background, 0, 0, g.width, g.height);
+
+	g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
+	g.drawImage(this.background, 0, -this.yOffset - this.background.height, g.width, g.height);
+
 		for(var i = 0; i<this.entities.length;i++){
 			var e = this.entities[i];			
 			e.render(g);

@@ -4,7 +4,7 @@ var Game = function(){
 	this.graphics = this.canvas.getContext("2d");
 	this.canvas.width = Game.WIDTH;
 	this.canvas.height = Game.HEIGHT;
-	
+
 	var g = this.graphics;
 	/*g.fillStyle = "red";
 	g.fillRect(0, 0, this.canvas.width, this.canvas.height);*/
@@ -20,7 +20,8 @@ var Game = function(){
 		deltaTime : 0,
 		timeScale : 1
 	};
-	
+	this.time.timeScale = 0.1;
+
 	this.graphics.width = this.canvas.width;
 	this.graphics.height = this.canvas.height;
 	
