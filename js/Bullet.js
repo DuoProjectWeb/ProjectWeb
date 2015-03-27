@@ -2,11 +2,7 @@ var Bullet = function(x, y, owner, collisionCallback){
 	
 	var self = this;
 	this.speed = 200;
-	var img = new Image();
-	img.src = "img/bullet.png";
-	img.addEventListener("load", function(){
-		self.sprite = new Sprite(img, 1, 1, false);
-	});
+	this.sprite = new Sprite(assetManager.getImage("bullet"), 1, 1, false);
 	this.x = x;
 	this.y = y;
 	this.scale = 0.25;

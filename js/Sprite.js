@@ -10,6 +10,7 @@ var Sprite = function(img, nbCol, nbRow, loop){
 	this.frameCount = this.nbCol * this.nbRow;
 	this.spriteWidth = this.img.width/this.nbCol;
 	this.spriteHeight = this.img.height/this.nbRow;
+	//console.log(this.spriteWidth, this.spriteHeight, this.img.src);
 	this.currentFrame = 0;
 	this.currentCol = 0;
 	this.currentRow = 0;
