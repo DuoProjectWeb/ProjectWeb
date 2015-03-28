@@ -2,7 +2,7 @@ var Enemy = function(scene, moveBehaviour){
 	Character.call(this, scene, "Enemy", {
 		idle : 
 		{
-			img : "img/player.png",
+			img : "player",
 			nbCol : 1,
 			nbRow : 1,
 			loop : false

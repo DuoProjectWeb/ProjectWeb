@@ -1,6 +1,6 @@
 var AssetManager = function(callback){
 	this.images = {};
-	this.imagesToLoad ={};
+	this.imagesToLoad = {};
 	this.sounds = {};
 	this.soundsToLoad = {};
 
@@ -17,21 +17,23 @@ AssetManager.prototype.initialize = function(imgList, soundList) {
 
 	if(imgList){
 		for(var id in imgList){
-			this.imagesToLoad[id, imgList[id]];
+			this.imagesToLoad[id] = imgList[id];
 			this.assetsToLoadCount ++;
-		}
-		for(var id in this.imagesToLoad){
-			this.loadImage(id, this.imagesToLoad[id]);
-		}
+		}		
 	}
 	if(soundList){
 		for(var id in soundList){
-			this.soundsToLoad[id, soundList[id]];
+			this.soundsToLoad[id] = soundList[id];
 			this.assetsToLoadCount++;
 		}
-		for(var id in this.soundsToLoad){
-			this.loadSound(id, this.soundsToLoad[id]);
-		}
+	}
+
+	for(var id in this.imagesToLoad){
+		this.loadImage(id, this.imagesToLoad[id]);
+	}
+
+	for(var id in this.soundsToLoad){
+		this.loadSound(id, this.soundsToLoad[id]);
 	}
 };
 
@@ -43,7 +45,7 @@ AssetManager.prototype.onAssetLoaded = function(id) {
 	this.assetsLoadedCount++;
 	console.log(id + " loaded");
 	console.log("Assets loading " + this.assetsLoadedCount + " / " + this.assetsToLoadCount);
-	if(this.this.assetsLoadedCount == this.assetsToLoadCount){
+	if(this.assetsLoadedCount == this.assetsToLoadCount){
 		if(this.callback){
 			this.callback();
 		}
@@ -51,8 +53,9 @@ AssetManager.prototype.onAssetLoaded = function(id) {
 };
 
 AssetManager.prototype.loadImage = function(id, path) {
+	console.log("load image " + id + " with pah : " + path);
 	var self = this;
-	var img = new Iamge();
+	var img = new Image();
 	img.addEventListener("load", function(){
 		if(self.imagesToLoad[id]){
 			delete self.imagesToLoad[id];

@@ -1,11 +1,10 @@
 var Scene = function(game){
 	var self = this;
-	this.background = new Image();
-	this.background.src = "img/sceneBackground.jpg";
+	this.background = assetManager.getImage("sceneBackground");
 
 	this.yOffset = 0;
 
-	this.game = game;	
+	this.game = game;
 	
 	this.playerStartOffset_X = -0;
 	this.playerStartOffset_Y = -0;

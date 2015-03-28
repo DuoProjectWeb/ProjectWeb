@@ -26,14 +26,22 @@ var Game = function(){
 	this.graphics.width = this.canvas.width;
 	this.graphics.height = this.canvas.height;
 
-	assetManager = new AssetManager(this.onGameLoaded);
+	assetManager = new AssetManager(
+		function(){
+			self.onGameLoaded();
+		}
+	);
 	assetManager.initialize(
 		{
-			"bullet" : "img/bullet.png"
+			"bullet" : "img/bullet.png",
+			"sceneBackground" : "img/sceneBackground.jpg",
+			"player" : "img/player.png",
+			"playerExplosion" : "img/Debris.png",
 		},
 		{
 
-		});
+		}
+	);
 		
 	requestAnimationFrame(function loop(){
 		self.mainLoop();
@@ -46,10 +54,6 @@ Game.prototype = new DrawableControl();
 Game.WIDTH = 400;
 Game.HEIGHT = 600;
 Game.EPSILON = 1;
-
-Game.prototype.onGameLoaded = function() {
-	this.scene = new Scene(this);
-};
 
 Game.prototype.mainLoop = function(){
 	var now = Date.now();
@@ -118,5 +122,9 @@ Game.prototype.render = function(g){
 			g.fill();
 		g.restore();
 	}
-	
+};	
+
+Game.prototype.onGameLoaded = function() {
+	console.log("game loaded");
+	this.scene = new Scene(this);
 };

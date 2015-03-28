@@ -38,14 +38,10 @@ Character.prototype = new DrawableControl();
 
 Character.prototype.loadSprite = function(spriteName, spriteData){
 	var self = this;
-	var img = new Image();
-	img.src = spriteData.img;
-	img.addEventListener("load", function(){
-		self.sprites[spriteName] = new Sprite(img, spriteData.nbCol, spriteData.nbRow, spriteData.loop);
-		if(spriteName == "idle"){
-			self.setCurrentSprite(spriteName);
-		}
-	});
+	self.sprites[spriteName] = new Sprite(assetManager.getImage(spriteData.img), spriteData.nbCol, spriteData.nbRow, spriteData.loop);
+	if(spriteName == "idle"){
+		self.setCurrentSprite(spriteName);
+	}
 };
 
 Character.prototype.setCurrentSprite = function(spriteName){

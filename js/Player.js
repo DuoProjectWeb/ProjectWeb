@@ -2,7 +2,7 @@ var Player = function(scene){
 	Character.call(this, scene, "Player", {
 		idle : 
 		{
-			img : "img/player.png",
+			img : "player",
 			nbCol : 1,
 			nbRow : 1,
 			loop : false
@@ -112,8 +112,6 @@ Player.prototype.takeDamage = function(amount) {
 
 Player.prototype.death = function() {
 	console.log("player death");
-	var img = new Image();
-	img.src = "img/Debris.png";
 	deathEmitter = new ParticleEmitter(
 		{
 			"position" : new Vector2(this.x, this.y),
@@ -122,7 +120,7 @@ Player.prototype.death = function() {
 			"nbParticlesPerSec" : 0,
 			"minLife" : 3,
 			"maxLife" : 3,
-			"sprite" : new Sprite(img, 3, 3, false)
+			"sprite" : new Sprite(assetManager.getImage("playerExplosion"), 3, 3, false)
 		}
 	);
 	//this.emitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.1)));
