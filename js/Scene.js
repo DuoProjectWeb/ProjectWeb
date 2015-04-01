@@ -125,9 +125,7 @@ Scene.prototype.checkCollisions = function(){
 			var e = this.enemies[j];
 			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
-				this.destroyEntity(e, "enemy");				
-				var img = new Image();
-				img.src = "img/flame.png";
+				this.destroyEntity(e, "enemy");	
 				var explosionEmitter = new ParticleEmitter(
 					{
 						"position" : new Vector2(e.x, e.y),
@@ -138,7 +136,7 @@ Scene.prototype.checkCollisions = function(){
 						"maxLife" : 0.4,
 						"loop" : false,
 						"size" : new Vector2(0.5, 0.5),
-						"sprite" : new Sprite(img, 2, 2, false),
+						"sprite" : new Sprite(assetManager.getImage("flame"), 2, 2, false),
 						"duration" : 1.0,
 						"speed" : 50
 					}

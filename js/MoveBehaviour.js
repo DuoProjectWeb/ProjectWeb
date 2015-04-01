@@ -8,7 +8,9 @@ var MoveBehaviour = {
     {
         if (enemy.target)
         {
-            enemy.moveTo(enemy.target.x, enemy.target.y);
+            var angle = Math.atan2(enemy.target.x - enemy.x, - (enemy.target.y - enemy.x))*(180/Math.PI);
+            enemy.moveTo(c, enemy.target.y);
+            enemy.rotation = angle;
         }
     },
 

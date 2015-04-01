@@ -37,6 +37,7 @@ var Game = function(){
 			"sceneBackground" : "img/sceneBackground.jpg",
 			"player" : "img/player.png",
 			"playerExplosion" : "img/Debris.png",
+			"flame" : "img/flame.png"
 		},
 		{
 
