@@ -21,7 +21,7 @@ var Character = function(scene, name, spriteList){
 	this.speed = Character.DEFAULT_SPEED;
 
 	this.collisionRadius = 20;
-	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 40);
+	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 30);
 	
 	this.movementListeners = [];
 
@@ -70,9 +70,11 @@ Character.prototype.render = function(g){
 	}
 	if(this.currentSprite){
 		g.save();
-			g.translate(this.x, this.y);							
+			g.translate(this.x, this.y);
+			g.rotate(this.rotation);							
 			g.scale(this.scale, this.scale);
 			g.translate(-this.currentSprite.spriteWidth * 0.5, -this.currentSprite.spriteHeight * 0.5);
+
 			this.currentSprite.render(g);
 		g.restore();
 	}	

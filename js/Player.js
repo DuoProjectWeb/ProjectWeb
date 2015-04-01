@@ -13,7 +13,7 @@ var Player = function(scene){
 	this.canMove = false;
 	this.speed = 600;
 	this.bulletInterval = 0.15;
-	this.bulletTimer = 0;
+	this.bulletTimer = -1.0;
 
 	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
 
@@ -21,10 +21,24 @@ var Player = function(scene){
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 50, this.onCollision);
 	
 	this.game.canvas.addEventListener("mousedown", function(e){
-		self.canMove = true;
-		self.game.time.timeScale = 1;
-		self.scene.music.playbackRate = 1.0;
 		//console.log("mouse down");
+		switch(e.which){
+			case 1:
+			//left
+				self.canMove = true;
+				self.game.time.timeScale = 1;
+				self.scene.music.playbackRate = 1.0;
+				break;
+			case 2:
+			//middle
+				break;
+			case 3:
+			//right
+				self.fireBomb();
+				break;
+			default:
+				console.log("Error unknown mouse button");
+		}
 	});
 	
 	this.game.canvas.addEventListener("mousemove", function(e){
@@ -39,7 +53,7 @@ var Player = function(scene){
 	this.game.canvas.addEventListener("mouseup", function(e){
 		self.canMove = false;
 		self.game.time.timeScale = 0.1;
-		self.scene.music.playbackRate = 0.8;
+		//self.scene.music.playbackRate = 0.8;
 		//console.log("mouse up");
 	});
 	
@@ -63,7 +77,7 @@ var Player = function(scene){
 	);
 	this.propulsionEmitter.influencers.push(new ColorInfluencer(new Color(255, 131, 0, 1.0), new Color(255, 255, 0, 0.1)));	
 	this.propulsionEmitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
-	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(5, 5), new Vector2(1, 1)));
+	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(4, 4), new Vector2(1, 1)));
 	ParticleEmitterManager.add(this.propulsionEmitter);	
 };
 
@@ -78,6 +92,16 @@ Player.prototype.fire = function(){
 	});
 	this.scene.addEntity(bullet, "bullet");
 	this.scene.destroyEntityWithDelay(bullet, "bullet", 3); 
+};
+
+Player.prototype.fireBomb = function() {
+	var bomb = new Bomb(this.x, this.y, function(collider){
+		if(collider.name == "Enemy"){
+			this.scene.destroyEntityWithDelay(collider, "enemy", 0.1);
+		}
+	});
+	this.scene.addEntity(bomb, "bomb");
+	this.scene.destroyEntityWithDelay(bomb, "bomb", 5.0);
 };
 
 Player.prototype.render = function(g){

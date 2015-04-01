@@ -37,7 +37,7 @@ var ParticleEmitterManager = new ParticleEmitterManager();
 Scene.prototype = new DrawableControl();
 
 Scene.CAMERA_SPEED = 0.008;
-Scene.BACKGROUND_SPEED = 250;
+Scene.BACKGROUND_SPEED = 100;
 
 Scene.prototype.addEntity = function(entity, type){
 	if(entity instanceof DrawableControl){
@@ -94,7 +94,7 @@ Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
 Scene.prototype.update = function(tpf){
 	DrawableControl.prototype.update.call(this, tpf);
 	
-	this.yOffset -= game.time.deltaTime * Scene.BACKGROUND_SPEED;
+	this.yOffset -= Scene.BACKGROUND_SPEED * tpf;
 
 	if (this.yOffset <= -this.background.height) {
 	    this.yOffset = 0;
