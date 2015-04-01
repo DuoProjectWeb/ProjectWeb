@@ -6,12 +6,11 @@ var Scene = function(game){
 
 	this.game = game;
 	
-	this.playerStartOffset_X = -0;
-	this.playerStartOffset_Y = -0;
+	this.playerStartOffset_X = 0;
+	this.playerStartOffset_Y = 0;
 	
 	this.player = new Player(this);
-	p = this.player;
-	this.player.setPosition(100, 100);
+	this.player.moveTo(this.game.canvas.width / 2, this.game.canvas.height * (70 / 100));
 	
 	this.player.addMovementListener(function(x, y){
 		self.onPlayerMove(x, y);
@@ -27,6 +26,10 @@ var Scene = function(game){
 	this.delayedDestroy = [];
 	
 	this.spawner = new Spawner(this, 1, 0, 400, 0, 100);
+
+	this.music = assetManager.getSound("backgroundMusic");
+	this.music.loop = true;
+	this.music.play();
 };
 
 var ParticleEmitterManager = new ParticleEmitterManager();

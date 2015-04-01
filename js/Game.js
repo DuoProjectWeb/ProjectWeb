@@ -39,7 +39,7 @@ var Game = function(){
 			"playerExplosion" : "img/Debris.png",
 		},
 		{
-
+			"backgroundMusic" : "sounds/backgroundMusic.mp3"
 		}
 	);
 		

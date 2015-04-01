@@ -15,7 +15,7 @@ var Player = function(scene){
 	this.bulletInterval = 0.15;
 	this.bulletTimer = 0;
 
-	this.moveTo(scene.game.canvas.width / 2, scene.game.canvas.height * (70 / 100));
+	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
 
 	//temp
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 50, this.onCollision);
@@ -23,6 +23,7 @@ var Player = function(scene){
 	this.game.canvas.addEventListener("mousedown", function(e){
 		self.canMove = true;
 		self.game.time.timeScale = 1;
+		self.scene.music.playbackRate = 1.0;
 		//console.log("mouse down");
 	});
 	
@@ -38,6 +39,7 @@ var Player = function(scene){
 	this.game.canvas.addEventListener("mouseup", function(e){
 		self.canMove = false;
 		self.game.time.timeScale = 0.1;
+		self.scene.music.playbackRate = 0.8;
 		//console.log("mouse up");
 	});
 	
