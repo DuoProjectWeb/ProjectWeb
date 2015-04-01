@@ -15,6 +15,7 @@ var Character = function(scene, name, spriteList){
 
 	this.x = 0;
 	this.y = 0;
+	this.rotation = 0;
 	
 	this.scale = 0.3;
 	this.speed = Character.DEFAULT_SPEED;
