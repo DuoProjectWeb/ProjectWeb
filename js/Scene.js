@@ -25,11 +25,11 @@ var Scene = function(game){
 	this.bullets = [];
 	this.delayedDestroy = [];
 	
-	this.spawner = new Spawner(this, 1, 0, 400, 0, 100);
+	this.spawner = new Spawner(this, 1, 0, Game.WIDTH, -50, -50);
 
 	this.music = assetManager.getSound("backgroundMusic");
 	this.music.loop = true;
-	this.music.play();
+	//this.music.play();
 };
 
 var ParticleEmitterManager = new ParticleEmitterManager();
@@ -82,10 +82,10 @@ Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
 	//console.log("requested delay = " + d + " seconds");
 	if(entity instanceof DrawableControl){
 		this.delayedDestroy.push({
-			time : this.game.time.localTime,
-			entity : entity,
-			type : type,
-			delay : delay
+			"time" : this.game.time.localTime,
+			"entity" : entity,
+			"type" : type,
+			"delay" : delay
 		});
 	}
 	//console.log("entity registered to destroy");	

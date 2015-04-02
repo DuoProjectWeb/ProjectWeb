@@ -17,12 +17,9 @@ var Character = function(scene, name, spriteList){
 	this.y = 0;
 	this.rotation = 0;
 	
-	this.scale = 0.3;
+	this.scale = 1.0;
 	this.speed = Character.DEFAULT_SPEED;
 
-	this.collisionRadius = 20;
-	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 30);
-	
 	this.movementListeners = [];
 
 	this.maxHealth = 30;

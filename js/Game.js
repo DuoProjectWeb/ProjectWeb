@@ -26,6 +26,8 @@ var Game = function(){
 	this.graphics.width = this.canvas.width;
 	this.graphics.height = this.canvas.height;
 
+	this.toDelete = [];
+
 	assetManager = new AssetManager(
 		function(){
 			self.onGameLoaded();
@@ -40,7 +42,9 @@ var Game = function(){
 			"flame" : "img/flame.png"
 		},
 		{
-			"backgroundMusic" : "sounds/backgroundMusic.mp3"
+			"backgroundMusic" : "sounds/backgroundMusic.wav",
+			"explosion" : "sounds/explosion.wav",
+			"shoot" : "sounds/shoot.wav"
 		}
 	);
 		
@@ -67,8 +71,26 @@ Game.prototype.mainLoop = function(){
 	this.render(this.graphics);
 };
 
-Game.prototype.update = function(tpf){
+Game.prototype.destroy = function(obj, delay) {
+	this.toDelete.push({
+		"time" : this.time.localTime,
+		"obj" : obj,
+		"delay" : delay || 0.0
+	});
+};
+
+Game.prototype.update = function(tpf){	
 	DrawableControl.prototype.update.call(this, tpf);
+
+	var time = this.time.localTime;
+	for (var i = this.toDelete.length - 1; i >= 0; i--) {
+		var o = this.toDelete[i];
+		if(time >= o.time + o.delay){
+			this.toDelete.splice(i, 1);
+			delete o.obj;
+		}
+	};
+
 	if(this.scene){
 		this.fpsTimer += tpf;
 		if(this.fpsTimer >= 1 * this.time.timeScale){

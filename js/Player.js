@@ -12,13 +12,14 @@ var Player = function(scene){
 	var self = this;
 	this.canMove = false;
 	this.speed = 600;
-	this.bulletInterval = 0.15;
+	this.scale = 0.15;
+	this.bulletInterval = 0.1;
 	this.bulletTimer = -1.0;
 
 	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
 
 	//temp
-	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 50, this.onCollision);
+	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 15, this.onCollision);
 	
 	this.game.canvas.addEventListener("mousedown", function(e){
 		//console.log("mouse down");
@@ -77,7 +78,7 @@ var Player = function(scene){
 	);
 	this.propulsionEmitter.influencers.push(new ColorInfluencer(new Color(255, 131, 0, 1.0), new Color(255, 255, 0, 0.1)));	
 	this.propulsionEmitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
-	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(4, 4), new Vector2(1, 1)));
+	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(3, 3), new Vector2(0.8, 0.8)));
 	ParticleEmitterManager.add(this.propulsionEmitter);	
 };
 
@@ -85,13 +86,18 @@ Player.prototype = new Character();
 
 Player.prototype.fire = function(){			
 	//console.log("fire");
-	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.4, this, function(collider){
+	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, this, function(collider){
 		if(collider.name == "Enemy"){
 			this.score += 25;
 		}
 	});
 	this.scene.addEntity(bullet, "bullet");
-	this.scene.destroyEntityWithDelay(bullet, "bullet", 3); 
+	this.scene.destroyEntityWithDelay(bullet, "bullet", 3);
+	var shootAudio = assetManager.getSound("shoot");
+	var shoot = new Audio();
+	shoot.src = shootAudio.src;
+	shoot.play();
+	this.game.destroy(shoot, 1.0);
 };
 
 Player.prototype.fireBomb = function() {
@@ -125,7 +131,7 @@ Player.prototype.update = function(tpf){
 		//fire something
 		this.fire();
 	}
-	this.propulsionEmitter.position.set(this.x + 1, this.y + 30);
+	this.propulsionEmitter.position.set(this.x + 1, this.y + 16);
 };
 
 Player.prototype.takeDamage = function(amount) {

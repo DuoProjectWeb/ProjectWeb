@@ -1,8 +1,10 @@
 var AssetManager = function(callback){
 	this.images = {};
 	this.imagesToLoad = {};
+	this.imagesToLoadErrors = {};
 	this.sounds = {};
 	this.soundsToLoad = {};
+	this.soundsToLoadErrors = {};
 
 	this.assetsLoadedCount = 0;
 	this.assetsToLoadCount = 0;

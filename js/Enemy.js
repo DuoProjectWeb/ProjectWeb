@@ -9,8 +9,11 @@ var Enemy = function(scene, moveBehaviour){
 		}
 	});
 	this.moveBehaviour = moveBehaviour;
-	this.scale = -0.4;
+	this.scale = -0.2;
+	this.speed = 300;
 	this.target = scene.player;
+
+	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 20);
 };
 
 Enemy.prototype = new Character();
