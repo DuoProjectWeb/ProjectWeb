@@ -28,6 +28,7 @@ var Game = function(){
 
 	this.toDelete = [];
 
+	audioManager = new AudioManager();
 	assetManager = new AssetManager(
 		function(){
 			self.onGameLoaded();
@@ -44,7 +45,9 @@ var Game = function(){
 		{
 			"backgroundMusic" : "sounds/backgroundMusic.wav",
 			"explosion" : "sounds/explosion.wav",
-			"shoot" : "sounds/shoot.wav"
+			//"shoot" : "sounds/shoot.wav",
+			"shoot2" : "sounds/shoot2.wav",
+			"death": "sounds/death.wav"
 		}
 	);
 		

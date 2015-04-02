@@ -25,11 +25,9 @@ var Scene = function(game){
 	this.bullets = [];
 	this.delayedDestroy = [];
 	
-	this.spawner = new Spawner(this, 1, 0, Game.WIDTH, -50, -50);
+	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
 
-	this.music = assetManager.getSound("backgroundMusic");
-	this.music.loop = true;
-	//this.music.play();
+	audioManager.playMusic("backgroundMusic", true);
 };
 
 var ParticleEmitterManager = new ParticleEmitterManager();
@@ -122,13 +120,24 @@ Scene.prototype.update = function(tpf){
 };
 
 Scene.prototype.checkCollisions = function(){
-	for(var i = this.bullets.length-1 ; i >= 0 ; i--){
+	for (var i = this.entities.length - 1; i >= 0; i--) {
+		var e = this.entities[i];
+		for (var j = this.entities.length - 1; j >= 0; j--) {
+			var e2 = this.entities[j];
+			if(i == j || !e || !e2){
+				continue;
+			}
+			this.collide(e, e2);
+		};
+	};
+	/*for(var i = this.bullets.length-1 ; i >= 0 ; i--){
 		var bullet = this.bullets[i];
 		for(var j = this.enemies.length-1 ; j >= 0 ; j--){
 			var e = this.enemies[j];
 			if(this.collide(bullet, e)){	
 				this.destroyEntity(bullet, "bullet");
 				this.destroyEntity(e, "enemy");	
+				audioManager.playOneShot("explosion");
 				var explosionEmitter = new ParticleEmitter(
 					{
 						"position" : new Vector2(e.x, e.y),
@@ -159,8 +168,8 @@ Scene.prototype.checkCollisions = function(){
 			this.destroyEntity(e, "enemy");
 			/*this.destroyEntity(this.player, "player");
 			break;*/
-		}
-	}
+		//}
+	//}
 };
 
 /*Scene.prototype.isColliding = function(e1, e2){

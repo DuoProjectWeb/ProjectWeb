@@ -82,7 +82,7 @@ Character.prototype.update = function(tpf){
 		var f = (this.game.time.localTime - this.moveTime) / this.moveDuration;		
 		//f = Math.pow(f, 0.6);
 		this.setPosition(f * (this.targetX - this.startX)  + this.startX, f * (this.targetY - this.startY)  + this.startY);
-	}else if(this.x != this.targetX || this.y != this.targetY){
+	}else if(this.moveTime && (this.x != this.targetX || this.y != this.targetY)){
 		this.setPosition(this.targetX, this.targetY);
 		this.setCurrentSprite("idle");
 	}
@@ -102,8 +102,6 @@ Character.prototype.setPosition = function(x, y){
 	for(var i = 0; i<this.movementListeners.length; i++){
 		this.movementListeners[i](x, y);
 	}
-	
-	//this.scale = ((Math.max(this.y, Character.MIN_Y) - Character.MIN_Y )/ (Character.MAX_Y - Character.MIN_Y)) * (Character.MAX_SCALE - Character.MIN_SCALE) + Character.MIN_SCALE;
 };
 
 Character.prototype.moveTo = function(x, y){

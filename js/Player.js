@@ -13,7 +13,7 @@ var Player = function(scene){
 	this.canMove = false;
 	this.speed = 600;
 	this.scale = 0.15;
-	this.bulletInterval = 0.1;
+	this.bulletInterval = 0.15;
 	this.bulletTimer = -1.0;
 
 	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
@@ -28,14 +28,13 @@ var Player = function(scene){
 			//left
 				self.canMove = true;
 				self.game.time.timeScale = 1;
-				self.scene.music.playbackRate = 1.0;
 				break;
 			case 2:
-			//middle
+			//middle			
+				self.fireBomb();
 				break;
 			case 3:
 			//right
-				self.fireBomb();
 				break;
 			default:
 				console.log("Error unknown mouse button");
@@ -54,7 +53,6 @@ var Player = function(scene){
 	this.game.canvas.addEventListener("mouseup", function(e){
 		self.canMove = false;
 		self.game.time.timeScale = 0.1;
-		//self.scene.music.playbackRate = 0.8;
 		//console.log("mouse up");
 	});
 	
@@ -63,6 +61,8 @@ var Player = function(scene){
 	});*/
 
 	this.score = 0;
+
+	this.bonus = ["test", "test2", "test3", "test4", "test5"];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -87,25 +87,18 @@ Player.prototype = new Character();
 Player.prototype.fire = function(){			
 	//console.log("fire");
 	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, this, function(collider){
+		this.scene.destroyEntity(bullet, "bullet");
 		if(collider.name == "Enemy"){
 			this.score += 25;
 		}
 	});
 	this.scene.addEntity(bullet, "bullet");
 	this.scene.destroyEntityWithDelay(bullet, "bullet", 3);
-	var shootAudio = assetManager.getSound("shoot");
-	var shoot = new Audio();
-	shoot.src = shootAudio.src;
-	shoot.play();
-	this.game.destroy(shoot, 1.0);
+	audioManager.playOneShot("shoot2");
 };
 
 Player.prototype.fireBomb = function() {
-	var bomb = new Bomb(this.x, this.y, function(collider){
-		if(collider.name == "Enemy"){
-			this.scene.destroyEntityWithDelay(collider, "enemy", 0.1);
-		}
-	});
+	var bomb = new Bomb(this.scene, this.x, this.y);
 	this.scene.addEntity(bomb, "bomb");
 	this.scene.destroyEntityWithDelay(bomb, "bomb", 5.0);
 };
@@ -117,8 +110,19 @@ Player.prototype.render = function(g){
 	g.fillText(this.score, g.width * 0.5, 50);
 
 	if(!this.canMove){
+		g.save();
+		g.translate(this.x, this.y);
 		g.fillStyle = "rgb(0, 200, 255)";
-		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", this.x, this.y + 75);
+		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", 0, 100);		
+			var angle = 360.0 / this.bonus.length;
+			for (var i = 0; i < this.bonus.length; i++) {
+				var bonus = this.bonus[i];
+				g.beginPath();
+				g.arc(50, 0, 20, 0, Math.PI * 2);
+				g.fill();
+				g.rotate(Utils.toRad(angle) * -1);
+			};
+		g.restore();
 	}
 }
 
@@ -162,6 +166,7 @@ Player.prototype.death = function() {
 	deathEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
 	deathEmitter.emitAllParticles();
 	ParticleEmitterManager.add(deathEmitter);
+	audioManager.playOneShot("death");
 	this.respawn();
 };
 

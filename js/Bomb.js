@@ -1,15 +1,15 @@
-var Bomb = function(x, y, collisionCallback){
-	this.collisionCallback = collisionCallback;
+var Bomb = function(scene, x, y){
+	this.scene = scene;
 	this.scale = 0;
-	this.explosionSpeed = 100;
+	this.explosionSpeed = 200;
 	this.boundingVolume = new BoundingSphere(this, x, y, 0, this.onCollision);
 };
 
 Bomb.prototype = new DrawableControl();
 
 Bomb.prototype.onCollision = function(collider) {
-	if(this.collisionCallback){
-		this.collisionCallback();
+	if(collider.name == "Enemy"){
+		this.scene.destroyEntityWithDelay(collider, "enemy", 0.1);
 	}
 };
 

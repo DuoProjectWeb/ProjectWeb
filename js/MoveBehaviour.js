@@ -1,4 +1,7 @@
 var MoveBehaviour = {
+    None : function(enemy){
+        
+    },
     Straight: function (enemy)
     {
         enemy.moveTo(enemy.x, enemy.y +10);
