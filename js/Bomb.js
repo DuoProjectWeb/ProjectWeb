@@ -5,7 +5,7 @@ var Bomb = function(scene, x, y){
 	this.boundingVolume = new BoundingSphere(this, x, y, 0, this.onCollision);
 };
 
-Bomb.prototype = new DrawableControl();
+Bomb.prototype = new Bonus();
 
 Bomb.prototype.onCollision = function(collider) {
 	if(collider.name == "Enemy"){

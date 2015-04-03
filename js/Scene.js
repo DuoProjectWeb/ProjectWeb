@@ -19,12 +19,14 @@ var Scene = function(game){
 	this.targetX = this.playerStartOffset_X;
 	this.targetY = this.playerStartOffset_Y;
 	
-	this.entities = [];
-	this.addEntity(this.player, "player");
+	this.entities = [];	
 	this.enemies = [];
 	this.bullets = [];
 	this.delayedDestroy = [];
-	
+	this.physicEntities = [];
+
+	this.addEntity(this.player, "player");
+
 	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
 
 	audioManager.playMusic("backgroundMusic", true);
@@ -43,7 +45,7 @@ Scene.prototype.addEntity = function(entity, type){
 		switch(type){
 			case "enemy":
 				this.enemies.push(entity);
-			break;	
+			break;
 			case "bullet":
 				this.bullets.push(entity);
 			break;			
@@ -51,6 +53,9 @@ Scene.prototype.addEntity = function(entity, type){
 	}else{
 		console.log("Can't add an object which is not a DrawableControl");
 	}	
+	if(entity.boundingVolume){
+		this.physicEntities.push(entity);
+	}
 };
 
 Scene.prototype.destroyEntity = function(entity, type){
@@ -65,6 +70,10 @@ Scene.prototype.destroyEntity = function(entity, type){
 	}
 	
 	this.entities.splice(this.entities.indexOf(entity), 1);
+	var index = this.physicEntities.indexOf(entity);
+	if(index >= 0){
+		this.physicEntities.splice(index, 1);
+	}
 	
 	for(var i = this.delayedDestroy.length -1 ; i >= 0 ; i--){
 		var e = this.delayedDestroy[i];
@@ -87,6 +96,18 @@ Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
 		});
 	}
 	//console.log("entity registered to destroy");	
+};
+
+Scene.prototype.addPhysic = function(entity) {
+	this.physicEntities.push(entity);
+};
+
+Scene.prototype.removePhysic = function(entity) {
+	if(typeof(entity) == 'number'){
+		this.physicEntities.splice(entity, 1);
+	}else{
+		this.physicEntities.splice(this.physicEntities.indexOf(entity), 1);
+	}
 };
 
 Scene.prototype.update = function(tpf){
@@ -120,16 +141,16 @@ Scene.prototype.update = function(tpf){
 };
 
 Scene.prototype.checkCollisions = function(){
-	for (var i = this.entities.length - 1; i >= 0; i--) {
-		var e = this.entities[i];
-		for (var j = this.entities.length - 1; j >= 0; j--) {
-			var e2 = this.entities[j];
+	for (var i = this.physicEntities.length - 1; i >= 0; i--) {
+		var e = this.physicEntities[i];
+		for (var j = this.physicEntities.length - 1; j >= 0; j--) {
+			var e2 = this.physicEntities[j];
 			if(i == j || !e || !e2){
 				continue;
 			}
 			this.collide(e, e2);
-		};
-	};
+		}
+	}
 	/*for(var i = this.bullets.length-1 ; i >= 0 ; i--){
 		var bullet = this.bullets[i];
 		for(var j = this.enemies.length-1 ; j >= 0 ; j--){

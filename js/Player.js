@@ -62,7 +62,7 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = ["test", "test2", "test3", "test4", "test5"];
+	this.bonus = [];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -99,6 +99,7 @@ Player.prototype.fire = function(){
 
 Player.prototype.fireBomb = function() {
 	var bomb = new Bomb(this.scene, this.x, this.y);
+	this.activateBonus(bomb);
 	this.scene.addEntity(bomb, "bomb");
 	this.scene.destroyEntityWithDelay(bomb, "bomb", 5.0);
 };
@@ -121,7 +122,7 @@ Player.prototype.render = function(g){
 				g.arc(50, 0, 20, 0, Math.PI * 2);
 				g.fill();
 				g.rotate(Utils.toRad(angle) * -1);
-			};
+			}
 		g.restore();
 	}
 }
@@ -136,6 +137,19 @@ Player.prototype.update = function(tpf){
 		this.fire();
 	}
 	this.propulsionEmitter.position.set(this.x + 1, this.y + 16);
+
+	for (var i = this.bonus.length - 1; i >= 0; i--) {
+		var b = this.bonus[i];
+		//b.update(tpf);
+		if(!b.active){
+			this.bonus.splice(i, 1);
+		}
+	}
+};
+
+Player.prototype.activateBonus = function(b) {
+	b.start();
+	this.bonus.push(b);
 };
 
 Player.prototype.takeDamage = function(amount) {
