@@ -1,5 +1,5 @@
-var Bomb = function(scene, x, y){
-	this.scene = scene;
+var Bomb = function(scene, x, y, duration){
+	Bonus.call(this, scene, duration);
 	this.scale = 0;
 	this.explosionSpeed = 200;
 	this.boundingVolume = new BoundingSphere(this, x, y, 0, this.onCollision);
@@ -8,17 +8,31 @@ var Bomb = function(scene, x, y){
 Bomb.prototype = new Bonus();
 
 Bomb.prototype.onCollision = function(collider) {
-	if(collider.name == "Enemy"){
+	/*if(collider.name == "Enemy"){
 		this.scene.destroyEntityWithDelay(collider, "enemy", 0.1);
-	}
+	}*/
+};
+
+Bomb.prototype.start = function() {
+	Bonus.prototype.start.call(this);
+	this.scale = 0;
+	this.boundingVolume.radius = this.scale;
 };
 
 Bomb.prototype.update = function(tpf) {
+	Bonus.prototype.update.call(this, tpf);
 	this.scale += this.explosionSpeed * tpf;
 	this.boundingVolume.radius = this.scale;
 };
 
+Bomb.prototype.renderIcon = function(g) {
+	Bonus.prototype.renderIcon.call(this, g);
+	g.fillStyle = "rgba(255, 255, 255, 1.0)";
+	g.fillRect(45, -5, 10, 10);
+};
+
 Bomb.prototype.render = function(g) {
+	Bonus.prototype.render.call(this, g);
 	this.boundingVolume.render(g);
 	/*g.save();
 		g.translate(this.x, this.y);

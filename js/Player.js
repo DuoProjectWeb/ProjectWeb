@@ -26,8 +26,15 @@ var Player = function(scene){
 		switch(e.which){
 			case 1:
 			//left
-				self.canMove = true;
-				self.game.time.timeScale = 1;
+				var offset = getGlobalOffset(self.game.canvas);
+				var b = self.getBonusClicked(e.clientX - offset.left - self.x, e.clientY - offset.top - self.y);
+				if(b){
+					console.log("bonus clicked");
+					b.start();
+				}else{
+					self.canMove = true;
+					self.game.time.timeScale = 1;
+				}
 				break;
 			case 2:
 			//middle			
@@ -62,7 +69,7 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = [];
+	this.bonus = [new Bomb(this.scene, 0, 0, 5.0), new Bomb(this.scene, 0, 0, 2.0), new Bomb(this.scene, 0, 0, 1.0)];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -93,7 +100,7 @@ Player.prototype.fire = function(){
 		}
 	});
 	this.scene.addEntity(bullet, "bullet");
-	this.scene.destroyEntityWithDelay(bullet, "bullet", 3);
+	this.scene.destroyEntityWithDelay(bullet, "bullet", 3.0);
 	audioManager.playOneShot("shoot2");
 };
 
@@ -102,6 +109,18 @@ Player.prototype.fireBomb = function() {
 	this.activateBonus(bomb);
 	this.scene.addEntity(bomb, "bomb");
 	this.scene.destroyEntityWithDelay(bomb, "bomb", 5.0);
+};
+
+Player.prototype.getBonusClicked = function(x, y) {
+	var angle = Utils.toRad( 360.0 / this.bonus.length) * -1;
+	for (var i = 0; i < this.bonus.length; i++) {
+		var rotatedPosX = 50 * Math.cos(angle * i) - 0 * Math.sin(angle * i);
+		var rotatedPosY = 50 * Math.sin(angle * i) + 0 * Math.cos(angle * i);
+		if(Utils.distanceSquared(x, y, rotatedPosX, rotatedPosY) <= 20 * 20){
+			return this.bonus[i];
+		}
+	}
+	return false;
 };
 
 Player.prototype.render = function(g){
@@ -117,10 +136,8 @@ Player.prototype.render = function(g){
 		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", 0, 100);		
 			var angle = 360.0 / this.bonus.length;
 			for (var i = 0; i < this.bonus.length; i++) {
-				var bonus = this.bonus[i];
-				g.beginPath();
-				g.arc(50, 0, 20, 0, Math.PI * 2);
-				g.fill();
+				var b = this.bonus[i];				
+				b.renderIcon(g);
 				g.rotate(Utils.toRad(angle) * -1);
 			}
 		g.restore();
@@ -137,18 +154,9 @@ Player.prototype.update = function(tpf){
 		this.fire();
 	}
 	this.propulsionEmitter.position.set(this.x + 1, this.y + 16);
-
-	for (var i = this.bonus.length - 1; i >= 0; i--) {
-		var b = this.bonus[i];
-		//b.update(tpf);
-		if(!b.active){
-			this.bonus.splice(i, 1);
-		}
-	}
 };
 
-Player.prototype.activateBonus = function(b) {
-	b.start();
+Player.prototype.addBonus = function(b) {
 	this.bonus.push(b);
 };
 

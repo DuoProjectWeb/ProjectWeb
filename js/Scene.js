@@ -70,10 +70,7 @@ Scene.prototype.destroyEntity = function(entity, type){
 	}
 	
 	this.entities.splice(this.entities.indexOf(entity), 1);
-	var index = this.physicEntities.indexOf(entity);
-	if(index >= 0){
-		this.physicEntities.splice(index, 1);
-	}
+	this.removePhysic(entity);
 	
 	for(var i = this.delayedDestroy.length -1 ; i >= 0 ; i--){
 		var e = this.delayedDestroy[i];
@@ -104,7 +101,9 @@ Scene.prototype.addPhysic = function(entity) {
 
 Scene.prototype.removePhysic = function(entity) {
 	if(typeof(entity) == 'number'){
-		this.physicEntities.splice(entity, 1);
+		if(entity >= 0){
+			this.physicEntities.splice(entity, 1);
+		}
 	}else{
 		this.physicEntities.splice(this.physicEntities.indexOf(entity), 1);
 	}
