@@ -24,7 +24,27 @@ Enemy.prototype.update = function(tpf){
 };
 
 Enemy.prototype.onCollision = function(collider) {	
-	if(collider.name != "enemy"){		
+	if(collider.name !== "Enemy"){
+		audioManager.playOneShot("explosion");
+		var explosionEmitter = new ParticleEmitter(
+			{
+				"position" : new Vector2(this.x, this.y),
+				"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
+				"nbMaxParticles" : 10,
+				"nbParticlesPerSec" : 0,
+				"minLife" : 0.4,
+				"maxLife" : 0.4,
+				"loop" : false,
+				"size" : new Vector2(0.5, 0.5),
+				"sprite" : new Sprite(assetManager.getImage("flame"), 2, 2, false),
+				"duration" : 1.0,
+				"speed" : 50
+			}
+		);
+		explosionEmitter.influencers.push(new RotationInfluencer(50.0));
+		explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
+		explosionEmitter.emitAllParticles();
+		ParticleEmitterManager.add(explosionEmitter);
 		this.scene.destroyEntity(this, "enemy");
 	}
 };

@@ -29,6 +29,7 @@ var Game = function(){
 	this.toDelete = [];
 
 	audioManager = new AudioManager();
+	audioManager.sfxVolume = 0.5;
 	assetManager = new AssetManager(
 		function(){
 			self.onGameLoaded();

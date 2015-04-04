@@ -37,8 +37,7 @@ var Player = function(scene){
 				}
 				break;
 			case 2:
-			//middle			
-				self.fireBomb();
+			//middle
 				break;
 			case 3:
 			//right
@@ -69,7 +68,7 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = [new Bomb(this.scene, 0, 0, 5.0), new Bomb(this.scene, 0, 0, 2.0), new Bomb(this.scene, 0, 0, 1.0)];
+	this.bonus = [];//new Bomb(this.scene, 0, 0, 5.0), new Bomb(this.scene, 0, 0, 2.0), new Bomb(this.scene, 0, 0, 1.0)];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -93,22 +92,15 @@ Player.prototype = new Character();
 
 Player.prototype.fire = function(){			
 	//console.log("fire");
-	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, this, function(collider){
-		this.scene.destroyEntity(bullet, "bullet");
+	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, this, function(collider){		
 		if(collider.name == "Enemy"){
+			this.scene.destroyEntity(bullet, "bullet");
 			this.score += 25;
 		}
 	});
-	this.scene.addEntity(bullet, "bullet");
 	this.scene.destroyEntityWithDelay(bullet, "bullet", 3.0);
+	this.scene.addEntity(bullet, "bullet");	
 	audioManager.playOneShot("shoot2");
-};
-
-Player.prototype.fireBomb = function() {
-	var bomb = new Bomb(this.scene, this.x, this.y);
-	this.activateBonus(bomb);
-	this.scene.addEntity(bomb, "bomb");
-	this.scene.destroyEntityWithDelay(bomb, "bomb", 5.0);
 };
 
 Player.prototype.getBonusClicked = function(x, y) {

@@ -27,9 +27,9 @@ var Scene = function(game){
 
 	this.addEntity(this.player, "player");
 
-	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
+	this.spawner = new Spawner(this, 0.5, 50, 50, -10, -10);
 
-	audioManager.playMusic("backgroundMusic", true);
+	//audioManager.playMusic("backgroundMusic", true);
 };
 
 var ParticleEmitterManager = new ParticleEmitterManager();
@@ -54,7 +54,7 @@ Scene.prototype.addEntity = function(entity, type){
 		console.log("Can't add an object which is not a DrawableControl");
 	}	
 	if(entity.boundingVolume){
-		this.physicEntities.push(entity);
+		this.addPhysic(entity);
 	}
 };
 
@@ -63,18 +63,20 @@ Scene.prototype.destroyEntity = function(entity, type){
 	switch(type){
 		case "enemy":
 			this.enemies.splice(this.enemies.indexOf(entity), 1);
-		break;	
+			break;	
 		case "bullet":
 			this.bullets.splice(this.bullets.indexOf(entity), 1);
-		break;	
+			break;	
 	}
 	
 	this.entities.splice(this.entities.indexOf(entity), 1);
-	this.removePhysic(entity);
+	if(entity.boundingVolume){
+		this.removePhysic(entity);
+	}
 	
 	for(var i = this.delayedDestroy.length -1 ; i >= 0 ; i--){
 		var e = this.delayedDestroy[i];
-		if (e.entity == entity){
+		if (e.entity === entity){
 			this.delayedDestroy.splice(i, 1);
 			break;
 		}
@@ -100,12 +102,16 @@ Scene.prototype.addPhysic = function(entity) {
 };
 
 Scene.prototype.removePhysic = function(entity) {
-	if(typeof(entity) == 'number'){
-		if(entity >= 0){
-			this.physicEntities.splice(entity, 1);
-		}
+	var index;
+	if(typeof(entity) == "number"){
+		index = entity;
 	}else{
-		this.physicEntities.splice(this.physicEntities.indexOf(entity), 1);
+		index = this.physicEntities.indexOf(entity);
+	}
+	if(index >= 0){
+		this.physicEntities.splice(index, 1);
+	}else{
+		console.log("remove physic error, index = " + index, entity);
 	}
 };
 
@@ -142,12 +148,17 @@ Scene.prototype.update = function(tpf){
 Scene.prototype.checkCollisions = function(){
 	for (var i = this.physicEntities.length - 1; i >= 0; i--) {
 		var e = this.physicEntities[i];
+		if(!e){
+			continue;
+		}
 		for (var j = this.physicEntities.length - 1; j >= 0; j--) {
 			var e2 = this.physicEntities[j];
-			if(i == j || !e || !e2){
+			if(i == j || !e2){
 				continue;
 			}
-			this.collide(e, e2);
+			if(this.collide(e, e2)){
+				break;
+			}
 		}
 	}
 	/*for(var i = this.bullets.length-1 ; i >= 0 ; i--){
@@ -191,15 +202,6 @@ Scene.prototype.checkCollisions = function(){
 		//}
 	//}
 };
-
-/*Scene.prototype.isColliding = function(e1, e2){
-	if(this.distanceSquared(e1.x, e1.y, e2.x, e2.y) <= Math.pow(e1.collisionRadius + e2.collisionRadius, 2)){
-		//collide
-		console.log("collide");
-		return true;
-	}
-	return false;
-};*/
 
 Scene.prototype.collide = function(e1, e2){
 	if(e1.boundingVolume && e1.boundingVolume instanceof BoundingVolume
