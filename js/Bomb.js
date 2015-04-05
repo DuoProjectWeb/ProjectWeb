@@ -1,8 +1,8 @@
-var Bomb = function(scene, x, y, duration){
+var Bomb = function(scene, explosionSpeed, duration){
 	Bonus.call(this, scene, duration);
 	this.scale = 0;
-	this.explosionSpeed = 200;
-	this.boundingVolume = new BoundingSphere(this, x, y, 0, this.onCollision);
+	this.explosionSpeed = explosionSpeed;
+	this.boundingVolume = new BoundingSphere(this, 0, 0, 0, this.onCollision);
 };
 
 Bomb.prototype = new Bonus();
@@ -17,6 +17,7 @@ Bomb.prototype.start = function() {
 	Bonus.prototype.start.call(this);
 	this.scale = 0;
 	this.boundingVolume.radius = this.scale;
+	this.boundingVolume.setPosition(this.scene.player.x, this.scene.player.y);
 };
 
 Bomb.prototype.update = function(tpf) {

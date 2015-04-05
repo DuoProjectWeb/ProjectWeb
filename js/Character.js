@@ -62,9 +62,9 @@ Character.prototype.playNextSprite = function(){
 }
 
 Character.prototype.render = function(g){
-	if(this.boundingVolume){
+	/*if(this.boundingVolume){
 		this.boundingVolume.render(g);
-	}
+	}*/
 	if(this.currentSprite){
 		g.save();
 			g.translate(this.x, this.y);

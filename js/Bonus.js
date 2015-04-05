@@ -1,18 +1,8 @@
 var Bonus = function(scene, duration, interval){
 	this.scene = scene;
-	this.duration = duration || 1.0;
+	this.duration = duration;
 	this.interval = interval || 0.0;
 	this.currentTime = 0.0;
-
-    /*SpeedBonus: function (entity) {
-
-    },
-
-    FireRate: function (entity) {
-
-    }*/
-
-	//this.addEventListener("mousedown", this.start);
 };
 
 Bonus.prototype = new DrawableControl();
@@ -35,9 +25,11 @@ Bonus.prototype.update = function(tpf) {
 };
 
 Bonus.prototype.checkEnd = function() {
-	if(this.currentTime >= this.duration){
-		this.end();
-	}
+	if(this.duration){
+		if(this.currentTime >= this.duration){
+			this.end();
+		}
+	}	
 };
 
 Bonus.prototype.onTick = function() {

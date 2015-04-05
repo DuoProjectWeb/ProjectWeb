@@ -27,7 +27,7 @@ var Scene = function(game){
 
 	this.addEntity(this.player, "player");
 
-	this.spawner = new Spawner(this, 0.5, 50, 50, -10, -10);
+	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
 
 	//audioManager.playMusic("backgroundMusic", true);
 };

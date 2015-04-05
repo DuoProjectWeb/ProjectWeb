@@ -1,13 +1,13 @@
 var MoveBehaviour = {
-    None : function(enemy){
-        
+    None : function(enemy, tpf){
+        enemy.moveTo(enemy.x, enemy.y + Scene.BACKGROUND_SPEED * tpf);
     },
-    Straight: function (enemy)
+    Straight: function (enemy, tpf)
     {
-        enemy.moveTo(enemy.x, enemy.y +10);
+        enemy.moveTo(enemy.x, enemy.y + 10);
     },
 
-    Follow: function (enemy)
+    Follow: function (enemy, tpf)
     {
         if (enemy.target)
         {

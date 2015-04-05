@@ -1,7 +1,7 @@
-var Bullet = function(x, y, owner, collisionCallback){
+var Bullet = function(x, y, speed, owner, collisionCallback){
 	
 	var self = this;
-	this.speed = 200;
+	this.speed = speed || 200;
 	this.sprite = new Sprite(assetManager.getImage("bullet"), 1, 1, false);
 	this.x = x;
 	this.y = y;

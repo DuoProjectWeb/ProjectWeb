@@ -20,7 +20,7 @@ Enemy.prototype = new Character();
 
 Enemy.prototype.update = function(tpf){
 	Character.prototype.update.call(this, tpf);
-	this.moveBehaviour(this);
+	this.moveBehaviour(this, tpf);
 };
 
 Enemy.prototype.onCollision = function(collider) {	
@@ -30,9 +30,9 @@ Enemy.prototype.onCollision = function(collider) {
 			{
 				"position" : new Vector2(this.x, this.y),
 				"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
-				"nbMaxParticles" : 10,
+				"nbMaxParticles" : 4,
 				"nbParticlesPerSec" : 0,
-				"minLife" : 0.4,
+				"minLife" : 0.2,
 				"maxLife" : 0.4,
 				"loop" : false,
 				"size" : new Vector2(0.5, 0.5),
@@ -42,7 +42,8 @@ Enemy.prototype.onCollision = function(collider) {
 			}
 		);
 		explosionEmitter.influencers.push(new RotationInfluencer(50.0));
-		explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
+		explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.EachTime(0.1)));
+		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(1, 1), new Vector2(0.3, 0.3)));
 		explosionEmitter.emitAllParticles();
 		ParticleEmitterManager.add(explosionEmitter);
 		this.scene.destroyEntity(this, "enemy");

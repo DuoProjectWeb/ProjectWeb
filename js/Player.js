@@ -13,7 +13,7 @@ var Player = function(scene){
 	this.canMove = false;
 	this.speed = 600;
 	this.scale = 0.15;
-	this.bulletInterval = 0.15;
+	this.bulletInterval = 1.0/4.0;
 	this.bulletTimer = -1.0;
 
 	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
@@ -68,7 +68,7 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = [];//new Bomb(this.scene, 0, 0, 5.0), new Bomb(this.scene, 0, 0, 2.0), new Bomb(this.scene, 0, 0, 1.0)];
+	this.bonus = [new Bomb(this.scene, 250, 3.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 20, 100, 6.0)];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -92,7 +92,7 @@ Player.prototype = new Character();
 
 Player.prototype.fire = function(){			
 	//console.log("fire");
-	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, this, function(collider){		
+	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, 300, this, function(collider){		
 		if(collider.name == "Enemy"){
 			this.scene.destroyEntity(bullet, "bullet");
 			this.score += 25;
@@ -100,7 +100,7 @@ Player.prototype.fire = function(){
 	});
 	this.scene.destroyEntityWithDelay(bullet, "bullet", 3.0);
 	this.scene.addEntity(bullet, "bullet");	
-	audioManager.playOneShot("shoot2");
+	audioManager.playOneShot("shoot");
 };
 
 Player.prototype.getBonusClicked = function(x, y) {
@@ -115,27 +115,6 @@ Player.prototype.getBonusClicked = function(x, y) {
 	return false;
 };
 
-Player.prototype.render = function(g){
-	Character.prototype.render.call(this, g);
-	g.fillStyle = "rgb(255, 255, 255)";
-	g.textAlign = "center";
-	g.fillText(this.score, g.width * 0.5, 50);
-
-	if(!this.canMove){
-		g.save();
-		g.translate(this.x, this.y);
-		g.fillStyle = "rgb(0, 200, 255)";
-		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", 0, 100);		
-			var angle = 360.0 / this.bonus.length;
-			for (var i = 0; i < this.bonus.length; i++) {
-				var b = this.bonus[i];				
-				b.renderIcon(g);
-				g.rotate(Utils.toRad(angle) * -1);
-			}
-		g.restore();
-	}
-}
-
 Player.prototype.update = function(tpf){
 	Character.prototype.update.call(this, tpf);
 	
@@ -146,6 +125,32 @@ Player.prototype.update = function(tpf){
 		this.fire();
 	}
 	this.propulsionEmitter.position.set(this.x + 1, this.y + 16);
+};
+
+Player.prototype.render = function(g){
+	Character.prototype.render.call(this, g);
+	g.fillStyle = "rgb(255, 255, 255)";
+	g.textAlign = "center";
+	g.fillText(this.score, g.width * 0.5, 50);
+
+	if(!this.canMove){
+		g.save();
+		g.translate(this.x, this.y);
+		g.fillStyle = "rgb(255, 0, 0)";
+		g.font = "11px Arial";
+		g.fillText(Math.floor(this.health / this.maxHealth * 100) + "%", 0, -16);		
+			var angle = 360.0 / this.bonus.length;
+			for (var i = 0; i < this.bonus.length; i++) {
+				var b = this.bonus[i];				
+				b.renderIcon(g);
+				g.rotate(Utils.toRad(angle) * -1);
+			}
+		g.restore();
+	}
+}
+
+Player.prototype.incFireRate = function(value) {
+	this.bulletInterval = Utils.clamp(this.bulletInterval - value, 0.1, Number.POSITIVE_INFINITY);
 };
 
 Player.prototype.addBonus = function(b) {
