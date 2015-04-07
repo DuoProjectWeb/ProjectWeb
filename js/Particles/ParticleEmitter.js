@@ -135,6 +135,7 @@ ParticleEmitter.prototype.update = function(tpf){
 ParticleEmitter.prototype.render = function(g){
 	g.save();
 		g.translate(this.position.x, this.position.y);
+		g.globalCompositeOperation = "lighter";
 		for(var i = 0 ;  i < this.particles.length;i++){
 			var p = this.particles[i];
 			if(p.active){

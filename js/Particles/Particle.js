@@ -43,6 +43,7 @@ Particle.prototype.render = function(g) {
 		if(this.sprite){
 			g.translate(-0.5 * this.sprite.spriteWidth, -0.5 * this.sprite.spriteHeight);
 			this.sprite.render(g);
+			//g.fillRect(0, 0, this.sprite.spriteWidth, this.sprite.spriteHeight);
 		}else{
 			g.fillRect(-0.5, -0.5, 1, 1);
 		}	
