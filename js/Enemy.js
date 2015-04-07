@@ -43,7 +43,7 @@ Enemy.prototype.onCollision = function(collider) {
 		);
 		explosionEmitter.influencers.push(new RotationInfluencer(50.0));
 		explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.EachTime(0.1)));
-		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(1, 1), new Vector2(0.3, 0.3)));
+		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(0.8, 0.8), new Vector2(0.2, 0.2)));
 		explosionEmitter.emitAllParticles();
 		ParticleEmitterManager.add(explosionEmitter);
 		this.scene.destroyEntity(this, "enemy");

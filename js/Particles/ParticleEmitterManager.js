@@ -1,4 +1,6 @@
 var ParticleEmitterManager = function(){
+	/*this.parentElement = document.getElementById("Canvas");
+	this.canvas = [];*/
 	this.emitters = [];
 };
 
@@ -7,10 +9,24 @@ ParticleEmitterManager.prototype = new DrawableControl();
 ParticleEmitterManager.prototype.add = function(emitter) {
 	this.emitters.push(emitter);
 	emitter.currentTime = 0.0;
+	/*var c = document.createElement("Canvas");
+	this.parentElement.appendChild(c);
+	this.canvas.push({
+		"emitter" : emitter,
+		"canvas" : c
+	});*/
 };
 
 ParticleEmitterManager.prototype.remove = function(emitter) {
 	this.emitters.splice(this.emitters.indexOf(emitter), 1);
+	/*for (var i = this.canvas.length; i >= 0 ; i--) {
+		var c = this.canvas[i];
+		if(c.emitter === emitter){
+			this.canvas.splice(i, 1);
+			this.parentElement.removeChild(c.canvas);
+			break;
+		}
+	};*/
 };
 
 ParticleEmitterManager.prototype.update = function(tpf) {

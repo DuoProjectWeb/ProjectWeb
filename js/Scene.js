@@ -32,9 +32,9 @@ var Scene = function(game){
 	//audioManager.playMusic("backgroundMusic", true);
 };
 
-var ParticleEmitterManager = new ParticleEmitterManager();
-
 Scene.prototype = new DrawableControl();
+
+var ParticleEmitterManager = new ParticleEmitterManager();
 
 Scene.CAMERA_SPEED = 0.008;
 Scene.BACKGROUND_SPEED = 100;
