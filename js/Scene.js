@@ -23,6 +23,9 @@ var Scene = function(game){
 	this.enemies = [];
 	this.bullets = [];
 	this.delayedDestroy = [];
+
+	this.drawables = [];
+	this.controls = [];
 	this.physicEntities = [];
 
 	this.addEntity(this.player, "player");
@@ -40,6 +43,9 @@ Scene.CAMERA_SPEED = 0.008;
 Scene.BACKGROUND_SPEED = 100;
 
 Scene.prototype.addEntity = function(entity, type){
+	if(typeof(entity.update) == 'function'){
+
+	}
 	if(entity instanceof DrawableControl){
 		this.entities.push(entity);
 		switch(type){

@@ -3,6 +3,8 @@ var BoundingVolume = function(owner, x, y, callback){
 	this.x = x;
 	this.y = y;
 	this.callback = callback;
+	this.layer = 0;
+	this.ignoredLayers = [];
 };
 
 BoundingVolume.prototype = new Drawable();
@@ -12,10 +14,25 @@ BoundingVolume.prototype.setPosition = function(x, y){
 	this.y = y;
 };
 
+BoundingVolume.prototype.addIgnoredLayer = function(id) {
+	this.ignoredLayers.push(id);
+};
+
+BoundingVolume.prototype.removeIgnoredLayer = function(id) {
+	this.ignoredLayers.splice(this.ignoredLayers.indexOf(id), 1);
+};
+
+BoundingVolume.prototype.clearIgnoredLayers = function() {
+	this.ignoredLayers.clear();
+};
+
 BoundingVolume.prototype.render = function(g){
 };
 
 BoundingVolume.prototype.intersects = function(boundingVolume){
+	if(this.ignoredLayers.includes(boundingVolume.layer) || boundingVolume.ignoredLayers.includes(this.layer)){
+		return false;
+	}
 	if(boundingVolume instanceof BoundingBox){
 		if(this.intersectsWithBoundingBox(boundingVolume)){
 			this.onCollision(boundingVolume.owner);
