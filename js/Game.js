@@ -35,8 +35,8 @@ var Game = function(){
 			"bullet" : "img/bullet.png",
 			"sceneBackground" : "img/sceneBackground.jpg",
 			"player" : "img/player.png",
-			"playerExplosion" : "img/Debris.png",
-			"flame" : "img/flame.png"
+			"playerExplosion" : "img/Debris2.png",
+			"flame" : "img/flame2.png"
 		},
 		{
 			"backgroundMusic" : "sounds/backgroundMusic.wav",
@@ -106,8 +106,8 @@ Game.prototype.update = function(tpf){
 Game.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
 	for (var i = 0; i < Layers.canvases.length; i++) {
-		var c = Layers.canvases[i];
-		var g2d = c.getContext('2d');
+		var c = Layers.canvases[i].canvas;
+		var g2d = c.getContext("2d");
 		g2d.clearRect(0, 0, g.width, g.height);
 	};
 

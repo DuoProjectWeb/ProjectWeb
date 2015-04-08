@@ -3,6 +3,8 @@ var Bomb = function(scene, explosionSpeed, duration){
 	this.scale = 0;
 	this.explosionSpeed = explosionSpeed;
 	this.boundingVolume = new BoundingSphere(this, 0, 0, 0, this.onCollision);
+	this.boundingVolume.addIgnoredLayer(Physics.Layer_Bullet);
+	this.boundingVolume.addIgnoredLayer(Physics.Layer_Player);
 };
 
 Bomb.prototype = new Bonus();

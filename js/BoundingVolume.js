@@ -14,6 +14,12 @@ BoundingVolume.prototype.setPosition = function(x, y){
 	this.y = y;
 };
 
+BoundingVolume.prototype.setLayer = function(layer) {
+	if(typeof(layer) === 'number'){
+		this.layer = layer;
+	}
+};
+
 BoundingVolume.prototype.addIgnoredLayer = function(id) {
 	this.ignoredLayers.push(id);
 };
