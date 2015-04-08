@@ -19,16 +19,13 @@ var Scene = function(game){
 	this.targetX = this.playerStartOffset_X;
 	this.targetY = this.playerStartOffset_Y;
 	
-	this.entities = [];	
-	this.enemies = [];
-	this.bullets = [];
 	this.delayedDestroy = [];
 
 	this.drawables = [];
 	this.controls = [];
 	this.physicEntities = [];
 
-	this.addEntity(this.player, "player");
+	this.add(this.player);
 
 	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
 
@@ -42,44 +39,31 @@ var ParticleEmitterManager = new ParticleEmitterManager();
 Scene.CAMERA_SPEED = 0.008;
 Scene.BACKGROUND_SPEED = 100;
 
-Scene.prototype.addEntity = function(entity, type){
-	if(typeof(entity.update) == 'function'){
-
+Scene.prototype.add = function(entity){
+	if(typeof(entity.update) === 'function'){
+		this.controls.push(entity);
 	}
-	if(entity instanceof DrawableControl){
-		this.entities.push(entity);
-		switch(type){
-			case "enemy":
-				this.enemies.push(entity);
-			break;
-			case "bullet":
-				this.bullets.push(entity);
-			break;			
-		}
-	}else{
-		console.log("Can't add an object which is not a DrawableControl");
+	if(typeof(entity.render) === 'function'){
+		this.drawables.push(entity);
 	}	
 	if(entity.boundingVolume){
 		this.addPhysic(entity);
 	}
 };
 
-Scene.prototype.destroyEntity = function(entity, type){
-	//console.log("destroy entity : " + entity.name);
-	switch(type){
-		case "enemy":
-			this.enemies.splice(this.enemies.indexOf(entity), 1);
-			break;	
-		case "bullet":
-			this.bullets.splice(this.bullets.indexOf(entity), 1);
-			break;	
+Scene.prototype.destroy = function(entity){
+	var index = -1;
+	index = this.controls.indexOf(entity);
+	if(index >= 0){
+		this.controls.splice(index, 1);
 	}
-	
-	this.entities.splice(this.entities.indexOf(entity), 1);
+	index = this.drawables.indexOf(entity);
+	if(index >= 0){
+		this.drawables.splice(index, 1);
+	}
 	if(entity.boundingVolume){
 		this.removePhysic(entity);
-	}
-	
+	}	
 	for(var i = this.delayedDestroy.length -1 ; i >= 0 ; i--){
 		var e = this.delayedDestroy[i];
 		if (e.entity === entity){
@@ -90,17 +74,14 @@ Scene.prototype.destroyEntity = function(entity, type){
 	delete entity;
 };
 
-Scene.prototype.destroyEntityWithDelay = function(entity, type, delay){
-	//console.log("requested delay = " + d + " seconds");
+Scene.prototype.destroyWithDelay = function(entity, delay){
 	if(entity instanceof DrawableControl){
 		this.delayedDestroy.push({
 			"time" : this.game.time.localTime,
 			"entity" : entity,
-			"type" : type,
 			"delay" : delay
 		});
 	}
-	//console.log("entity registered to destroy");	
 };
 
 Scene.prototype.addPhysic = function(entity) {
@@ -133,15 +114,13 @@ Scene.prototype.update = function(tpf){
 	var time = this.game.time.localTime;
 	for(var i = this.delayedDestroy.length-1; i>=0;i--){
 		var e = this.delayedDestroy[i];
-		//console.log("now = " + time + ", >= registered time = " + e.time + ", + delay = " + e.delay);
-		//console.log("passedTime = " + (time - e.time));
 		if(time >= e.time + e.delay){
-			this.destroyEntity(e.entity, e.type);
+			this.destroy(e.entity);
 		}
 	}
 
-	for(var i = 0; i<this.entities.length;i++){
-		var e = this.entities[i];
+	for(var i = 0; i<this.controls.length;i++){
+		var e = this.controls[i];
 		e.update(tpf);
 	}
 	
@@ -228,9 +207,10 @@ Scene.prototype.render = function(g){
 	g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
 	g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
 
-		for(var i = 0; i<this.entities.length;i++){
-			var e = this.entities[i];			
-			e.render(g);
+		for(var i = 0; i<this.drawables.length;i++){
+			var e = this.drawables[i];
+			var graph = Layers.getGraphics(e.renderingLayer); 
+			e.render(graph);
 		}
 		
 	g.restore();

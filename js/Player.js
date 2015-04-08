@@ -68,7 +68,7 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = [new Bomb(this.scene, 250, 3.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 20, 100, 6.0)];
+	this.bonus = [new Bomb(this.scene, 250, 3.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 25, 100, 6.0)];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
@@ -94,12 +94,12 @@ Player.prototype.fire = function(){
 	//console.log("fire");
 	var bullet = new Bullet(this.x, this.y - this.currentSprite.spriteHeight * 0.8 * this.scale, 300, this, function(collider){		
 		if(collider.name == "Enemy"){
-			this.scene.destroyEntity(bullet, "bullet");
+			this.scene.destroy(bullet);
 			this.score += 25;
 		}
 	});
-	this.scene.destroyEntityWithDelay(bullet, "bullet", 3.0);
-	this.scene.addEntity(bullet, "bullet");	
+	this.scene.destroyWithDelay(bullet, 3.0);
+	this.scene.add(bullet);	
 	audioManager.playOneShot("shoot");
 };
 
@@ -135,6 +135,8 @@ Player.prototype.render = function(g){
 
 	if(!this.canMove){
 		g.save();
+		g.fillStyle = "rgba(0, 0, 0, 0.5)";
+		g.fillRect(0, 0, g.width, g.height);
 		g.translate(this.x, this.y);
 		g.fillStyle = "rgb(255, 0, 0)";
 		g.font = "11px Arial";

@@ -1,5 +1,6 @@
 var Shield = function(scene, size, value, duration){
 	Bonus.call(this, scene, duration);
+	this.size = size;
 	this.value = value;
 	this.boundingVolume = new BoundingSphere(this, 0, 0, size, this.onCollision);
 };
@@ -43,7 +44,7 @@ Shield.prototype.render = function(g) {
 		g.fillStyle = "rgba(255, 255, 0, 0.3)";
 		g.strokeStyle = "rgb(255, 255, 0)";
 		g.beginPath();
-		g.arc(0, 0, 30, 0, Math.PI * 2);
+		g.arc(0, 0, this.size, 0, Math.PI * 2);
 		g.fill();	
 		g.stroke();		
 	g.restore();

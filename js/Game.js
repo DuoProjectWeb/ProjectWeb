@@ -1,15 +1,9 @@
 var Game = function(){
 	var self = this;
-	this.canvas = document.createElement("Canvas");
-	document.getElementById("Canvas").appendChild(this.canvas);
+	this.canvas = Layers.initialize(document.getElementById("Canvases"));
 	this.graphics = this.canvas.getContext("2d");
-	this.canvas.width = Game.WIDTH;
-	this.canvas.height = Game.HEIGHT;
 
-	var g = this.graphics;
 	this.loadingRotatorProgress = 0;
-	/*g.fillStyle = "red";
-	g.fillRect(0, 0, this.canvas.width, this.canvas.height);*/
 
 	this.fps = 0;
 	this.frameCount = 0;
@@ -61,6 +55,8 @@ var Game = function(){
 
 Game.prototype = new DrawableControl();
 
+var Layers = new Layers();
+
 Game.WIDTH = 400;
 Game.HEIGHT = 600;
 Game.EPSILON = 1;
@@ -109,10 +105,13 @@ Game.prototype.update = function(tpf){
 
 Game.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
+	for (var i = 0; i < Layers.canvases.length; i++) {
+		var c = Layers.canvases[i];
+		var g2d = c.getContext('2d');
+		g2d.clearRect(0, 0, g.width, g.height);
+	};
+
 	g.clearRect(0, 0, g.width, g.height);
-	g.fillStyle = "rgb(255, 0, 0)";
-	
-	g.fillRect(0, 0, g.width, g.height);
 
 	if(this.scene){
 		g.fillStyle = "rgb(255, 255, 255)";

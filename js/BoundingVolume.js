@@ -30,7 +30,7 @@ BoundingVolume.prototype.render = function(g){
 };
 
 BoundingVolume.prototype.intersects = function(boundingVolume){
-	if(this.ignoredLayers.includes(boundingVolume.layer) || boundingVolume.ignoredLayers.includes(this.layer)){
+	if(this.ignoredLayers.indexOf(boundingVolume.layer) >= 0 || boundingVolume.ignoredLayers.indexOf(this.layer) >= 0){
 		return false;
 	}
 	if(boundingVolume instanceof BoundingBox){

@@ -1,6 +1,6 @@
 var Drawable = function(){
 	this.name = "Unknown";
-	this.layer = 0;
+	this.renderingLayer = 0;
 };
 
 Drawable.prototype.render = function(g){

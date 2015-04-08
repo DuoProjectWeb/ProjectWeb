@@ -1,6 +1,5 @@
 var ParticleEmitterManager = function(){
-	/*this.parentElement = document.getElementById("Canvas");
-	this.canvas = [];*/
+	this.canvasStack = [];
 	this.emitters = [];
 };
 
@@ -9,24 +8,26 @@ ParticleEmitterManager.prototype = new DrawableControl();
 ParticleEmitterManager.prototype.add = function(emitter) {
 	this.emitters.push(emitter);
 	emitter.currentTime = 0.0;
-	/*var c = document.createElement("Canvas");
-	this.parentElement.appendChild(c);
-	this.canvas.push({
+	var layer = Layers.createLayer();
+	this.canvasStack.push({
 		"emitter" : emitter,
-		"canvas" : c
-	});*/
+		"layer" : layer
+	});
 };
 
 ParticleEmitterManager.prototype.remove = function(emitter) {
-	this.emitters.splice(this.emitters.indexOf(emitter), 1);
-	/*for (var i = this.canvas.length; i >= 0 ; i--) {
-		var c = this.canvas[i];
-		if(c.emitter === emitter){
-			this.canvas.splice(i, 1);
-			this.parentElement.removeChild(c.canvas);
+	var index = this.emitters.indexOf(emitter);
+	if(index >= 0){		
+		this.emitters.splice(index, 1);
+	}
+	for (var i = this.canvasStack.length - 1; i >= 0 ; i--) {
+		var layer = this.canvasStack[i];
+		if(layer.emitter === emitter){
+			this.canvasStack.splice(i, 1);
+			Layers.destroyLayer(layer.layer);
 			break;
 		}
-	};*/
+	};
 };
 
 ParticleEmitterManager.prototype.update = function(tpf) {
@@ -35,15 +36,12 @@ ParticleEmitterManager.prototype.update = function(tpf) {
 		emitter.update(tpf);
 		emitter.currentTime += tpf;
 		if(emitter.currentTime >= emitter.duration){
-			//console.log("emitter end");
 			if(emitter.loop){
-				//console.log("restart emitter");
 				emitter.currentTime = 0.0;
 				if(emitter.nbParticlesPerSec <= 0.0){
 					emitter.emitAllParticles(true);
 				}
 			}else{
-				//console.log("kill emitter");
 				this.remove(emitter);
 			}
 		}
@@ -51,8 +49,8 @@ ParticleEmitterManager.prototype.update = function(tpf) {
 };
 
 ParticleEmitterManager.prototype.render = function(g) {
-	for(var i = 0;i<this.emitters.length;i++){
-		var emitter = this.emitters[i];
-		emitter.render(g);
+	for(var i = 0;i<this.canvasStack.length;i++){
+		var layer = this.canvasStack[i];
+		layer.emitter.render(g);//layer.layer.getContext("2d"));
 	}
 };

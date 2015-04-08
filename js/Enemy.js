@@ -46,6 +46,6 @@ Enemy.prototype.onCollision = function(collider) {
 		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(0.8, 0.8), new Vector2(0.2, 0.2)));
 		explosionEmitter.emitAllParticles();
 		ParticleEmitterManager.add(explosionEmitter);
-		this.scene.destroyEntity(this, "enemy");
+		this.scene.destroy(this);
 	}
 };

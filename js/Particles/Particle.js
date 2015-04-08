@@ -17,7 +17,6 @@ var Particle = function(sprite){
 Particle.prototype = new DrawableControl();
 
 Particle.prototype.activate = function(lifeTime){
-	//console.log("activate particle");
 	this.active = true;
 	this.lifeTime = lifeTime;
 	this.currentLife = this.lifeTime;
@@ -34,7 +33,6 @@ Particle.prototype.update = function(tpf) {
 };
 
 Particle.prototype.render = function(g) {
-	//console.log("particle render");
 	g.fillStyle = this.color.toString();
 	g.save();		
 		g.translate(this.position.x, this.position.y);

@@ -10,7 +10,7 @@ Bonus.prototype = new DrawableControl();
 Bonus.prototype.start = function() {
 	this.active = true;
 	this.currentTime = 0.0;
-	this.scene.addEntity(this);
+	this.scene.add(this);
 };
 
 Bonus.prototype.update = function(tpf) {
@@ -49,5 +49,5 @@ Bonus.prototype.renderIcon = function(g) {
 
 Bonus.prototype.end = function() {
 	this.active = false;
-	this.scene.destroyEntity(this);
+	this.scene.destroy(this);
 };
