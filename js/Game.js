@@ -18,8 +18,6 @@ var Game = function(){
 	};
 	this.time.timeScale = 0.1;
 
-	this.graphics.width = this.canvas.width;
-	this.graphics.height = this.canvas.height;
 
 	this.toDelete = [];
 
@@ -46,6 +44,8 @@ var Game = function(){
 			"death": "sounds/death.wav"
 		}
 	);
+
+	this.onResize();
 		
 	requestAnimationFrame(function loop(){
 		self.mainLoop();
@@ -113,45 +113,57 @@ Game.prototype.render = function(g){
 
 	g.clearRect(0, 0, g.width, g.height);
 
-	if(this.scene){
-		g.fillStyle = "rgb(255, 255, 255)";
-		g.font = "30px Arial";
-		g.fillText("FPS : " + this.fps, 0, g.height - 5);
-		
-		this.scene.render(g);
-		this.frameCount ++;
-	}else{
-		//chargement
-		g.fillStyle = "rgb(255, 255, 255)";
-		g.textAlign = "center";
-		g.fillText("Loading ... " + Math.round(assetManager.getProgress() * 100) + "%", Game.WIDTH * 0.5, Game.HEIGHT * 0.5);
-		g.fillStyle ="rgb(255, 255, 255)";
-		g.fillRect(Game.WIDTH * 0.5 - 100, Game.HEIGHT * 0.5 + 20, 200, 20);
-		g.fillStyle ="rgb(255, 0, 0)";
-		g.fillRect((Game.WIDTH * 0.5 - 99), Game.HEIGHT * 0.5 + 21, 198 * assetManager.getProgress(), 18);	
+	g.save();
+		g.scale(this.scale, this.scale);
+		if(this.scene){
+			g.fillStyle = "rgb(255, 255, 255)";
+			g.font = "30px Arial";
+			g.fillText("FPS : " + this.fps, 0, g.height - 5);
+			
+			this.scene.render(g);
+			this.frameCount ++;
+		}else{
+			//chargement
+			g.fillStyle = "rgb(255, 255, 255)";
+			g.textAlign = "center";
+			g.fillText("Loading ... " + Math.round(assetManager.getProgress() * 100) + "%", Game.WIDTH * 0.5, Game.HEIGHT * 0.5);
+			g.fillStyle ="rgb(255, 255, 255)";
+			g.fillRect(Game.WIDTH * 0.5 - 100, Game.HEIGHT * 0.5 + 20, 200, 20);
+			g.fillStyle ="rgb(255, 0, 0)";
+			g.fillRect((Game.WIDTH * 0.5 - 99), Game.HEIGHT * 0.5 + 21, 198 * assetManager.getProgress(), 18);	
 
-		this.loadingRotatorProgress += 1;
-		if(this.loadingRotatorProgress>360.0){
-			this.loadingRotatorProgress = 0.0;
-		}
-		g.fillStyle = "rgba(255, 255, 255, 0.3";
-		g.strokeStyle = "rgb(255, 255, 255)";
-		g.beginPath();
-		g.arc(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60, 30, 0, Math.PI * 2);
-		//g.fill();	
-		g.stroke();
-		g.save();
-			g.translate(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60);
-			g.rotate(Utils.toRad(this.loadingRotatorProgress*5.0));
+			this.loadingRotatorProgress += 1;
+			if(this.loadingRotatorProgress>360.0){
+				this.loadingRotatorProgress = 0.0;
+			}
+			g.fillStyle = "rgba(255, 255, 255, 0.3";
+			g.strokeStyle = "rgb(255, 255, 255)";
 			g.beginPath();
-			g.lineTo(0, 0);
-			g.arc(0, 0, 30, 0, Math.PI * 0.3);
-			g.fill();
-		g.restore();
-	}
+			g.arc(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60, 30, 0, Math.PI * 2);
+			//g.fill();	
+			g.stroke();
+			g.save();
+				g.translate(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60);
+				g.rotate(Utils.toRad(this.loadingRotatorProgress*5.0));
+				g.beginPath();
+				g.lineTo(0, 0);
+				g.arc(0, 0, 30, 0, Math.PI * 0.3);
+				g.fill();
+			g.restore();
+		}
+	g.restore();
 };	
 
 Game.prototype.onGameLoaded = function() {
 	console.log("game loaded");
 	this.scene = new Scene(this);
+};
+
+Game.prototype.onResize = function() {
+	console.log("game loaded");
+	this.canvas.width = document.body.clientWidth;
+	this.canvas.height = document.body.clientHeight;
+	this.graphics.width = this.canvas.width;
+	this.graphics.height = this.canvas.height;
+	this.scale = this.canvas.height / Game.HEIGHT;
 };
