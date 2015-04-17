@@ -146,46 +146,6 @@ Scene.prototype.checkCollisions = function(){
 			}
 		}
 	}
-	/*for(var i = this.bullets.length-1 ; i >= 0 ; i--){
-		var bullet = this.bullets[i];
-		for(var j = this.enemies.length-1 ; j >= 0 ; j--){
-			var e = this.enemies[j];
-			if(this.collide(bullet, e)){	
-				this.destroyEntity(bullet, "bullet");
-				this.destroyEntity(e, "enemy");	
-				audioManager.playOneShot("explosion");
-				var explosionEmitter = new ParticleEmitter(
-					{
-						"position" : new Vector2(e.x, e.y),
-						"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
-						"nbMaxParticles" : 10,
-						"nbParticlesPerSec" : 0,
-						"minLife" : 0.4,
-						"maxLife" : 0.4,
-						"loop" : false,
-						"size" : new Vector2(0.5, 0.5),
-						"sprite" : new Sprite(assetManager.getImage("flame"), 2, 2, false),
-						"duration" : 1.0,
-						"speed" : 50
-					}
-				);
-				explosionEmitter.influencers.push(new RotationInfluencer(50.0));
-				explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.AtCreation()));
-				explosionEmitter.emitAllParticles();
-				ParticleEmitterManager.add(explosionEmitter);
-				
-				break;
-			}
-		}
-	}
-	for(var i = this.enemies.length - 1; i >= 0 ; i--){
-	var e = this.enemies[i];
-		if(this.collide(e, this.player)){
-			this.destroyEntity(e, "enemy");
-			/*this.destroyEntity(this.player, "player");
-			break;*/
-		//}
-	//}
 };
 
 Scene.prototype.collide = function(e1, e2){
@@ -204,8 +164,8 @@ Scene.prototype.render = function(g){
 		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
 		//g.drawImage(this.background, 0, 0, g.width, g.height);
 
-	g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
-	g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
+		g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
+		g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
 
 		for(var i = 0; i<this.drawables.length;i++){
 			var e = this.drawables[i];

@@ -46,6 +46,10 @@ var Game = function(){
 	);
 
 	this.onResize();
+
+	window.addEventListener("resize", function(){
+		self.onResize();
+	});
 		
 	requestAnimationFrame(function loop(){
 		self.mainLoop();
@@ -126,11 +130,11 @@ Game.prototype.render = function(g){
 			//chargement
 			g.fillStyle = "rgb(255, 255, 255)";
 			g.textAlign = "center";
-			g.fillText("Loading ... " + Math.round(assetManager.getProgress() * 100) + "%", Game.WIDTH * 0.5, Game.HEIGHT * 0.5);
+			g.fillText("Loading ... " + Math.round(assetManager.getProgress() * 100) + "%", g.width * 0.5, g.height * 0.5);
 			g.fillStyle ="rgb(255, 255, 255)";
-			g.fillRect(Game.WIDTH * 0.5 - 100, Game.HEIGHT * 0.5 + 20, 200, 20);
+			g.fillRect(g.width * 0.5 - 100, g.height * 0.5 + 20, 200, 20);
 			g.fillStyle ="rgb(255, 0, 0)";
-			g.fillRect((Game.WIDTH * 0.5 - 99), Game.HEIGHT * 0.5 + 21, 198 * assetManager.getProgress(), 18);	
+			g.fillRect((g.width * 0.5 - 99), g.height * 0.5 + 21, 198 * assetManager.getProgress(), 18);	
 
 			this.loadingRotatorProgress += 1;
 			if(this.loadingRotatorProgress>360.0){
@@ -139,11 +143,11 @@ Game.prototype.render = function(g){
 			g.fillStyle = "rgba(255, 255, 255, 0.3";
 			g.strokeStyle = "rgb(255, 255, 255)";
 			g.beginPath();
-			g.arc(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60, 30, 0, Math.PI * 2);
+			g.arc(g.width * 0.5, g.height * 0.5 - 60, 30, 0, Math.PI * 2);
 			//g.fill();	
 			g.stroke();
 			g.save();
-				g.translate(Game.WIDTH * 0.5, Game.HEIGHT * 0.5 - 60);
+				g.translate(g.width * 0.5, g.height * 0.5 - 60);
 				g.rotate(Utils.toRad(this.loadingRotatorProgress*5.0));
 				g.beginPath();
 				g.lineTo(0, 0);
@@ -160,7 +164,7 @@ Game.prototype.onGameLoaded = function() {
 };
 
 Game.prototype.onResize = function() {
-	console.log("game loaded");
+	console.log("game resize");
 	this.canvas.width = document.body.clientWidth;
 	this.canvas.height = document.body.clientHeight;
 	this.graphics.width = this.canvas.width;

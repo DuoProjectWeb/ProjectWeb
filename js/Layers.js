@@ -9,8 +9,8 @@ Layers.prototype.initialize = function(parent) {
 	this.container = parent;
 	this.defaultCanvas = document.createElement("Canvas");
 	this.defaultCanvas.style.position = "absolute";
-	this.defaultCanvas.width = Game.WIDTH;
-	this.defaultCanvas.height = Game.HEIGHT;
+	this.defaultCanvas.width = document.body.clientWidth;
+	this.defaultCanvas.height = document.body.clientHeight;
 	this.defaultCanvas.style.zIndex = 0;
 	this.container.appendChild(this.defaultCanvas);	
 	return this.defaultCanvas;
@@ -20,8 +20,8 @@ Layers.prototype.createLayer = function(zOrder, name) {
 	var canvas = document.createElement("Canvas");
 	canvas.style.position = "absolute";
 	canvas.style.pointerEvents = "none";
-	canvas.width = Game.WIDTH;
-	canvas.height = Game.HEIGHT;
+	canvas.width = document.body.clientWidth;
+	canvas.height = document.body.clientHeight;
 	canvas.style.zIndex = zOrder || 0;
 	this.container.appendChild(canvas);
 	this.canvases.push({

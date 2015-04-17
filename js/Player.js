@@ -22,19 +22,11 @@ var Player = function(scene){
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 15, this.onCollision);
 	
 	this.game.canvas.addEventListener("mousedown", function(e){
-		//console.log("mouse down");
+		console.log("mouse down");
 		switch(e.which){
 			case 1:
 			//left
-				var offset = getGlobalOffset(self.game.canvas);
-				var b = self.getBonusClicked(e.clientX - offset.left - self.x, e.clientY - offset.top - self.y);
-				if(b){
-					console.log("bonus clicked");
-					b.start();
-				}else{
-					self.canMove = true;
-					self.game.time.timeScale = 1;
-				}
+			self.onEventDown(e.clientX, e.clientY);
 				break;
 			case 2:
 			//middle
@@ -48,18 +40,31 @@ var Player = function(scene){
 	});
 	
 	this.game.canvas.addEventListener("mousemove", function(e){
-		//console.log("try to move");
-		if(self.canMove){
-			var offset = getGlobalOffset(self.game.canvas);
-			self.moveTo(e.clientX - offset.left - scene.playerStartOffset_X, e.clientY - offset.top - scene.playerStartOffset_Y);
-			//console.log("moved");
-		}
+		console.log("mouse move");
+		self.onEventMove(e.clientX, e.clientY);
 	});
-	
+
 	this.game.canvas.addEventListener("mouseup", function(e){
-		self.canMove = false;
-		self.game.time.timeScale = 0.1;
-		//console.log("mouse up");
+		console.log("mouse up");
+		self.onEventUp();
+	});
+
+	this.game.canvas.addEventListener("touchstart", function(){
+		console.log("touch start");
+		e.preventDefault();
+		self.onEventDown(e.touches[0].clientX, e.touches[0].clientY);
+	});
+
+	this.game.canvas.addEventListener("touchmove", function(){
+		console.log("touch move");
+		e.preventDefault();
+		self.onEventMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+	});
+
+	this.game.canvas.addEventListener("touchend", function(){
+		console.log("touch end");
+		e.preventDefault();
+		self.onEventUp();
 	});
 	
 	/*this.game.canvas.addEventListener("click", function(e){
@@ -89,6 +94,36 @@ var Player = function(scene){
 };
 
 Player.prototype = new Character();
+
+Player.prototype.onEventDown = function(x, y) {
+	var offset = getGlobalOffset(this.game.canvas);
+	var b = this.getBonusClicked(
+		(x - offset.left) / this.game.scale - this.x,
+		(y - offset.top) / this.game.scale - this.y
+	);
+	if(b){
+		console.log("bonus clicked");
+		b.start();
+	}else{
+		this.canMove = true;
+		this.game.time.timeScale = 1;
+	}
+};
+
+Player.prototype.onEventMove = function(x, y) {
+	if(this.canMove){
+		var offset = getGlobalOffset(this.game.canvas);
+		this.moveTo(
+			(x - offset.left) / this.game.scale - this.scene.playerStartOffset_X,
+			(y - offset.top) / this.game.scale - this.scene.playerStartOffset_Y
+		);
+	}
+};
+
+Player.prototype.onEventUp = function() {
+	this.canMove = false;
+	this.game.time.timeScale = 0.1;
+};
 
 Player.prototype.fire = function(){			
 	//console.log("fire");
