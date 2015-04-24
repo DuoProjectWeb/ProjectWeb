@@ -23,9 +23,9 @@ Bullet.prototype.update = function(tpf){
 
 Bullet.prototype.render = function(g){
 	DrawableControl.prototype.update.call(this, g);
-	if(this.boundingVolume){
+	/*if(this.boundingVolume){
 		this.boundingVolume.render(g);
-	}
+	}*/
 	if(this.sprite){
 		g.save();				
 		g.translate(this.x, this.y);						

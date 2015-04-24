@@ -169,8 +169,9 @@ Scene.prototype.render = function(g){
 
 		for(var i = 0; i<this.drawables.length;i++){
 			var e = this.drawables[i];
-			var graph = Layers.getGraphics(e.renderingLayer); 
-			e.render(graph);
+			/*var graph = Layers.getGraphics(e.renderingLayer); 
+			e.render(graph);*/
+			e.render(g);
 		}
 		
 	g.restore();

@@ -1,5 +1,5 @@
 var ParticleEmitterManager = function(){
-	this.canvasStack = [];
+	//this.canvasStack = [];
 	this.emitters = [];
 };
 
@@ -8,11 +8,11 @@ ParticleEmitterManager.prototype = new DrawableControl();
 ParticleEmitterManager.prototype.add = function(emitter) {
 	this.emitters.push(emitter);
 	emitter.currentTime = 0.0;
-	var layer = Layers.createLayer();
+	/*var layer = Layers.createLayer();
 	this.canvasStack.push({
 		"emitter" : emitter,
 		"layer" : layer
-	});
+	});*/
 };
 
 ParticleEmitterManager.prototype.remove = function(emitter) {
@@ -20,14 +20,14 @@ ParticleEmitterManager.prototype.remove = function(emitter) {
 	if(index >= 0){		
 		this.emitters.splice(index, 1);
 	}
-	for (var i = this.canvasStack.length - 1; i >= 0 ; i--) {
+	/*for (var i = this.canvasStack.length - 1; i >= 0 ; i--) {
 		var layer = this.canvasStack[i];
 		if(layer.emitter === emitter){
 			this.canvasStack.splice(i, 1);
 			Layers.destroyLayer(layer.layer);
 			break;
 		}
-	};
+	}*/
 };
 
 ParticleEmitterManager.prototype.update = function(tpf) {
@@ -49,8 +49,13 @@ ParticleEmitterManager.prototype.update = function(tpf) {
 };
 
 ParticleEmitterManager.prototype.render = function(g) {
-	for(var i = 0;i<this.canvasStack.length;i++){
+	for(var i = 0;i<this.emitters.length;i++){
+		var emitter = this.emitters[i];
+		emitter.render(g);
+	}
+
+	/*for(var i = 0;i<this.canvasStack.length;i++){
 		var layer = this.canvasStack[i];
 		layer.emitter.render(g);//layer.layer.getContext("2d"));
-	}
+	}*/
 };
