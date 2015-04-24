@@ -1,103 +1,38 @@
-@keyframes text_anim{
-	from{
-		margin-left:0px;
-	}
-	to{
-		margin-left:25px;
-	}
+.panel.selected {
+    opacity: 1;
+
 }
 
-.window{
-	background-color:rgba(0, 0, 255, 0.8);
-	position:relative;
-	width:564px;
-	height:350px;
-	left:50px;
-	top:20px;
-	border:white solid 2px;
-	border-radius:20px;
-	box-shadow:10px 10px 20px rgba(0, 0, 0, 0.85);
-	opacity:0;
-	/*margin-left:100%;
-	/*transform: translate(-800px,0px) ;
-	transition: opacity 0.5s ease-out, transform 0.2s cubic-bezier(0.000, 1.1, 1.000, 1.1);
-	transition-property: margin;*/
+.panel {
+    opacity: 0;
+
 }
 
-.window.enabled{
-	opacity: 1;
-	/*margin-left: 0%;
-	/*transform: translate(800px,0px)  ;*/
+#screen {
+    background-image : url(../img/sceneBackground.jpg);
+
 }
 
-.menu{
-	width:160px;
-	height:350px;
-	float:left;
-	border-right:white solid 2px;
+
+#playButton {
+    position : absolute;
+    left : 50%;
+    bottom : 60%;
+    background-color: rgba(0,0,240,0.4);
+    font-family: gun4fc, sans-serif;
+    color: white;
 }
 
-.menu li{
-	background-image:url(../img/images/goal.png);
-	background-repeat:no-repeat;
-	background-position:left center;
-	background-color:rgba(255, 255, 255, 0.2);
-	list-style-type:none;
-	padding:5px 5px 5px 25px;
-	font-size:14px;
-	height:30px;
-	color:white;
-	border-top:white solid 1px;
-	border-bottom:white solid 1px;
-	line-height:30px;
+#scoresButton {
+    position : absolute;
+    margin : auto;
+    left : 50%;
+    bottom : 40%;
+    background-color: rgba(0,0,240,0.4);
+    font-family: gun4fc, sans-serif;
+    color: white;
+
 }
 
-.menu li:hover{
-	background-image:url(../img/images/goal-done.png);
-	background-color:rgba(255, 255, 255, 0.5);
-	box-shadow:
-	-5px 0px 5px rgba(255, 255, 255, 0.85),
-	5px 0px 5px rgba(255, 255, 255, 0.85),
-	0px -5px 5px rgba(255, 255, 255, 0.85),
-	0px 5px 5px rgba(255, 255, 255, 0.85);
-	/*animation: text_anim 0.75s infinite alternate;
-	animation-timing-function: ease-out;*/
-}
 
-.menu li.selected{
-	background-color:rgba(255, 255, 255, 0.6);	
-	background-image:url(../img/images/goal-done.png);
-	color:yellow;
-}
 
-.menu ul{
-	margin:20px 0 0px 0;
-	padding:0;
-}
-
-.content{
-	width:400px;	
-	height:350px;
-	float:right;
-	border-left:white solid 2px;
-}
-
-#equipment{
-	display:none;
-}
-
-#stats{
-	display:none;
-}
-
-#menuButton{
-	position:absolute;
-	left:5px;
-	bottom:5px;
-	/*animation: anim_01 3s infinite alternate;
-	/*-webkit-animation: anim_01 3s infinite;
-	-moz-animation: anim_01 3s infinite;
-	-ie-animation: anim_01 3s infinite;
-	-opera-animation: anim_01 3s infinite;*/
-	
-}

@@ -105,9 +105,9 @@ Scene.prototype.removePhysic = function(entity) {
 Scene.prototype.update = function(tpf){
 	DrawableControl.prototype.update.call(this, tpf);
 	
-	this.yOffset -= Scene.BACKGROUND_SPEED * tpf;
+	this.yOffset -= Scene.BACKGROUND_SPEED * tpf * this.game.scale;
 
-	if (this.yOffset <= -this.background.height) {
+	if (this.yOffset <= -this.background.height * this.game.scale) {
 	    this.yOffset = 0;
 	}
 	
@@ -164,8 +164,8 @@ Scene.prototype.render = function(g){
 		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
 		//g.drawImage(this.background, 0, 0, g.width, g.height);
 
-		g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
-		g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
+	g.drawImage(this.background, 0, -this.yOffset, g.width * this.game.scale, g.height * this.game.scale);
+	g.drawImage(this.background, 0, -this.yOffset - this.background.height * this.game.scale, g.width * this.game.scale, g.height * this.game.scale);
 
 		for(var i = 0; i<this.drawables.length;i++){
 			var e = this.drawables[i];
