@@ -16,7 +16,7 @@ var Player = function(scene){
 	this.bulletInterval = 1.0/4.0;
 	this.bulletTimer = -1.0;
 
-	this.setPosition(this.scene.game.canvas.width / 2 , this.scene.game.canvas.height);
+	this.setPosition(this.scene.game.canvas.width / this.game.scale / 2 , this.scene.game.canvas.height / this.game.scale);
 
 	//temp
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 15, this.onCollision);
@@ -166,12 +166,12 @@ Player.prototype.render = function(g){
 	Character.prototype.render.call(this, g);
 	g.fillStyle = "rgb(255, 255, 255)";
 	g.textAlign = "center";
-	g.fillText(this.score, g.width * 0.5, 50);
+	g.fillText(this.score, g.width / this.game.scale * 0.5, 50);
 
 	if(!this.canMove){
 		g.save();
 		g.fillStyle = "rgba(0, 0, 0, 0.5)";
-		g.fillRect(0, 0, g.width, g.height);
+		g.fillRect(0, 0, g.width / this.game.scale, g.height / this.game.scale);
 		g.translate(this.x, this.y);
 		g.fillStyle = "rgb(255, 0, 0)";
 		g.font = "11px Arial";

@@ -10,7 +10,7 @@ var Scene = function(game){
 	this.playerStartOffset_Y = 0;
 	
 	this.player = new Player(this);
-	this.player.moveTo(this.game.canvas.width / 2, this.game.canvas.height * (70 / 100));
+	this.player.moveTo(this.game.canvas.width / this.game.scale / 2, this.game.canvas.height / this.game.scale * (70 / 100));
 	
 	this.player.addMovementListener(function(x, y){
 		self.onPlayerMove(x, y);
@@ -27,7 +27,7 @@ var Scene = function(game){
 
 	this.add(this.player);
 
-	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
+	this.spawner = new Spawner(this, 0.5, 0, this.game.canvas.width, -10, -10);
 
 	audioManager.playMusic("backgroundMusic", true);
 };
@@ -105,9 +105,9 @@ Scene.prototype.removePhysic = function(entity) {
 Scene.prototype.update = function(tpf){
 	DrawableControl.prototype.update.call(this, tpf);
 	
-	this.yOffset -= Scene.BACKGROUND_SPEED * tpf * this.game.scale;
+	this.yOffset -= Scene.BACKGROUND_SPEED * tpf;
 
-	if (this.yOffset <= -this.background.height * this.game.scale) {
+	if (this.yOffset <= -this.background.height) {
 	    this.yOffset = 0;
 	}
 	
