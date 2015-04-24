@@ -29,7 +29,7 @@ var Scene = function(game){
 
 	this.spawner = new Spawner(this, 0.5, 0, Game.WIDTH, -10, -10);
 
-	//audioManager.playMusic("backgroundMusic", true);
+	audioManager.playMusic("backgroundMusic", true);
 };
 
 Scene.prototype = new DrawableControl();
@@ -160,12 +160,18 @@ Scene.prototype.collide = function(e1, e2){
 
 Scene.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
-	g.save();
+
+
+	g.fillStyle = "rgb(255, 0, 0)";
+	g.fillRect(0, 0, g.width / this.game.scale, g.height / this.game.scale);
+
+
+	//g.save();
 		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
 		//g.drawImage(this.background, 0, 0, g.width, g.height);
 
-		g.drawImage(this.background, 0, -this.yOffset, g.width, g.height);
-		g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width, g.height);
+		g.drawImage(this.background, 0, -this.yOffset, g.width / this.game.scale, g.height / this.game.scale);
+		g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width / this.game.scale, g.height / this.game.scale);
 
 		for(var i = 0; i<this.drawables.length;i++){
 			var e = this.drawables[i];
@@ -174,7 +180,7 @@ Scene.prototype.render = function(g){
 			e.render(g);
 		}
 		
-	g.restore();
+	//g.restore();
 
 	ParticleEmitterManager.render(g);
 };

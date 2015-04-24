@@ -86,7 +86,7 @@ AssetManager.prototype.getImage = function(id) {
 
 AssetManager.prototype.loadSound = function(id, path) {
 	var self = this;
-	var sound = new Audio();
+	var sound = new Audio();	
 	sound.addEventListener("error", function(){
 		console.log("Error while loading sound : " + id + ", path : " + path);
 		self.soundsToLoadErrors[id] = path;
