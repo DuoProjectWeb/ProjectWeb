@@ -9,30 +9,80 @@
 }
 
 #screen {
+    position : relative;
     background-image : url(../img/sceneBackground.jpg);
 
 }
 
+#canvas {
+    position : relative;
 
-#playButton {
-    position : absolute;
-    left : 50%;
-    bottom : 60%;
+}
+
+#gui {
+    position : relative;
+    width : 100%;
+    height : 100%;
+
+}
+
+#menu {
+    width : 100%;
+    height : 100%;
+
+}
+
+#playButton { 
+    position :relative;
+    width: 30%; 
+    top:50%;
+    transform : translateY(-50%);
+    padding: 10px 20px; 
+    text-align: center;
     background-color: rgba(0,0,240,0.4);
     font-family: gun4fc, sans-serif;
-    color: white;
+    color: white; 
+    font-weight: bold; 
+
 }
 
 #scoresButton {
-    position : absolute;
-    margin : auto;
-    left : 50%;
-    bottom : 40%;
+    width: 30%; 
+    margin: auto; 
+    padding: 10px 20px; 
+    text-align: center;
     background-color: rgba(0,0,240,0.4);
     font-family: gun4fc, sans-serif;
-    color: white;
+    color: white; 
+    font-weight: bold;
+
 
 }
+
+#exitButton {
+    width: 30%; 
+    margin-top : auto;
+    padding: 10px 20px; 
+    text-align: center;
+    background-color: rgba(0,0,240,0.4);
+    font-family: gun4fc, sans-serif;
+    color: white; 
+    font-weight: bold; 
+
+}
+
+#menuButton {
+    width: 20%; 
+    margin : auto auto;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: rgba(0,0,240,0.4);
+    font-family: gun4fc, sans-serif;
+    color: white; 
+    font-weight: bold; 
+
+}
+
 
 
 
