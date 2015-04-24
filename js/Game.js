@@ -117,14 +117,18 @@ Game.prototype.render = function(g){
 
 	g.clearRect(0, 0, g.width, g.height);
 
+
+	g.fillStyle = "rgb(0, 255, 0)";
+	g.fillRect(0, 0, g.width, g.height);
+
+
 	g.save();
 		g.scale(this.scale, this.scale);
-		if(this.scene){
+		if(this.scene){			
+			this.scene.render(g);
 			g.fillStyle = "rgb(255, 255, 255)";
 			g.font = "30px Arial";
 			g.fillText("FPS : " + this.fps, 0, g.height - 5);
-			
-			this.scene.render(g);
 			this.frameCount ++;
 		}else{
 			//chargement
