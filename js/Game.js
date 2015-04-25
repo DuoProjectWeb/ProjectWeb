@@ -32,6 +32,7 @@ var Game = function(){
 		{
 			"bullet" : "img/bullet.png",
 			"sceneBackground" : "img/sceneBackground.jpg",
+			"sceneBackground2" : "img/sceneBackground2.jpg",
 			"player" : "img/player.png",
 			"playerExplosion" : "img/Debris2.png",
 			"flame" : "img/flame2.png"

@@ -29,7 +29,7 @@ Enemy.prototype.onCollision = function(collider) {
 		var explosionEmitter = new ParticleEmitter(
 			{
 				"position" : new Vector2(this.x, this.y),
-				"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
+				"emitterShape" : EmitterShape.Point({"velocityMode" : VelocityMode.Normal}),
 				"nbMaxParticles" : 4,
 				"nbParticlesPerSec" : 0,
 				"minLife" : 0.2,
@@ -44,6 +44,27 @@ Enemy.prototype.onCollision = function(collider) {
 		explosionEmitter.influencers.push(new RotationInfluencer(50.0));
 		explosionEmitter.influencers.push(new SpriteAnimationInfluencer(SpriteMode.Random, SpriteChangeEvent.EachTime(0.1)));
 		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(0.8, 0.8), new Vector2(0.2, 0.2)));
+		explosionEmitter.emitAllParticles();
+		ParticleEmitterManager.add(explosionEmitter);
+
+
+		var explosionEmitter = new ParticleEmitter(
+			{
+				"position" : new Vector2(this.x, this.y),
+				"emitterShape" : EmitterShape.Point({"velocityMode" : VelocityMode.Random}),
+				"nbMaxParticles" : 20,
+				"nbParticlesPerSec" : 0,
+				"minLife" : 0.2,
+				"maxLife" : 0.4,
+				"loop" : false,
+				//"size" : new Vector2(3, 3),
+				"duration" : 1.0,
+				"speed" : 50,
+				//"color" : new Color(255, 0, 0, 1.0)
+			}
+		);
+		explosionEmitter.influencers.push(new SizeInfluencer(new Vector2(5, 5), new Vector2(1, 1)));
+		explosionEmitter.influencers.push(new ColorInfluencer(new Color(255, 0, 0, 1.0), new Color(255, 0, 0, 0.2)));
 		explosionEmitter.emitAllParticles();
 		ParticleEmitterManager.add(explosionEmitter);
 		this.scene.destroy(this);

@@ -36,15 +36,15 @@ Bomb.prototype.renderIcon = function(g) {
 
 Bomb.prototype.render = function(g) {
 	Bonus.prototype.render.call(this, g);
-	this.boundingVolume.render(g);
-	/*g.save();
-		g.translate(this.x, this.y);
-		g.scale(this.scale, this.scale);
+	//this.boundingVolume.render(g);
+	g.save();
+		g.translate(this.boundingVolume.x, this.boundingVolume.y);
+		//g.scale(this.scale, this.scale);
 		g.fillStyle = "rgba(0, 254, 220, 0.3)";
 		g.strokeStyle = "rgb(0, 254, 220)";
 		g.beginPath();
 		g.arc(0, 0, this.scale, 0, Math.PI * 2);
 		g.fill();	
 		g.stroke();		
-	g.restore();*/
+	g.restore();
 };
