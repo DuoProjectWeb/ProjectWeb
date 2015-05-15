@@ -8,9 +8,14 @@ var EmitterShape = {
 				case VelocityMode.None:
 					p.velocity.zero();
 					break;
-				default:				
+				case VelocityMode.Random:
+					p.velocity.set(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 1.0);
+					p.velocity.multScalarLocal(Math.random() * 5);
+					break;
+				case VelocityMode.Normal:			
 					p.velocity.set(Math.random() * 2.0 - 1.0, Math.random() * 2.0 - 1.0);
 					p.velocity.normalizeLocal();
+					break;
 			}
 		}
 		return setup;

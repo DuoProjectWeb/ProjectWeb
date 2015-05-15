@@ -22,7 +22,7 @@ var Player = function(scene){
 	this.boundingVolume = new BoundingSphere(this, this.x, this.y, 15, this.onCollision);
 	
 	this.game.canvas.addEventListener("mousedown", function(e){
-		console.log("mouse down");
+		//console.log("mouse down");
 		switch(e.which){
 			case 1:
 			//left
@@ -40,29 +40,29 @@ var Player = function(scene){
 	});
 	
 	this.game.canvas.addEventListener("mousemove", function(e){
-		console.log("mouse move");
+		//console.log("mouse move");
 		self.onEventMove(e.clientX, e.clientY);
 	});
 
 	this.game.canvas.addEventListener("mouseup", function(e){
-		console.log("mouse up");
+		//console.log("mouse up");
 		self.onEventUp();
 	});
 
 	this.game.canvas.addEventListener("touchstart", function(){
-		console.log("touch start");
+		//console.log("touch start");
 		e.preventDefault();
 		self.onEventDown(e.touches[0].clientX, e.touches[0].clientY);
 	});
 
 	this.game.canvas.addEventListener("touchmove", function(){
-		console.log("touch move");
+		//console.log("touch move");
 		e.preventDefault();
 		self.onEventMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 	});
 
 	this.game.canvas.addEventListener("touchend", function(){
-		console.log("touch end");
+		//console.log("touch end");
 		e.preventDefault();
 		self.onEventUp();
 	});
@@ -73,23 +73,23 @@ var Player = function(scene){
 
 	this.score = 0;
 
-	this.bonus = [new Bomb(this.scene, 250, 3.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 25, 100, 6.0)];
+	this.bonus = [new Bomb(this.scene, 280, 2.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 25, 100, 6.0)];
 
 	this.propulsionEmitter = new ParticleEmitter(
 		{
 			"position" : new Vector2(0, 0),
-			"emitterShape" : EmitterShape.Point(VelocityMode.None),
+			"emitterShape" : EmitterShape.Box({"width" : 3, "height" : 1, "velocityMode" : VelocityMode.None}),
 			"nbMaxParticles" : 80,
 			"nbParticlesPerSec" : 40,
-			"minLife" : 2,
+			"minLife" : 1,
 			"maxLife" : 2,
 			"size" : new Vector2(10, 10),
 			"loop" : true
 		}
 	);
 	this.propulsionEmitter.influencers.push(new ColorInfluencer(new Color(255, 131, 0, 1.0), new Color(255, 255, 0, 0.1)));	
-	this.propulsionEmitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 9.81)));
-	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(3, 3), new Vector2(0.8, 0.8)));
+	this.propulsionEmitter.influencers.push(new GravityInfluencer(new Vector2(0.0, 7)));
+	this.propulsionEmitter.influencers.push(new SizeInfluencer(new Vector2(2, 2), new Vector2(0.8, 0.8)));
 	ParticleEmitterManager.add(this.propulsionEmitter);	
 };
 
@@ -159,7 +159,7 @@ Player.prototype.update = function(tpf){
 		//fire something
 		this.fire();
 	}
-	this.propulsionEmitter.position.set(this.x + 1, this.y + 16);
+	this.propulsionEmitter.position.set(this.x, this.y + 16);
 };
 
 Player.prototype.render = function(g){
@@ -207,7 +207,7 @@ Player.prototype.death = function() {
 	deathEmitter = new ParticleEmitter(
 		{
 			"position" : new Vector2(this.x, this.y),
-			"emitterShape" : EmitterShape.Point(VelocityMode.Normal),
+			"emitterShape" : EmitterShape.Point({"velocityMode" : VelocityMode.Normal}),
 			"nbMaxParticles" : 10,
 			"nbParticlesPerSec" : 0,
 			"minLife" : 3,
@@ -223,7 +223,13 @@ Player.prototype.death = function() {
 	deathEmitter.emitAllParticles();
 	ParticleEmitterManager.add(deathEmitter);
 	audioManager.playOneShot("death");
+
+	storage.score = this.score;
+
+	//temp
 	this.respawn();
+
+
 };
 
 Player.prototype.respawn = function() {
