@@ -224,7 +224,14 @@ Player.prototype.death = function() {
 	ParticleEmitterManager.add(deathEmitter);
 	audioManager.playOneShot("death");
 
-	storage.score = this.score;
+	if(typeof(Storage) !== "undefined") {
+		//temp
+		sessionStorage.score = this.score;
+		//final
+		//localStorage.score = this.score;
+	} else {
+	    // Sorry! No Web Storage support..
+	}
 
 	//temp
 	this.respawn();
