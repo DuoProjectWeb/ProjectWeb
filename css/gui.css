@@ -9,14 +9,13 @@
 }
 
 #screen {
-    position : relative;
+    position : absolute;
     background-image : url(../img/sceneBackground.jpg);
 
 }
 
-#canvas {
-    position : relative;
-
+#Canvas{
+	position : absolute;
 }
 
 /*#gui {
@@ -34,9 +33,12 @@
 }
 
 #playButton { 
-    position :relative;
+	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+    position :absolute;
     width: 30%; 
-    top:50%;
+	top: 40%;
+	left:35%;
     transform : translateY(-50%);
     padding: 10px 20px; 
     text-align: center;
@@ -48,8 +50,13 @@
 }
 
 #scoresButton {
+	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+	position :absolute;
     width: 30%; 
-    margin: auto; 
+	top: 50%;
+	left:35%;
+    transform : translateY(-50%);
     padding: 10px 20px; 
     text-align: center;
     background-color: rgba(0,0,240,0.4);
@@ -61,8 +68,13 @@
 }
 
 #exitButton {
-    width: 30%; 
-    margin-top : auto;
+	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+	position :absolute;
+    width: 30%;
+	bottom: 20%;
+	left:35%;
+    transform : translateY(50%);
     padding: 10px 20px; 
     text-align: center;
     background-color: rgba(0,0,240,0.4);
