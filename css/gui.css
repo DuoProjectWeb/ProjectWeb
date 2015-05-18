@@ -1,17 +1,14 @@
 .panel.selected {
     opacity: 1;
-
 }
 
 .panel {
     opacity: 0;
-
 }
 
 #screen {
     position : absolute;
     background-image : url(../img/sceneBackground.jpg);
-
 }
 
 #Canvas{
@@ -26,15 +23,37 @@
     height : 100%;
 }*/
 
-#menu {
+#IGgui {
+    position : absolute;
+    top : 5%;
+    left : 80%;
+    width : 20%;
+    height : 10%;
+}
+
+#menu.panelselected {
+    position : relative;
     width : 100%;
     height : 100%;
 
 }
+#scores.panelselected {
+    position: relative;
+    width : 100%;
+    height : 100%;
+}
+
+#inGame.panelselected {
+    position: relative;
+    width : 100%;
+    height : 100%;
+}
+
+.panel, .disable{
+    display: none;
+}
 
 #playButton { 
-	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
-	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
     position :absolute;
     width: 30%; 
 	top: 40%;
@@ -42,16 +61,14 @@
     transform : translateY(-50%);
     padding: 10px 20px; 
     text-align: center;
-    background-color: rgba(0,0,240,0.4);
+    background-color: rgb(41, 90, 150);
     font-family: gun4fc, sans-serif;
     color: white; 
     font-weight: bold; 
-
+    border-radius : 15px;
 }
 
 #scoresButton {
-	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
-	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
 	position :absolute;
     width: 30%; 
 	top: 50%;
@@ -59,17 +76,74 @@
     transform : translateY(-50%);
     padding: 10px 20px; 
     text-align: center;
-    background-color: rgba(0,0,240,0.4);
+    background-color: rgb(41, 90, 150);
     font-family: gun4fc, sans-serif;
     color: white; 
     font-weight: bold;
-
-
+    border-radius : 15px;
 }
 
-#exitButton {
-	-webkit-box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
-	box-shadow: 3px 3px 10px 5px rgba(0,0,255,0.7);
+#Highscore{
+    font-family: gun4fc, sans-serif;
+    position :absolute;
+    width:30%;
+    height:10%;
+    left:35%;
+    top:30%;
+    background-color: rgb(41, 90, 150);
+    color: white; 
+    text-align: center;
+    font-size: 3vw;
+    border-top-left-radius : 15px;
+    border-top-right-radius : 15px;
+}
+
+#contentHighScore{
+    font-family: gun4fc, sans-serif;
+    text-align: center;
+    position :absolute;
+    width:30%;
+    left:35%;
+    top:40%;
+    background-color: rgb(41, 90, 150);
+    color: white; 
+    text-align: center;
+    font-size: 3vw;
+    border-bottom-left-radius : 15px;
+    border-bottom-right-radius : 15px;
+}
+
+#lastScore{
+    font-family: gun4fc, sans-serif;
+    position :absolute;
+    width:30%;
+    height:10%;
+    left:35%;
+    top:50%;
+    background-color: rgb(41, 90, 150);
+    color: white; 
+    text-align: center;
+    font-size: 3vw;
+    border-top-left-radius : 15px;
+    border-top-right-radius : 15px;
+}
+
+#contentLastScore{
+    font-family: gun4fc, sans-serif;
+    text-align: center;
+    position :absolute;
+    width:30%;
+    left:35%;
+    top:60%;
+    background-color: rgb(41, 90, 150);
+    color: white; 
+    text-align: center;
+    font-size: 3vw;
+    border-bottom-left-radius : 15px;
+    border-bottom-right-radius : 15px;
+}
+
+#exitButton {	
 	position :absolute;
     width: 30%;
 	bottom: 20%;
@@ -77,38 +151,46 @@
     transform : translateY(50%);
     padding: 10px 20px; 
     text-align: center;
-    background-color: rgba(0,0,240,0.4);
+    background-color: rgb(41, 90, 150);
     font-family: gun4fc, sans-serif;
     color: white; 
     font-weight: bold; 
-
+    border-radius : 15px;
 }
 
 #menuButton {
+    position :absolute;
     width: 20%; 
-    margin : auto auto;
+    left:40%;
+    transform : translateY(50%);
     padding: 10px 20px;
     text-align: center;
-    background-color: rgba(0,0,240,0.4);
+    background-color: rgb(41, 90, 150);
     font-family: gun4fc, sans-serif;
+    font-size:2vw;
     color: white; 
     font-weight: bold; 
+    border-radius : 10px;
 
 }
 
 #menuButtonIG {
     position : absolute;
-    width: 10%; 
-    top : 10px;
-    right : 10%;
+    width: 70%; 
+    top : 5%;
+    left : 15%;
     text-align: center;
-    background-color: rgba(0,0,240,0.4);
+    background-color: rgb(41, 90, 150);
     font-family: gun4fc, sans-serif;
     color: white; 
-    font-weight: bold; 
+    font-weight: bold;
+    font-size: 2vw;
+    border-radius : 9px; 
 
 }
 
+#scoresButton:hover , #playButton:hover, #exitButton:hover, #menuButton:hover, #menuButtonIG:hover {
+	-webkit-box-shadow: 3px 3px 10px 5px rgb(255, 216, 0);
+	box-shadow: 3px 3px 10px 5px rgb(255, 216, 0);
 
-
-
+}

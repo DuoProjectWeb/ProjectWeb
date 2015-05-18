@@ -19,6 +19,12 @@ window.addEventListener("load", function () {
 	button.addEventListener("click", function () {
 	    showMenu();
 	});
+
+	var button = document.getElementById("menuButtonIG");
+	button.addEventListener("click", function () {
+	    document.location.reload();
+	    showMenu();
+	});
 	
 });
 
@@ -36,33 +42,60 @@ function getGlobalOffset(element){
 
 function showMenu() {
     var menu = document.getElementById("menu");
-    menu.className = "panel selected";
+    menu.className = "panelselected";
 
     var score = document.getElementById("scores");
     score.className = "panel";
 
     var inGame = document.getElementById("inGame");
     inGame.className = "panel";
+
+    var gui = document.getElementById("gui");
+    gui.className = "active";
+
+    var IGgui = document.getElementById("IGgui");
+    IGgui.className = "disable";
 };
 
 function showScores() {
     var score = document.getElementById("scores");
-    score.className = "panel selected";
+    score.className = "panelselected";
 
     var menu = document.getElementById("menu");
     menu.className = "panel";
 
     var inGame = document.getElementById("inGame");
     inGame.className = "panel";
+
+    var gui = document.getElementById("gui");
+    gui.className = "active";
+
+    var IGgui = document.getElementById("IGgui");
+    IGgui.className = "disable"
+
+    var lastScore = Storage.getInt("LastScore");
+    var content = document.getElementById("contentLastScore");
+    content.innerHTML = lastScore.toString();
+
+    var highscore = Storage.getInt("Highscore");
+    var content = document.getElementById("contentHighScore");
+    content.innerHTML = highscore.toString();
+
 };
 
 function showInGame() {
     var inGame = document.getElementById("inGame");
-    inGame.className = "panel selected";
+    inGame.className = "panelselected";
 
     var menu = document.getElementById("menu");
     menu.className = "panel";
 
     var score = document.getElementById("scores");
     score.className = "panel";
+
+    var gui = document.getElementById("gui");
+    gui.className = "disable";
+
+    var IGgui = document.getElementById("IGgui");
+    IGgui.className = "active";
 };

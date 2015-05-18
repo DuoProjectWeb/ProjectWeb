@@ -55,17 +55,24 @@
 			<!--<div id="Canvases" position="relative">
 			</div>	-->
 			<canvas id="Canvas"></canvas>
-			<div id="gui">
-				<div id="menu" class="panel selected">
+			<div id="IGgui" class="disable">
+				<button id="menuButtonIG" type="button" class="menuButton">Menu</button> 
+			</div>
+			<div id="gui" class="active">
+				<div id="menu" class="panelselected">
 					<button id="playButton" type="button" class="menuButton">Play</button> 
 					<button id="scoresButton" type="button" class="menuButton">Scores</button>
 					<button id="exitButton" type="button" class="menuButton">Exit</button>
 				</div>
 				<div id="scores" class="panel">
-					<button id="menuButton" type="button" class="menuButton">Menu</button> 
+					<button id="menuButton" type="button" class="menuButton">Menu</button>
+					<div id="Highscore">Highscore</div>
+					<div id="contentHighScore"></div>
+					<div id="lastScore">Last Score</div>
+					<div id="contentLastScore"></div>					
 				</div>
 				<div id="inGame" class="panel">
-					<button id="menuButtonIG" type="button" class="menuButton">Menu</button> 
+					
 				</div>
 			</div>
 		</div>
