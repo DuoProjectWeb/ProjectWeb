@@ -72,6 +72,7 @@ var Player = function(scene){
 	});*/
 
 	this.score = 0;
+	this.lastScore;
 
 	this.bonus = [new Bomb(this.scene, 280, 2.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 25, 100, 6.0)];
 
@@ -224,13 +225,23 @@ Player.prototype.death = function() {
 	ParticleEmitterManager.add(deathEmitter);
 	audioManager.playOneShot("death");
 
-	storage.score = this.score;
+	Storage.putInt("LastScore", this.score);
+
+	var _tempHightScore = Storage.getInt("Highscore");
+	if (_tempHightScore < this.score) {
+	    Storage.putInt("Highscore", this.score);
+	}
+
+	
+	//Storage.score = this.score;
 
 	//temp
 	this.respawn();
 
 
 };
+
+
 
 Player.prototype.respawn = function() {
 	this.health = this.maxHealth;
