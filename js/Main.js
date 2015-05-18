@@ -22,8 +22,7 @@ window.addEventListener("load", function () {
 
 	var button = document.getElementById("menuButtonIG");
 	button.addEventListener("click", function () {
-	    document.location.reload();
-	    showMenu();
+	    backToMenu();
 	});
 	
 });
@@ -38,6 +37,11 @@ function getGlobalOffset(element){
 		offset.top += element.offsetTop;
 	}while(element = element.offsetParent);
 	return offset;
+};
+
+function backToMenu(){
+    document.location.reload();
+    showMenu();
 };
 
 function showMenu() {

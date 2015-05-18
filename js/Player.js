@@ -15,6 +15,8 @@ var Player = function(scene){
 	this.scale = 0.15;
 	this.bulletInterval = 1.0/4.0;
 	this.bulletTimer = -1.0;
+	this.life = 3;
+	this.respawnTimer = 0.0;
 
 	this.setPosition(this.scene.game.canvas.width / this.game.scale / 2 , this.scene.game.canvas.height / this.game.scale);
 
@@ -161,13 +163,28 @@ Player.prototype.update = function(tpf){
 		this.fire();
 	}
 	this.propulsionEmitter.position.set(this.x, this.y + 16);
+
+	if(this.respawning){
+		this.respawnTimer += tpf;		
+		if(this.respawnTimer >= 3.0){
+			this.respawning = false;
+		}
+	}
 };
 
 Player.prototype.render = function(g){
-	Character.prototype.render.call(this, g);
+	if(this.respawning){
+		g.globalAlpha = Math.sin(this.respawnTimer / 3.0 * 35) ;
+		Character.prototype.render.call(this, g);
+		g.globalAlpha = 1.0;
+	}else{		
+		Character.prototype.render.call(this, g);
+	}
 	g.fillStyle = "rgb(255, 255, 255)";
+	g.fillText("Life : "  + this.life, 10, 50);
 	g.textAlign = "center";
-	g.fillText(this.score, g.width / this.game.scale * 0.5, 50);
+	g.fillText("Score : " + this.score, g.width / this.game.scale * 0.5, 50);
+
 
 	if(!this.canMove){
 		g.save();
@@ -196,6 +213,9 @@ Player.prototype.addBonus = function(b) {
 };
 
 Player.prototype.takeDamage = function(amount) {
+	if(this.respawning){
+		return;
+	}
 	Character.prototype.takeDamage.call(this, amount);
 	//shield
 	if(this.health <= 0){
@@ -225,31 +245,34 @@ Player.prototype.death = function() {
 	ParticleEmitterManager.add(deathEmitter);
 	audioManager.playOneShot("death");
 
-	/*if(typeof(Storage) !== "undefined") {
-		//temp
-		sessionStorage.score = this.score;
-		//final
-		//localStorage.score = this.score;
-	} else {
-	    // Sorry! No Web Storage support..
-	}*/
+	this.life -= 1;
+	if(this.life <= 0){
+		/*if(typeof(Storage) !== "undefined") {
+			//temp
+			sessionStorage.score = this.score;
+			//final
+			//localStorage.score = this.score;
+		} else {
+		    // Sorry! No Web Storage support..
+		}*/
 
-	Storage.putInt("LastScore", this.score);
+		Storage.putInt("LastScore", this.score);
 
-	var _tempHightScore = Storage.getInt("Highscore");
-	if (_tempHightScore < this.score) {
-	    Storage.putInt("Highscore", this.score);
+		var _tempHightScore = Storage.getObject("Highscore");
+		if (_tempHightScore  === "undefined" || _tempHightScore < this.score) {
+		    Storage.putInt("Highscore", this.score);
+		}
+
+		backToMenu();
+	}else{
+		this.respawn();
 	}
-
-	//temp
-	this.respawn();
-
-
 };
 
 
 
 Player.prototype.respawn = function() {
+	this.respawning = true;
 	this.health = this.maxHealth;
 	this.score = 0;
 	console.log("respawn");

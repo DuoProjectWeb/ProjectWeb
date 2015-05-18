@@ -23,8 +23,13 @@ Enemy.prototype.update = function(tpf){
 	this.moveBehaviour(this, tpf);
 };
 
-Enemy.prototype.onCollision = function(collider) {	
+Enemy.prototype.onCollision = function(collider) {		
 	if(collider.name !== "Enemy"){
+		if(collider.name == "Player"){
+			if(collider.respawning){
+				return;
+			}
+		}
 		audioManager.playOneShot("explosion");
 		var explosionEmitter = new ParticleEmitter(
 			{

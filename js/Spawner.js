@@ -18,6 +18,9 @@ Spawner.prototype.setInterval = function(interval){
 }
 
 Spawner.prototype.spawn = function () {
+	if(this.scene.player.respawning){
+		return;
+	}
 	var rand = Math.random();
 	var enemy = new Enemy(this.scene, rand > 0.75 ? MoveBehaviour.None : (rand < 0.25 ? MoveBehaviour.Follow : MoveBehaviour.Straight));
 	enemy.setPosition(Math.random() *(this.xMax - this.xMin) + this.xMin, Math.random()*(this.yMax - this.yMin) + this.yMin);	
