@@ -1,5 +1,6 @@
 var startTime = Date.now();
 window.addEventListener("load", function () {
+    //Storage.clear();
     var self = this;
 	var loadedTime = Date.now();
 	console.log("Page loaded in " + (loadedTime - startTime) + " ms");
@@ -10,22 +11,32 @@ window.addEventListener("load", function () {
 	    showInGame();
 	});
 
-	var button = document.getElementById("scoresButton");
+	button = document.getElementById("scoresButton");
 	button.addEventListener("click", function () {
 	    showScores();
 	});
 
-	var button = document.getElementById("menuButton");
+	button = document.getElementById("menuButton");
 	button.addEventListener("click", function () {
 	    showMenu();
 	});
 
-	var button = document.getElementById("menuButtonIG");
+	button = document.getElementById("menuButtonIG");
 	button.addEventListener("click", function () {
-	    backToMenu();
+        saveScore(self.game.scene.player.score);
+        backToMenu();
 	});
 	
 });
+
+function saveScore(score) {
+    Storage.putInt("LastScore", score);
+
+    var _tempHightScore = Storage.getInt("Highscore");
+     if(_tempHightScore < score) {
+        Storage.putInt("Highscore", score);
+    }
+};
 
 function getGlobalOffset(element){
 	var offset = {
@@ -71,14 +82,13 @@ function showScores() {
     var IGgui = document.getElementById("IGgui");
     IGgui.className = "disable"
 
-    var lastScore = Storage.getInt("LastScore");
+    var lastScore = Storage.getInt("LastScore");   
     var content = document.getElementById("contentLastScore");
     content.innerHTML = lastScore.toString();
 
     var highscore = Storage.getInt("Highscore");
-    var content = document.getElementById("contentHighScore");
+    content = document.getElementById("contentHighScore");
     content.innerHTML = highscore.toString();
-
 };
 
 function showInGame() {

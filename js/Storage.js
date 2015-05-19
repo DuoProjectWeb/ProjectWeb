@@ -29,4 +29,4 @@ var Storage = {
         localStorage.clear();
     }
 
-    };
+};

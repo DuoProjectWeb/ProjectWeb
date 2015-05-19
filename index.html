@@ -57,21 +57,37 @@
 			</div>	-->
 			<canvas id="Canvas"></canvas>
 			<div id="IGgui" class="disable">
-				<button id="menuButtonIG" type="button" class="menuButton">Menu</button> 
+				<div class="PanelIG">
+					<span class="lifePanel">
+						<div id="life">Life :</div>
+						<div id="lifeContent"></div>
+					</span>
+					<span class="scoreIGPanel">
+						<div id="scoreIG">Score :</div>
+						<div id="scoreIGContent"></div>
+					</span>
+				</div>
+				<button id="menuButtonIG" type="button" class="menuButton">Menu</button>
+				
 			</div>
 			<div id="gui" class="active">
 				<div id="menu" class="panelselected">
-					<div id="Title" class="title">Game Name</div>
+					<div id="Title" class="title">SHOOTER</div>
 					<button id="playButton" type="button" class="menuButton">Play</button> 
 					<button id="scoresButton" type="button" class="menuButton">Scores</button>
 					<button id="exitButton" type="button" class="menuButton">Exit</button>
 				</div>
 				<div id="scores" class="panel">
 					<button id="menuButton" type="button" class="menuButton">Menu</button>
-					<div id="Highscore" class="scorePanel">Highscore</div>
-					<div id="contentHighScore" class="scoreValuePanel"></div>
-					<div id="lastScore" class="scorePanel">Last Score</div>
-					<div id="contentLastScore" class="scoreValuePanel"></div>					
+					<div id="HighScore" class="ScorePanel">
+						<div class="scoreTitle">Highscore</div>
+						<div id="contentHighScore" class="content"></div>
+					</div>
+					<div id="lastScore" class="ScorePanel">
+						<div class="scoreTitle">Last Score</div>
+						<div id="contentLastScore" class="content"></div>
+					</div>
+										
 				</div>
 			</div>
 		</div>

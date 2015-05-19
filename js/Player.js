@@ -16,6 +16,7 @@ var Player = function(scene){
 	this.bulletInterval = 1.0/4.0;
 	this.bulletTimer = -1.0;
 	this.life = 1;
+	this.updateLife();
 	this.respawnTimer = 0.0;
 
 	this.setPosition(this.scene.game.canvas.width / this.game.scale / 2 , this.scene.game.canvas.height / this.game.scale);
@@ -74,6 +75,7 @@ var Player = function(scene){
 	});*/
 
 	this.score = 0;
+	this.updateScore();
 	this.lastScore;
 
 	this.bonus = [new Bomb(this.scene, 280, 2.0), new FireRate(this.scene, 0.05), new Shield(this.scene, 25, 100, 6.0)];
@@ -134,6 +136,7 @@ Player.prototype.fire = function(){
 		if(collider.name == "Enemy"){
 			this.scene.destroy(bullet);
 			this.score += 25;
+			this.updateScore();
 		}
 	});
 	this.scene.destroyWithDelay(bullet, 3.0);
@@ -154,7 +157,7 @@ Player.prototype.getBonusClicked = function(x, y) {
 };
 
 Player.prototype.update = function(tpf){
-	Character.prototype.update.call(this, tpf);
+    Character.prototype.update.call(this, tpf);
 
 	this.bulletTimer += tpf;
 	if(this.bulletTimer >= this.bulletInterval){
@@ -180,11 +183,6 @@ Player.prototype.render = function(g){
 	}else{		
 		Character.prototype.render.call(this, g);
 	}
-	g.fillStyle = "rgb(255, 255, 255)";
-	g.fillText("Life : "  + this.life, 10, 50);
-	g.textAlign = "center";
-	g.fillText("Score : " + this.score, g.width / this.game.scale * 0.5, 50);
-
 
 	if(!this.canMove){
 		g.save();
@@ -246,27 +244,22 @@ Player.prototype.death = function() {
 	audioManager.playOneShot("death");
 
 	this.life -= 1;
+	this.updateLife();
+
 	if(this.life <= 0){
-		/*if(typeof(Storage) !== "undefined") {
-			//temp
-			sessionStorage.score = this.score;
-			//final
-			//localStorage.score = this.score;
-		} else {
-		    // Sorry! No Web Storage support..
-		}*/
-
-		Storage.putInt("LastScore", this.score);
-
-		var _tempHightScore = Storage.getObject("Highscore");
-		if (_tempHightScore  === "undefined" || _tempHightScore < this.score) {
-		    Storage.putInt("Highscore", this.score);
-		}
-
 		this.game.time.timeScale = 1;
+	    saveScore(this.score);
 	}else{
 		this.respawn();
 	}
+};
+
+Player.prototype.updateScore = function() {
+	document.getElementById("scoreIGContent").innerHTML = this.score;
+};
+
+Player.prototype.updateLife = function() {
+	document.getElementById("lifeContent").innerHTML = this.life;
 };
 
 Player.prototype.isAlive = function(){
