@@ -51,19 +51,19 @@ var Player = function(scene){
 		self.onEventUp();
 	});
 
-	this.game.canvas.addEventListener("touchstart", function(){
+	this.game.canvas.addEventListener("touchstart", function(e){
 		//console.log("touch start");
 		e.preventDefault();
 		self.onEventDown(e.touches[0].clientX, e.touches[0].clientY);
 	});
 
-	this.game.canvas.addEventListener("touchmove", function(){
+	this.game.canvas.addEventListener("touchmove", function(e){
 		//console.log("touch move");
 		e.preventDefault();
 		self.onEventMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 	});
 
-	this.game.canvas.addEventListener("touchend", function(){
+	this.game.canvas.addEventListener("touchend", function(e){
 		//console.log("touch end");
 		e.preventDefault();
 		self.onEventUp();

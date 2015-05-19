@@ -51,9 +51,6 @@ function showMenu() {
     var score = document.getElementById("scores");
     score.className = "panel";
 
-    var inGame = document.getElementById("inGame");
-    inGame.className = "panel";
-
     var gui = document.getElementById("gui");
     gui.className = "active";
 
@@ -67,9 +64,6 @@ function showScores() {
 
     var menu = document.getElementById("menu");
     menu.className = "panel";
-
-    var inGame = document.getElementById("inGame");
-    inGame.className = "panel";
 
     var gui = document.getElementById("gui");
     gui.className = "active";
@@ -88,9 +82,6 @@ function showScores() {
 };
 
 function showInGame() {
-    var inGame = document.getElementById("inGame");
-    inGame.className = "panelselected";
-
     var menu = document.getElementById("menu");
     menu.className = "panel";
 
