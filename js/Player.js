@@ -134,6 +134,7 @@ Player.prototype.fire = function(){
 		if(collider.name == "Enemy"){
 			this.scene.destroy(bullet);
 			this.score += 25;
+			//document.getElementById("scoreIGContent").innerHTML = this.score;
 		}
 	});
 	this.scene.destroyWithDelay(bullet, 3.0);
@@ -154,8 +155,11 @@ Player.prototype.getBonusClicked = function(x, y) {
 };
 
 Player.prototype.update = function(tpf){
-	Character.prototype.update.call(this, tpf);
-	
+    Character.prototype.update.call(this, tpf);
+
+    document.getElementById("lifeContent").innerHTML = this.life;
+	document.getElementById("scoreIGContent").innerHTML = this.score;
+
 	this.bulletTimer += tpf;
 	if(this.bulletTimer >= this.bulletInterval){
 		this.bulletTimer = 0;
@@ -255,21 +259,21 @@ Player.prototype.death = function() {
 		} else {
 		    // Sorry! No Web Storage support..
 		}*/
-
-		Storage.putInt("LastScore", this.score);
-
-		var _tempHightScore = Storage.getObject("Highscore");
-		if (_tempHightScore  === "undefined" || _tempHightScore < this.score) {
-		    Storage.putInt("Highscore", this.score);
-		}
-
+	    this.changeScore(this.score);
 		backToMenu();
 	}else{
 		this.respawn();
 	}
 };
 
+Player.prototype.changeScore = function (score) {
+    Storage.putInt("LastScore", score);
 
+    var _tempHightScore = Storage.getObject("Highscore");
+    if (_tempHightScore === "undefined" || _tempHightScore < score) {
+        Storage.putInt("Highscore", score);
+    }
+}
 
 Player.prototype.respawn = function() {
 	this.respawning = true;
