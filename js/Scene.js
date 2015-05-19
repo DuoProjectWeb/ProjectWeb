@@ -25,6 +25,8 @@ var Scene = function(game){
 	this.controls = [];
 	this.physicEntities = [];
 
+	this.fadingTimer = 0.0;
+
 	this.add(this.player);
 
 	this.spawner = new Spawner(this, 0.5, 0, this.game.canvas.width, -10, -10);
@@ -103,31 +105,35 @@ Scene.prototype.removePhysic = function(entity) {
 };
 
 Scene.prototype.update = function(tpf){
-	DrawableControl.prototype.update.call(this, tpf);
-	
-	this.yOffset -= Scene.BACKGROUND_SPEED * tpf;
+	if(this.player.isAlive()){
+		DrawableControl.prototype.update.call(this, tpf);
+		
+		this.yOffset -= Scene.BACKGROUND_SPEED * tpf;
 
-	if (this.yOffset <= -this.background.height) {
-	    this.yOffset = 0;
-	}
-	
-	var time = this.game.time.localTime;
-	for(var i = this.delayedDestroy.length-1; i>=0;i--){
-		var e = this.delayedDestroy[i];
-		if(time >= e.time + e.delay){
-			this.destroy(e.entity);
+		if (this.yOffset <= -this.background.height) {
+		    this.yOffset = 0;
 		}
-	}
+		
+		var time = this.game.time.localTime;
+		for(var i = this.delayedDestroy.length-1; i>=0;i--){
+			var e = this.delayedDestroy[i];
+			if(time >= e.time + e.delay){
+				this.destroy(e.entity);
+			}
+		}
 
-	for(var i = 0; i<this.controls.length;i++){
-		var e = this.controls[i];
-		e.update(tpf);
-	}
-	
-	this.spawner.update(tpf);
-	this.checkCollisions();
+		for(var i = 0; i<this.controls.length;i++){
+			var e = this.controls[i];
+			e.update(tpf);
+		}
+		
+		this.spawner.update(tpf);
+		this.checkCollisions();
 
-	ParticleEmitterManager.update(tpf);
+		ParticleEmitterManager.update(tpf);
+	}else{
+		this.fadingTimer += tpf;
+	}
 };
 
 Scene.prototype.checkCollisions = function(){
@@ -161,30 +167,43 @@ Scene.prototype.collide = function(e1, e2){
 Scene.prototype.render = function(g){
 	DrawableControl.prototype.render.call(this, g);
 
-
-	g.fillStyle = "rgb(255, 0, 0)";
-	g.fillRect(0, 0, g.width / this.game.scale, g.height / this.game.scale);
-
-
-	//g.save();
-		//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
-		//g.drawImage(this.background, 0, 0, g.width, g.height);
+		g.fillStyle = "rgb(255, 0, 0)";
+		g.fillRect(0, 0, g.width / this.game.scale, g.height / this.game.scale);
 
 
-		g.drawImage(this.background, 0, -this.yOffset, g.width / this.game.scale, g.height / this.game.scale);
-		g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width / this.game.scale, g.height / this.game.scale);
+		//g.save();
+			//g.translate(this.playerStartOffset_X, this.playerStartOffset_Y);
+			//g.drawImage(this.background, 0, 0, g.width, g.height);
 
 
-		for(var i = 0; i<this.drawables.length;i++){
-			var e = this.drawables[i];
-			/*var graph = Layers.getGraphics(e.renderingLayer); 
-			e.render(graph);*/
-			e.render(g);
+			g.drawImage(this.background, 0, -this.yOffset, g.width / this.game.scale, g.height / this.game.scale);
+			g.drawImage(this.background, 0, -this.yOffset - this.background.height + 1, g.width / this.game.scale, g.height / this.game.scale);
+
+
+			for(var i = 0; i<this.drawables.length;i++){
+				var e = this.drawables[i];
+				/*var graph = Layers.getGraphics(e.renderingLayer); 
+				e.render(graph);*/
+				e.render(g);
+			}
+			
+		//g.restore();
+
+		ParticleEmitterManager.render(g);
+	
+	if(!this.player.isAlive()){		
+		g.fillStyle = "rgba(255, 255, 255, 1.0)";
+		g.textAlign = "center";
+		g.fillText("Game Over", 0, 0);
+		g.globalAlpha = Easing.easeInExpo(this.fadingTimer);
+		g.fillStyle = "rgba(0, 0, 0, 1.0)"
+		g.fillRect(0, 0, g.width / this.game.scale, g.height / this.game.scale);
+
+		if(g.globalAlpha >= 1.0){
+			backToMenu();
 		}
-		
-	//g.restore();
-
-	ParticleEmitterManager.render(g);
+		//g.globalAlpha = 1.0;
+	}
 };
 
 Scene.prototype.onPlayerMove = function(x, y){

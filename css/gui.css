@@ -65,6 +65,54 @@
     }
 }
 
+@-webkit-keyframes titleAnim {
+    0% {
+        transform:rotate(-15deg);
+    }
+    50% {
+        transform:rotate(-5deg);
+    }
+    100% {    
+        transform:rotate(-15deg);  
+    }
+}
+
+@-moz-keyframes titleAnim {
+    0% {
+        transform:rotate(-15deg);
+    }
+    50% {
+        transform:rotate(-5deg);
+    }
+    100% {    
+        transform:rotate(-15deg);  
+    }
+}
+
+@-o-keyframes titleAnim {
+    0% {
+        transform:rotate(-15deg);
+    }
+    50% {
+        transform:rotate(-5deg);
+    }
+    100% {    
+        transform:rotate(-15deg);  
+    }
+}
+
+@-ms-keyframes titleAnim {
+    0% {
+        transform:rotate(-15deg);
+    }
+    50% {
+        transform:rotate(-5deg);
+    }
+    100% {    
+        transform:rotate(-15deg);  
+    }
+}
+
 .title{
     position :absolute;
     width: 60%; 
@@ -76,10 +124,11 @@
     color: yellow; 
     font-weight: bold; 
     text-shadow: 0px 0px 16px rgba(0, 0, 0, 1);
-    animation-name: titleAnim;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
+    -webkit-animation: titleAnim 2s linear infinite;
+    -moz-animation: titleAnim 2s linear infinite;
+    -ms-animation: titleAnim 2s linear infinite;
+    -o-animation: titleAnim 2s linear infinite;
+    animation: titleAnim 2s linear infinite;
 }
 
 .menuButton {
@@ -138,7 +187,103 @@
     }
 }
 
+@-webkit-keyframes highScoreAnim {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.5, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@-moz-keyframes highScoreAnim {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.5, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@-ms-keyframes highScoreAnim {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.5, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+@-o-keyframes highScoreAnim {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.5, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
 @keyframes lastScoreAnim {
+    0% {
+        transform: translate(0, -5px);
+    }
+    50% {
+        transform: translate(0, 5px);
+    }
+    100% {
+        transform: translate(0, -5px);
+    }
+}
+
+@-webkit-keyframes lastScoreAnim {
+    0% {
+        transform: translate(0, -5px);
+    }
+    50% {
+        transform: translate(0, 5px);
+    }
+    100% {
+        transform: translate(0, -5px);
+    }
+}
+
+@-moz-keyframes lastScoreAnim {
+    0% {
+        transform: translate(0, -5px);
+    }
+    50% {
+        transform: translate(0, 5px);
+    }
+    100% {
+        transform: translate(0, -5px);
+    }
+}
+
+@-ms-keyframes lastScoreAnim {
+    0% {
+        transform: translate(0, -5px);
+    }
+    50% {
+        transform: translate(0, 5px);
+    }
+    100% {
+        transform: translate(0, -5px);
+    }
+}
+
+@-o-keyframes lastScoreAnim {
     0% {
         transform: translate(0, -5px);
     }
@@ -152,10 +297,11 @@
 
 #Highscore{
     top:20%;
-    animation-name: highScoreAnim;
-    animation-duration: 2.5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease;
+    -webkit-animation: highScoreAnim 2.5s ease infinite;
+    -moz-animation: highScoreAnim 2.5s ease infinite;
+    -ms-animation: highScoreAnim 2.5s ease infinite;
+    -o-animation: highScoreAnim 2.5s ease infinite;
+    animation: highScoreAnim 2.5s ease infinite;
 }
 
 .scoreValuePanel{
@@ -173,26 +319,29 @@
 
 #contentHighScore{   
     top:30%;     
-    animation-name: highScoreAnim;
-    animation-duration: 2.5s;
-    animation-iteration-count: infinite; 
-    animation-timing-function: ease; 
+    -webkit-animation: highScoreAnim 2.5s ease infinite;
+    -moz-animation: highScoreAnim 2.5s ease infinite;
+    -ms-animation: highScoreAnim 2.5s ease infinite;
+    -o-animation: highScoreAnim 2.5s ease infinite;
+    animation: highScoreAnim 2.5s ease infinite;
 }
 
 #lastScore{
     top:50%;
-    animation-name: lastScoreAnim;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;    
-    animation-timing-function: ease; 
+    -webkit-animation: lastScoreAnim 1s ease infinite;
+    -moz-animation: lastScoreAnim 1s ease infinite;
+    -ms-animation: lastScoreAnim 1s ease infinite;
+    -o-animation: lastScoreAnim 1s ease infinite;
+    animation: lastScoreAnim 1s ease infinite; 
 }
 
 #contentLastScore{
     top:60%;
-    animation-name: lastScoreAnim;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease; 
+    -webkit-animation: lastScoreAnim 1s ease infinite;
+    -moz-animation: lastScoreAnim 1s ease infinite;
+    -ms-animation: lastScoreAnim 1s ease infinite;
+    -o-animation: lastScoreAnim 1s ease infinite;
+    animation: lastScoreAnim 1s ease infinite; 
 }
 
 
@@ -203,7 +352,6 @@
 }
 
 #scoresButton:hover , #playButton:hover, #exitButton:hover, #menuButton:hover, #menuButtonIG:hover {
-	-webkit-box-shadow: 1px 1px 10px 1px rgb(255, 216, 0);
 	box-shadow: 1px 1px 10px 1px rgb(255, 216, 0);
     transform: scale(1.2, 1.2);
 }

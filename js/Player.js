@@ -15,7 +15,7 @@ var Player = function(scene){
 	this.scale = 0.15;
 	this.bulletInterval = 1.0/4.0;
 	this.bulletTimer = -1.0;
-	this.life = 3;
+	this.life = 1;
 	this.respawnTimer = 0.0;
 
 	this.setPosition(this.scene.game.canvas.width / this.game.scale / 2 , this.scene.game.canvas.height / this.game.scale);
@@ -155,7 +155,7 @@ Player.prototype.getBonusClicked = function(x, y) {
 
 Player.prototype.update = function(tpf){
 	Character.prototype.update.call(this, tpf);
-	
+
 	this.bulletTimer += tpf;
 	if(this.bulletTimer >= this.bulletInterval){
 		this.bulletTimer = 0;
@@ -174,7 +174,7 @@ Player.prototype.update = function(tpf){
 
 Player.prototype.render = function(g){
 	if(this.respawning){
-		g.globalAlpha = Math.sin(this.respawnTimer / 3.0 * 35) ;
+		g.globalAlpha = Easing.cycleSin(this.respawnTimer, 3.0) ;
 		Character.prototype.render.call(this, g);
 		g.globalAlpha = 1.0;
 	}else{		
@@ -201,7 +201,7 @@ Player.prototype.render = function(g){
 				g.rotate(Utils.toRad(angle) * -1);
 			}
 		g.restore();
-	}
+	}	
 }
 
 Player.prototype.incFireRate = function(value) {
@@ -263,13 +263,15 @@ Player.prototype.death = function() {
 		    Storage.putInt("Highscore", this.score);
 		}
 
-		backToMenu();
+		this.game.time.timeScale = 1;
 	}else{
 		this.respawn();
 	}
 };
 
-
+Player.prototype.isAlive = function(){
+	return this.life > 0;
+};
 
 Player.prototype.respawn = function() {
 	this.respawning = true;
